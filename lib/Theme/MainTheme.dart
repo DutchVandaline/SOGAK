@@ -9,8 +9,6 @@ class MainTheme {
       headline3: TextStyle(color: Colors.black, fontSize: 20.0),
       bodyText1: TextStyle(color: Colors.white, fontSize: 17.0),
       bodyText2: TextStyle(color: Colors.black, fontSize: 17.0),
-      subtitle1: TextStyle(color: Colors.white, fontSize: 95.0),
-      subtitle2: TextStyle(color: Colors.white, fontSize: 14.0),
 
     ),
     scaffoldBackgroundColor: const Color(0xFF222222),
@@ -19,6 +17,7 @@ class MainTheme {
     primaryColorLight: Colors.white,
     shadowColor: Colors.black,
     cardColor: const Color(0xFF222222),
+    canvasColor: const Color(0xFF303030),
     accentColor: Colors.white,
   );
 }

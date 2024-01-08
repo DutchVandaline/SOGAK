@@ -1,6 +1,7 @@
 import 'package:sogak/Theme/MainTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:sogak/Screens/HomeScreen.dart';
+import 'package:sogak/Screens/ListScreen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -19,8 +20,8 @@ class _MainScreenState extends State<MainScreen> {
       home: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: [
-          HomeScreen(),
-          HomeScreen(),
+          const HomeScreen(),
+          const ListScreen(),
           HomeScreen(),
           //LoginScreen(),
           //SearchScreen(),
@@ -31,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
             NavigationDestination(
                 icon: Icon(Icons.home_filled), label: "Home"),
             NavigationDestination(
-                icon: Icon(Icons.search), label: "Search"),
+                icon: Icon(Icons.list_outlined), label: "List"),
             NavigationDestination(
                 icon: Icon(Icons.library_books_outlined),
                 label: "My Library"),
