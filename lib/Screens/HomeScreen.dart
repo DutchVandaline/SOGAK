@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sogak/Theme/MainTheme.dart';
+import 'package:sogak/Widgets/PaintWidget.dart';
+import 'package:sogak/Widgets/MonthlyWidget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,12 +21,24 @@ class HomeScreen extends StatelessWidget {
           "Good Afternoon",
           style: TextStyle(fontSize: 25.0),
         ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: false,
         leadingWidth: 40.0,
         elevation: 0.0,
         shadowColor: Colors.transparent,
       ),
-      body: const Placeholder(),
+      body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: PageView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              MonthlyWidget(),
+              MonthlyWidget(),
+            ],
+          )),
     );
   }
 }
+
+

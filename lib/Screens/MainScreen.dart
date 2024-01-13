@@ -2,6 +2,7 @@ import 'package:sogak/Theme/MainTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:sogak/Screens/HomeScreen.dart';
 import 'package:sogak/Screens/ListScreen.dart';
+import 'package:sogak/Screens/SettingScreen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -20,12 +21,9 @@ class _MainScreenState extends State<MainScreen> {
       home: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: [
-          const HomeScreen(),
-          const ListScreen(),
           HomeScreen(),
-          //LoginScreen(),
-          //SearchScreen(),
-          //LibraryScreen(),
+          ListScreen(),
+          SettingScreen(),
         ][currentPageIndex],
         bottomNavigationBar: NavigationBar(
           destinations: const [
