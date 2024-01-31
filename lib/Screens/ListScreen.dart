@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sogak/Widgets/ListViewWidget.dart';
 
 class ListScreen extends StatelessWidget {
   const ListScreen({Key? key}) : super(key: key);
@@ -8,18 +9,23 @@ class ListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Hi! User 👋",
+          "Daily Moods 👏",
           style: TextStyle(fontSize: 25.0),
         ),
-        backgroundColor: Theme
-            .of(context)
-            .scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: false,
         leadingWidth: 40.0,
         elevation: 0.0,
         shadowColor: Colors.transparent,
       ),
-      body: Placeholder(),
+      body: ListView(
+        children: [
+          ListViewWidget(),
+        ],
+      ),
     );
   }
 }
+
+
+

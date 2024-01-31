@@ -2,7 +2,7 @@ import 'package:sogak/Theme/MainTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:sogak/Screens/HomeScreen.dart';
 import 'package:sogak/Screens/ListScreen.dart';
-import 'package:sogak/Screens/SettingScreen.dart';
+import 'package:sogak/Screens/SogakScreen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -22,18 +22,17 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: [
           HomeScreen(),
+          SogakScreen(),
           ListScreen(),
-          SettingScreen(),
         ][currentPageIndex],
         bottomNavigationBar: NavigationBar(
           destinations: const [
+            NavigationDestination(icon: Icon(Icons.home_filled), label: "Home"),
             NavigationDestination(
-                icon: Icon(Icons.home_filled), label: "Home"),
+                icon: Icon(Icons.local_fire_department_outlined, size: 30.0,),
+                label: "Sogak"),
             NavigationDestination(
                 icon: Icon(Icons.list_outlined), label: "List"),
-            NavigationDestination(
-                icon: Icon(Icons.library_books_outlined),
-                label: "My Library"),
           ],
           selectedIndex: currentPageIndex,
           onDestinationSelected: (int index) {
@@ -43,7 +42,6 @@ class _MainScreenState extends State<MainScreen> {
           },
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-
         ),
       ),
     );

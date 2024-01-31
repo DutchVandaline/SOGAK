@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SettingScreen extends StatelessWidget {
+class SogakScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.account_circle,
-            color: Theme.of(context).primaryColorLight,
-            size: 40.0,
-          ),
+        title: const Text(
+          "Ready to Sogak? 🔥",
+          style: TextStyle(fontSize: 25.0),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: false,
