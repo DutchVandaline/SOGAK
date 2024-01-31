@@ -12,7 +12,7 @@ class HomeScreenUnderWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.3,
       decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey))),
+          border: Border(top: BorderSide(color: Colors.grey))),
       child: Padding(
         padding: EdgeInsets.all(10.0),
         child: Column(
