@@ -26,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
           ListScreen(),
         ][currentPageIndex],
         bottomNavigationBar: NavigationBar(
+          indicatorColor: Colors.transparent,
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home_filled), label: "Home"),
             NavigationDestination(
