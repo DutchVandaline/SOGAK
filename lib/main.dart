@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MainTheme().theme,
-      home: MainScreen(),
+      home: LoginScreen(),//MainScreen(),
     );
   }
 }

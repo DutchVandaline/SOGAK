@@ -1,18 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:sogak/Widgets/HomeScreenUnderWidget.dart';
-import 'package:sogak/Widgets/MoodTagWidget.dart';
 import 'package:sogak/Screens/AddMoodScreen.dart';
-import 'package:sogak/Widgets/ChartWidget.dart';
+import 'package:sogak/Screens/SubHomeScreen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+String inputText = "";
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({required this.userToken});
+
+  final String userToken;
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+Future<Map<String, dynamic>?> getLastData(String _userToken) async {
+  var url =
+      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
+  var response =
+      await http.get(url, headers: {'Authorization': 'Token $_userToken'});
+
+  if (response.statusCode == 200) {
+    List<dynamic> responseData = json.decode(response.body);
+    if (responseData.isNotEmpty) {
+      return responseData.last as Map<String, dynamic>;
+    } else {
+      return null; // Return null if the list is empty
+    }
+  } else {
+    throw Exception('Error: ${response.statusCode}, ${response.body}');
+    return null;
+  }
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
+    getLastData(widget.userToken);
+    int currentHour = DateTime.now().hour;
+    if (currentHour >= 12 && currentHour < 18) {
+      setState(() {
+        inputText = "Good Afternoon 👋";
+      });
+    } else if (currentHour >= 18 && currentHour <= 23) {
+      setState(() {
+        inputText = "Good Evening 👋";
+      });
+    } else if (currentHour >= 0 && currentHour < 6) {
+      setState(() {
+        inputText = "Peaceful Night 👋";
+      });
+    } else if (currentHour >= 6 && currentHour < 12) {
+      setState(() {
+        inputText = "Good Morning 👋";
+      });
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Good Afternoon 👋",
+        title: Text(
+          inputText,
           style: TextStyle(fontSize: 25.0),
         ),
         actions: [
@@ -35,69 +82,27 @@ class HomeScreen extends StatelessWidget {
         elevation: 0.0,
         shadowColor: Colors.transparent,
       ),
-      body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                flex: 3,
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  width: MediaQuery.of(context).size.width,
-                  color: Theme.of(context).cardColor,
-                  child: Center(
-                    child: ChartWidget(),
-                  ),
-                ),
-              ),
-              Flexible(
-                  flex: 1,
-                  child: HomeScreenUnderWidget(
-                    inputQuestions: "Last Happened Event",
-                    inputWidget: Text('Memo will go inside'),
-                  )),
-              Flexible(
-                flex: 1,
-                child: HomeScreenUnderWidget(
-                    inputQuestions: "How are you feeling?",
-                    inputWidget: Column(
-                      children: [
-                        Row(
-                          children: [
-                            MoodTagWidget(
-                              inputmood: 0,
-                            ),
-                            MoodTagWidget(
-                              inputmood: 1,
-                            ),
-                            MoodTagWidget(
-                              inputmood: 2,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            MoodTagWidget(
-                              inputmood: 3,
-                            ),
-                            MoodTagWidget(
-                              inputmood: 4,
-                            ),
-                            MoodTagWidget(
-                              inputmood: 5,
-                            ),
-                            MoodTagWidget(
-                              inputmood: 6,
-                            ),
-                          ],
-                        ),
-                      ],
-                    )),
-              ),
-            ],
-          )),
+      body: FutureBuilder(
+        future: getLastData(widget.userToken),
+        builder: (context, snapshot) {
+          String statusText = "";
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator()
+            );
+          } else if(snapshot.hasError) {
+            return Text("Error : ${snapshot.error}");
+          }  else {
+            Map<String, dynamic>? lastData = snapshot.data as Map<String, dynamic>;
+            if (lastData != null) {
+              return SubHomeScreen(responseData: lastData,);
+            } else {
+              return Text('No data available');
+            }
+
+          }
+        },
+      ),
     );
   }
 }

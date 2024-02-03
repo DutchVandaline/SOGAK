@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-String inputEmail = "";
-String inputPassword = "";
-String checkPassword = "";
+bool displayError = false;
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -14,16 +14,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final PasswordController = TextEditingController();
   final CheckPasswordController = TextEditingController();
 
+
   @override
   void dispose() {
     EmailController.dispose();
     PasswordController.dispose();
     CheckPasswordController.dispose();
+    displayError = false;
     super.dispose();
+  }
+
+  void createUser(
+      String _enterEmail, String _enterPassword, String _enterName) async {
+    var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/user/create/');
+    var response = await http.post(url, body: {
+      'email': _enterEmail,
+      'password': _enterPassword,
+      'name': _enterName
+    });
+    if (response.statusCode == 200) {
+      print('Sign-up successful');
+      Navigator.pop(context);
+    } else {
+      print('Error: ${response.statusCode}');
+      print('Error body: ${response.body}');
+      setState(() {
+        displayError = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    String inputEmail = "";
+    String inputPassword = "";
+    String checkPassword = "";
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -39,9 +65,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 20.0,
-            ),
+            displayError
+                ? Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        color: Colors.red.shade100,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          "가입된 계정이거나 비밀번호가 일치하지 않습니다.",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox(
+                    height: 20.0,
+                  ),
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
@@ -115,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             Padding(
               padding:
-              const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
               child: Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
@@ -150,9 +192,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             GestureDetector(
-              onTap: (){
-                if (inputPassword == checkPassword ){
+              onTap: () {
+                if (inputPassword == checkPassword) {
                   print("Password Matches!");
+                  createUser(
+                      inputEmail, inputPassword, "User${DateTime.now()}");
                 } else {
                   print("Check the Password!");
                 }

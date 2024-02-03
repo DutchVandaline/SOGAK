@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sogak/Screens/SignUpScreen.dart';
+import 'package:http/http.dart' as http;
+import 'package:sogak/Screens/MainScreen.dart';
+import 'dart:convert';
 
-String inputEmail = "";
-String inputPassword = "";
+bool displayError = false;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,8 +22,47 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void createToken(String _enterEmail, String _enterPassword) async {
+    var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/user/token/');
+    var response = await http.post(url, body: {
+      'email': _enterEmail,
+      'password': _enterPassword
+    });
+    if (response.statusCode == 200) {
+      print(response.body);
+      Map<String, dynamic> jsonData = json.decode(response.body);
+      String token = jsonData['token'];
+      print(token);
+      userAuthorize(token);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+          builder: (context) => MainScreen(userToken: token)), (
+          route) => false);
+    } else {
+      print('Error: ${response.statusCode}');
+      print('Error body: ${response.body}');
+      setState(() {
+        displayError = true;
+      });
+    }
+  }
+
+  void userAuthorize(String _userToken) async {
+    var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
+    var response = await http.get(url, headers: {'Authorization': 'Token $_userToken'});
+
+    if (response.statusCode == 200) {
+      List<dynamic> responseData = json.decode(response.body);
+      print('Response Data: $responseData');
+    } else {
+      print('Error: ${response.statusCode}, ${response.body}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    String inputEmail = "";
+    String inputPassword = "";
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -37,13 +78,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
+            displayError
+                ? Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  color: Colors.red.shade100,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    "없는 계정이거나 비밀번호가 일치하지 않습니다.",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ),
+            )
+                : SizedBox(
+              height: 20.0,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(
                   vertical: 5.0, horizontal: 15.0),
               child: Container(
                 decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme
+                        .of(context)
+                        .primaryColor,
                     borderRadius: BorderRadius.circular(10.0)),
                 child: TextField(
                   controller: EmailController,
@@ -78,7 +139,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   vertical: 5.0, horizontal: 15.0),
               child: Container(
                 decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme
+                        .of(context)
+                        .primaryColor,
                     borderRadius: BorderRadius.circular(10.0)),
                 child: TextField(
                   controller: PasswordController,
@@ -110,11 +173,17 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             GestureDetector(
+              onTap: () {
+                createToken(inputEmail, inputPassword);
+              },
               child: Padding(
                 padding:
                 EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   height: 60.0,
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -122,31 +191,35 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(
                     child: Text(
                       "Login",
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodySmall,
                     ),
                   ),
                 ),
               ),
             ),
             GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
-              },
-              child: Center(
-                child: Text.rich(
-                  TextSpan(
-                    text: 'Sogak에 ',
-                    style: TextStyle(fontSize: 15.0),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '처음이신가요',
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                          )),
-                    ],
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => SignUpScreen()));
+                },
+                child: Center(
+                  child: Text.rich(
+                    TextSpan(
+                      text: 'Sogak에 ',
+                      style: TextStyle(fontSize: 15.0),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: '처음이신가요',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                            )),
+                      ],
+                    ),
                   ),
-                ),
-              )
+                )
             ),
             SizedBox(height: 40.0,),
           ],
