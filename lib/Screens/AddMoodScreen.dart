@@ -1,10 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sogak/Widgets/SliderWidget.dart';
+import 'dart:convert';
 
 List<String> MoodList = [];
 
 class AddMoodScreen extends StatefulWidget {
   @override
   State<AddMoodScreen> createState() => _AddMoodScreenState();
+}
+
+void postMood(
+    int _base_mood,
+    String _date,
+    List<int> _detail_mood,
+    String _what_happened,
+    int _tired_rate,
+    int _stress_rate,
+    bool _sogak_bool) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? _userToken = prefs.getString('UserToken');
+  var url =
+      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
+  var response = await http.post(url, headers: {
+    'Authorization': 'Token $_userToken'
+  }, body: {
+    'base_mood': _base_mood,
+    'date': _date,
+    'detail_mood': _detail_mood,
+    'what_happened': _what_happened,
+    'tired_rate': _tired_rate,
+    'stress_rate': _stress_rate,
+    'sogak_bool': _sogak_bool,
+  });
+  if (response.statusCode == 200) {
+    print(response.body);
+    Map<String, dynamic> jsonData = json.decode(response.body);
+  } else {
+    print('Error: ${response.statusCode}');
+    print('Error body: ${response.body}');
+  }
 }
 
 class _AddMoodScreenState extends State<AddMoodScreen> {
@@ -30,6 +66,19 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
             height: MediaQuery.of(context).size.height,
             child: ListView(
               children: [
+                Container(
+                  child: Row(
+                    children: [
+                      BaseMoodWidget(inputNumber: 1),
+                      BaseMoodWidget(inputNumber: 2),
+                      BaseMoodWidget(inputNumber: 3),
+                      BaseMoodWidget(inputNumber: 4),
+                      BaseMoodWidget(inputNumber: 5),
+                      BaseMoodWidget(inputNumber: 6),
+                      BaseMoodWidget(inputNumber: 7),
+                    ],
+                  ),
+                ),
                 Container(
                   child: Column(
                     children: [
@@ -57,6 +106,10 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       ),
                     ],
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: SliderWidget(),
                 ),
                 Padding(
                   padding: EdgeInsets.all(10.0),
@@ -104,8 +157,8 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
             setState(() {
               _onpressed = !_onpressed;
               _onpressed
-                    ? MoodList.add(widget.inputMood)
-                    : MoodList.remove(widget.inputMood);
+                  ? MoodList.add(widget.inputMood)
+                  : MoodList.remove(widget.inputMood);
               print(MoodList);
             });
           },
@@ -114,15 +167,38 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
               child: Text(
                 widget.inputMood,
-                style: _onpressed && MoodList.length <=3
+                style: _onpressed && MoodList.length <= 3
                     ? TextStyle(fontSize: 20.0, color: Colors.black)
                     : TextStyle(fontSize: 20.0, color: Colors.white),
               ),
             ),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
-                color: _onpressed && MoodList.length <=3 ? Colors.white : Colors.transparent),
+                color: _onpressed && MoodList.length <= 3
+                    ? Colors.white
+                    : Colors.transparent),
           ),
         ));
+  }
+}
+
+class BaseMoodWidget extends StatefulWidget {
+  BaseMoodWidget({required this.inputNumber});
+  final int inputNumber;
+
+  @override
+  State<BaseMoodWidget> createState() => _BaseMoodWidgetState();
+}
+
+class _BaseMoodWidgetState extends State<BaseMoodWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.white)
+        ),
+        child: Padding(padding: EdgeInsets.all(18.0),
+          child: Text("${widget.inputNumber}"),)
+    );
   }
 }
