@@ -65,7 +65,6 @@ class _ListScreenState extends State<ListScreen> {
                   print(FeelingDatum[index]);
                   return ListViewWidget(
                     inputData: FeelingDatum[index]);
-
                     Text(FeelingDatum[index]['base_mood'].toString(), style: TextStyle(color: Colors.white),);
                 }
               );

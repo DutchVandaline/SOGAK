@@ -178,7 +178,6 @@ class _LoginScreenState extends State<LoginScreen> {
             GestureDetector(
               onTap: () {
                 createToken(inputEmail, inputPassword);
-
               },
               child: Padding(
                 padding:

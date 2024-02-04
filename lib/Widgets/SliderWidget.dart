@@ -4,6 +4,12 @@ import 'package:sogak/Widgets/CustomSliderThumb.dart';
 int tiredRate = 5;
 
 class SliderWidget extends StatefulWidget {
+  SliderWidget({required this.inputText1, required this.inputText2, required this.inputText3});
+  final String inputText1;
+  final String inputText2;
+  final String inputText3;
+
+
   @override
   State<SliderWidget> createState() => _SliderWidgetState();
 }
@@ -12,7 +18,6 @@ class _SliderWidgetState extends State<SliderWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.2,
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -21,9 +26,9 @@ class _SliderWidgetState extends State<SliderWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("완전 피로",style: Theme.of(context).textTheme.bodyText1),
-                Text("무난",style: Theme.of(context).textTheme.bodyText1,),
-                Text("완전 개운",style: Theme.of(context).textTheme.bodyText1,),
+                Text(widget.inputText1,style: Theme.of(context).textTheme.bodyText1),
+                Text(widget.inputText2,style: Theme.of(context).textTheme.bodyText1,),
+                Text(widget.inputText3,style: Theme.of(context).textTheme.bodyText1,),
               ],
             ),
           ),
