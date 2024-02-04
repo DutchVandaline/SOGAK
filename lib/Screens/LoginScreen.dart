@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sogak/Screens/SignUpScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:sogak/Screens/MainScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+
 
 bool displayError = false;
 
@@ -28,14 +30,15 @@ class _LoginScreenState extends State<LoginScreen> {
       'email': _enterEmail,
       'password': _enterPassword
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (response.statusCode == 200) {
       print(response.body);
       Map<String, dynamic> jsonData = json.decode(response.body);
       String token = jsonData['token'];
-      print(token);
       userAuthorize(token);
+      prefs.setString("UserToken", token);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-          builder: (context) => MainScreen(userToken: token)), (
+          builder: (context) => MainScreen()), (
           route) => false);
     } else {
       print('Error: ${response.statusCode}');
@@ -175,6 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
             GestureDetector(
               onTap: () {
                 createToken(inputEmail, inputPassword);
+
               },
               child: Padding(
                 padding:

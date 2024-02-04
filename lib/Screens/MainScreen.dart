@@ -5,8 +5,6 @@ import 'package:sogak/Screens/ListScreen.dart';
 import 'package:sogak/Screens/SogakScreen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({required this.userToken});
-  final String userToken;
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -22,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
       home: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: [
-          HomeScreen(userToken: widget.userToken),
+          HomeScreen(),
           SogakScreen(),
           ListScreen(),
         ][currentPageIndex],

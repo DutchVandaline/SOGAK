@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sogak/Screens/MainScreen.dart';
 import 'package:sogak/Theme/MainTheme.dart';
-import 'package:sogak/Screens/LoginScreen.dart';
+import 'package:sogak/Screens/SplashScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MainTheme().theme,
-      home: LoginScreen(),//MainScreen(),
+      home: SplashScreen(),
     );
   }
 }

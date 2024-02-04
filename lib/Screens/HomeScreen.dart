@@ -1,43 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:sogak/Screens/AddMoodScreen.dart';
 import 'package:sogak/Screens/SubHomeScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 String inputText = "";
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({required this.userToken});
-
-  final String userToken;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-Future<Map<String, dynamic>?> getLastData(String _userToken) async {
-  var url =
-      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
-  var response =
-      await http.get(url, headers: {'Authorization': 'Token $_userToken'});
+Future<Map<String, dynamic>?> getLastData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? _userToken = prefs.getString('UserToken');
+  var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
+  var response = await http.get(url, headers: {'Authorization': 'Token $_userToken'});
 
   if (response.statusCode == 200) {
     List<dynamic> responseData = json.decode(response.body);
     if (responseData.isNotEmpty) {
       return responseData.last as Map<String, dynamic>;
     } else {
-      return null; // Return null if the list is empty
+      return null;
     }
   } else {
     throw Exception('Error: ${response.statusCode}, ${response.body}');
-    return null;
   }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    getLastData(widget.userToken);
+    getLastData();
     int currentHour = DateTime.now().hour;
     if (currentHour >= 12 && currentHour < 18) {
       setState(() {
@@ -83,9 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
         shadowColor: Colors.transparent,
       ),
       body: FutureBuilder(
-        future: getLastData(widget.userToken),
+        future: getLastData(),
         builder: (context, snapshot) {
-          String statusText = "";
           if(snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator()
@@ -99,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
             } else {
               return Text('No data available');
             }
-
           }
         },
       ),

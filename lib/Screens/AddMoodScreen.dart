@@ -104,8 +104,8 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
             setState(() {
               _onpressed = !_onpressed;
               _onpressed
-                  ? MoodList.add(widget.inputMood)
-                  : MoodList.remove(widget.inputMood);
+                    ? MoodList.add(widget.inputMood)
+                    : MoodList.remove(widget.inputMood);
               print(MoodList);
             });
           },
@@ -114,14 +114,14 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
               child: Text(
                 widget.inputMood,
-                style: _onpressed
+                style: _onpressed && MoodList.length <=3
                     ? TextStyle(fontSize: 20.0, color: Colors.black)
                     : TextStyle(fontSize: 20.0, color: Colors.white),
               ),
             ),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
-                color: _onpressed ? Colors.white : Colors.transparent),
+                color: _onpressed && MoodList.length <=3 ? Colors.white : Colors.transparent),
           ),
         ));
   }
