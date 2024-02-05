@@ -3,7 +3,8 @@ import 'package:sogak/Widgets/ListViewWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sogak/Screens/SubHomeScreen.dart';
+
+//TODO: change style in list screen. ui change
 
 class ListScreen extends StatefulWidget {
   @override
@@ -65,7 +66,6 @@ class _ListScreenState extends State<ListScreen> {
                   print(FeelingDatum[index]);
                   return ListViewWidget(
                     inputData: FeelingDatum[index]);
-                    Text(FeelingDatum[index]['base_mood'].toString(), style: TextStyle(color: Colors.white),);
                 }
               );
             } else {

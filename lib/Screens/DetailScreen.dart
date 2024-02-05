@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
+//TODO: create detail Screen
 class DetailScreen extends StatefulWidget {
   DetailScreen({required this.inputId});
   final int inputId;

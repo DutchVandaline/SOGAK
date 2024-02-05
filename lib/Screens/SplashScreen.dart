@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sogak/Screens/MainScreen.dart';
 import 'package:sogak/Screens/LoginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sogak/Theme/MainTheme.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

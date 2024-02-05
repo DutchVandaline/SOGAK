@@ -34,14 +34,13 @@ void postMood(
   }, body: {
     'base_mood': '$_base_mood',
     'date': '$_date',
-    'detail_mood': _detail_mood.join(','),
+    'detail_mood': json.encode(_detail_mood),
     'what_happened': '$_what_happened',
     'tired_rate': '$_tired_rate',
     'stress_rate': '$_stress_rate',
   });
   if (response.statusCode == 200) {
     print(response.body);
-    Map<String, dynamic> jsonData = json.decode(response.body);
   } else {
     print('Error: ${response.statusCode}');
     print('Error body: ${response.body}');
@@ -83,12 +82,11 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      BaseMoodWidget(inputNumber: 0),
                       BaseMoodWidget(inputNumber: 1),
                       BaseMoodWidget(inputNumber: 2),
                       BaseMoodWidget(inputNumber: 3),
                       BaseMoodWidget(inputNumber: 4),
-                      BaseMoodWidget(inputNumber: 5),
-                      BaseMoodWidget(inputNumber: 6),
                     ],
                   ),
                 )),
