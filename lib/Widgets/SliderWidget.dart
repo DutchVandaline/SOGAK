@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sogak/Widgets/CustomSliderThumb.dart';
 
-int tiredRate = 5;
-
 class SliderWidget extends StatefulWidget {
-  SliderWidget({required this.inputText1, required this.inputText2, required this.inputText3});
+  SliderWidget({required this.inputText1, required this.inputText2, required this.inputText3, required this.inputSlider});
   final String inputText1;
   final String inputText2;
   final String inputText3;
+  final Widget inputSlider;
 
 
   @override
@@ -32,7 +31,7 @@ class _SliderWidgetState extends State<SliderWidget> {
               ],
             ),
           ),
-          SizedBox(height: 10.0,),
+          SizedBox(height: 17.0,),
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
               trackShape: RectangularSliderTrackShape(),
@@ -47,18 +46,7 @@ class _SliderWidgetState extends State<SliderWidget> {
               activeTrackColor: Colors.red,
               trackHeight: 7.0,
             ),
-            child: Slider(
-              value: tiredRate.toDouble(),
-              onChanged: (double newValue) {
-                setState(() {
-                  tiredRate = newValue.toInt();
-                  print(tiredRate);
-                });
-              },
-              min: 0.0,
-              max: 10.0,
-              divisions: 10,
-            ),
+            child: widget.inputSlider
           ),
         ],
       ),

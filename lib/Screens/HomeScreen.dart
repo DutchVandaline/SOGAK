@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CircularProgressIndicator()
             );
           } else if(snapshot.hasError) {
-            return Text("Error : ${snapshot.error}");
+            return Text("불러오는데 에러가 발생했습니다.");
           }  else {
             Map<String, dynamic>? lastData = snapshot.data as Map<String, dynamic>;
             if (lastData != null) {

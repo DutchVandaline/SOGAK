@@ -54,7 +54,7 @@ class _ListScreenState extends State<ListScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Text("Error : ${snapshot.error}");
+            return Text("불러오는데 에러가 발생했습니다.");
           } else {
             List<dynamic> FeelingDatum =
             snapshot.data as List<dynamic>;

@@ -17,7 +17,7 @@ class MoodTagWidget extends StatelessWidget {
     } else if (inputmood == 3){
       moodTag = "슬픈";
     } else if (inputmood == 4){
-      moodTag = "놀란";
+      moodTag = "분노하는";
     } else if (inputmood == 5){
       moodTag = "공포스러운";
     } else if (inputmood == 6){

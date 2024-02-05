@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sogak/Screens/DetailScreen.dart';
 import 'package:sogak/Widgets/MoodTagWidget.dart';
 
 class ListViewWidget extends StatefulWidget {
@@ -14,7 +15,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("pressed");
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreen(inputId: widget.inputData['id'],)));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

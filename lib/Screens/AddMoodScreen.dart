@@ -6,7 +6,10 @@ import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'dart:core';
 
-List<String> MoodList = [];
+List<int> MoodList = [];
+int tiredRate = 5;
+int stressRate = 5;
+int baseMoodRate = 4;
 
 class AddMoodScreen extends StatefulWidget {
   @override
@@ -22,17 +25,19 @@ void postMood(
     int _stress_rate) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? _userToken = prefs.getString('UserToken');
-  var url =
-      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
+
+
+  //TODO: list input error
+  var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
   var response = await http.post(url, headers: {
     'Authorization': 'Token $_userToken'
   }, body: {
-    'base_mood': _base_mood,
-    'date': _date,
-    'detail_mood': _detail_mood,
-    'what_happened': _what_happened,
-    'tired_rate': _tired_rate,
-    'stress_rate': _stress_rate,
+    'base_mood': '$_base_mood',
+    'date': '$_date',
+    'detail_mood': _detail_mood.join(','),
+    'what_happened': '$_what_happened',
+    'tired_rate': '$_tired_rate',
+    'stress_rate': '$_stress_rate',
   });
   if (response.statusCode == 200) {
     print(response.body);
@@ -45,7 +50,7 @@ void postMood(
 
 class _AddMoodScreenState extends State<AddMoodScreen> {
   final WhatHappenedController = TextEditingController();
-  String addDate = DateFormat('yyyy / MM / dd').format(DateTime.now());
+  String addDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -84,13 +89,23 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       BaseMoodWidget(inputNumber: 4),
                       BaseMoodWidget(inputNumber: 5),
                       BaseMoodWidget(inputNumber: 6),
-                      BaseMoodWidget(inputNumber: 7),
                     ],
                   ),
                 )),
                 AddMoodWidget(widgetTitle: "Tired Rate", detailText: "here goes the detail text",inputWidget:Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: SliderWidget(inputText1: "완전 피로", inputText2: "무난", inputText3: "완전 개운"),
+                  child: SliderWidget(inputText1: "완전 피로", inputText2: "무난", inputText3: "완전 개운", inputSlider: Slider(
+                    value: tiredRate.toDouble(),
+                    onChanged: (double newValue) {
+                      setState(() {
+                        tiredRate = newValue.toInt();
+                        print("tiredRate : $tiredRate");
+                      });
+                    },
+                    min: 0.0,
+                    max: 10.0,
+                    divisions: 10,
+                  ),),
                 )),
                 AddMoodWidget(widgetTitle: "Detail Mood", detailText: "here goes the detail text",inputWidget: Container(
                   child: Column(
@@ -98,23 +113,23 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          MoodSelectWidget(inputMood: "😁 행복한"),
-                          MoodSelectWidget(inputMood: "🥰 사랑스러운"),
+                          MoodSelectWidget(inputMood: "😁 행복한", inputNumb: 1),
+                          MoodSelectWidget(inputMood: "🥰 사랑스러운", inputNumb: 3),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          MoodSelectWidget(inputMood: "🤩 흥분되는"),
-                          MoodSelectWidget(inputMood: "😭 슬픈"),
-                          MoodSelectWidget(inputMood: "🤮 혐오스러운"),
+                          MoodSelectWidget(inputMood: "🤩 흥분되는", inputNumb: 2),
+                          MoodSelectWidget(inputMood: "😭 슬픈", inputNumb: 4),
+                          MoodSelectWidget(inputMood: "🤮 혐오스러운", inputNumb: 7),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          MoodSelectWidget(inputMood: "😱 공포스러운"),
-                          MoodSelectWidget(inputMood: "🤬 분노하는"),
+                          MoodSelectWidget(inputMood: "😱 공포스러운",inputNumb: 6),
+                          MoodSelectWidget(inputMood: "🤬 분노하는", inputNumb: 5),
                         ],
                       ),
                     ],
@@ -122,7 +137,18 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                 )),
                 AddMoodWidget(widgetTitle: "Stress Rate", detailText: "here goes the detail text",inputWidget: Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: SliderWidget(inputText1: "낮음", inputText2: "보통", inputText3: "높음"),
+                  child: SliderWidget(inputText1: "낮음", inputText2: "보통", inputText3: "높음", inputSlider: Slider(
+                    value: stressRate.toDouble(),
+                    onChanged: (double newValue) {
+                      setState(() {
+                        stressRate = newValue.toInt();
+                        print("stressRate : $stressRate");
+                      });
+                    },
+                    min: 0.0,
+                    max: 10.0,
+                    divisions: 10,
+                  ),),
                 )),
                 AddMoodWidget(widgetTitle: "What Happened", detailText: "here goes the detail text",inputWidget: Container(
                   height: MediaQuery.of(context).size.height * 0.3,
@@ -157,8 +183,12 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                   padding: EdgeInsets.all(10.0),
                   child: GestureDetector(
                     onTap: (){
-                      //TODO: tiredrate와 stressrate, detail mood 확인 필요
-                      postMood(1, addDate, [0,1,2], inputWhatHappened, tiredRate, tiredRate);
+                      print("tired Rate : $tiredRate");
+                      print("stress Rate : $stressRate");
+                      print("whathappended : $inputWhatHappened");
+                      print("moodList : $MoodList");
+
+                      postMood(baseMoodRate, addDate, MoodList, inputWhatHappened, tiredRate, stressRate);
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -185,9 +215,10 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
 }
 
 class MoodSelectWidget extends StatefulWidget {
-  MoodSelectWidget({this.inputMood});
+  MoodSelectWidget({this.inputMood, this.inputNumb});
 
   final inputMood;
+  final inputNumb;
 
   @override
   State<MoodSelectWidget> createState() => _MoodSelectWidgetState();
@@ -205,8 +236,8 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
             setState(() {
               _onpressed = !_onpressed;
               _onpressed
-                  ? MoodList.add(widget.inputMood)
-                  : MoodList.remove(widget.inputMood);
+                  ? MoodList.add(widget.inputNumb)
+                  : MoodList.remove(widget.inputNumb);
               print(MoodList);
             });
           },
@@ -240,15 +271,26 @@ class BaseMoodWidget extends StatefulWidget {
 }
 
 class _BaseMoodWidgetState extends State<BaseMoodWidget> {
+  bool _selected = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.white),
-            borderRadius: BorderRadius.circular(5.0)),
-        child: Padding(
-          padding: EdgeInsets.all(15.0),
-          child: Text("${widget.inputNumber}"),
-        ));
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          _selected = !_selected;
+          baseMoodRate = widget.inputNumber;
+          print("baseMoodRate: $baseMoodRate");
+        });
+      },
+      child: Container(
+          decoration: BoxDecoration(border: Border.all(color: Colors.white),
+              color: _selected ? Colors.white : Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(5.0)),
+          child: Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Text("${widget.inputNumber}"),
+          )),
+    );
   }
 }
 
