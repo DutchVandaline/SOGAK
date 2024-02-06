@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sogak/Widgets/MoodTagWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
@@ -64,8 +63,24 @@ Future<void> patchMoodtoSogak(int _inputId, String _afterMemo ) async {
   }, body: {
     "movetosogak_bool": 'false',
     "sogak_bool": 'true',
-    "what_happened": '이미 소각된 감정입니다',
     "after_memo": "$_afterMemo"
+  });
+  if (response.statusCode == 200) {
+    print(response.body);
+  } else {
+    print('Error: ${response.statusCode}');
+    print('Error body: ${response.body}');
+  }
+}
+
+Future<void> backToList(int _inputId) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? _userToken = prefs.getString('UserToken');
+  var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
+  var response = await http.patch(url, headers: {
+    'Authorization': 'Token $_userToken'
+  }, body: {
+    "movetosogak_bool": 'false',
   });
   if (response.statusCode == 200) {
     print(response.body);
@@ -194,6 +209,11 @@ class _SogakScreenState extends State<SogakScreen> {
                                             } else if (snapshot.hasError) {
                                               return Text("불러오는데 에러가 발생했습니다.");
                                             } else {
+                                              if (snapshot.data == null) {
+                                                return Center(
+                                                  child: Text('아직 추가된 감정이 없습니다.'),
+                                                );
+                                              }
                                               List<dynamic> FeelingDatum =
                                                   snapshot.data
                                                       as List<dynamic>;
@@ -216,6 +236,14 @@ class _SogakScreenState extends State<SogakScreen> {
                                                               print(selectedId);
                                                             });
                                                           },
+                                                          onLongPress: (){
+                                                            setState(() {
+                                                              selectedId = FeelingDatum[index]['id'];
+                                                              backToList(selectedId);
+                                                              selectedId = -1;
+                                                            });
+                                                          },
+
                                                           child: Container(
                                                             child: Padding(
                                                                 padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
@@ -231,7 +259,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                                                         child: Container(
                                                                           width: 5.0,
                                                                           height: 50.0,
-                                                                          color: baseMoodState <= 3 ? Colors.red : Colors.grey,
+                                                                          color: baseMoodState <= 3 ? Colors.grey : Colors.red,
                                                                         ),
                                                                       ),
                                                                       Padding(
@@ -284,8 +312,8 @@ class _SogakScreenState extends State<SogakScreen> {
                                                                 )),
                                                           ),
                                                         );
-
-
+                                                      } else{
+                                                        return SizedBox.shrink();
                                                       }
                                                     });
                                               } else {
@@ -362,6 +390,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                     onTap: () {
                                       setState(() {
                                         patchMoodtoSogak(selectedId, "sogaked");
+                                        selectedId = -1;
                                       });
 
                                     },
@@ -442,7 +471,7 @@ class _SogakListWidgetState extends State<SogakListWidget> {
                   child: Container(
                     width: 5.0,
                     height: 50.0,
-                    color: baseMoodState <= 3 ? Colors.red : Colors.grey,
+                    color: baseMoodState <= 3 ? Colors.grey : Colors.red,
                   ),
                 ),
                 Padding(

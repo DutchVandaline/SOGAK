@@ -36,7 +36,7 @@ class _ListScreenState extends State<ListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Daily Moods 👏",
+          "감정 기록 👏",
           style: TextStyle(fontSize: 25.0),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -53,6 +53,11 @@ class _ListScreenState extends State<ListScreen> {
           } else if (snapshot.hasError) {
             return Text("불러오는데 에러가 발생했습니다.");
           } else {
+            if (snapshot.data == null) {
+              return Center(
+                child: Text('아직 추가된 감정이 없습니다.'),
+              );
+            }
             List<dynamic> FeelingDatum = snapshot.data as List<dynamic>;
             if (FeelingDatum != null) {
               return ListView.builder(

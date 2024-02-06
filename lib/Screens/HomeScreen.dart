@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sogak/Screens/AddMoodScreen.dart';
 import 'package:sogak/Screens/SubHomeScreen.dart';
+import 'package:sogak/Screens/SubHomeScreenDummy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,7 +14,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-Future<Map<String, dynamic>?> getLastData() async {
+Future<Map<String, dynamic>?> getRecentData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? _userToken = prefs.getString('UserToken');
   var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
@@ -22,7 +23,7 @@ Future<Map<String, dynamic>?> getLastData() async {
   if (response.statusCode == 200) {
     List<dynamic> responseData = json.decode(response.body);
     if (responseData.isNotEmpty) {
-      return responseData.last as Map<String, dynamic>;
+      return responseData.first as Map<String, dynamic>;
     } else {
       return null;
     }
@@ -34,23 +35,23 @@ Future<Map<String, dynamic>?> getLastData() async {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    getLastData();
+    getRecentData();
     int currentHour = DateTime.now().hour;
     if (currentHour >= 12 && currentHour < 18) {
       setState(() {
-        inputText = "Good Afternoon 👋";
+        inputText = "좋은 오후입니다 👋";
       });
     } else if (currentHour >= 18 && currentHour <= 23) {
       setState(() {
-        inputText = "Good Evening 👋";
+        inputText = "고요한 저녁입니다 👋";
       });
     } else if (currentHour >= 0 && currentHour < 6) {
       setState(() {
-        inputText = "Peaceful Night 👋";
+        inputText = "평화로운 밤이군요 👋";
       });
     } else if (currentHour >= 6 && currentHour < 12) {
       setState(() {
-        inputText = "Good Morning 👋";
+        inputText = "좋은 아침입니다 👋";
       });
     }
     return Scaffold(
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
         shadowColor: Colors.transparent,
       ),
       body: FutureBuilder(
-        future: getLastData(),
+        future: getRecentData(),
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -88,7 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else if(snapshot.hasError) {
             return Text("불러오는데 에러가 발생했습니다.");
-          }  else {
+          } else {
+            if (snapshot.data == null) {
+              return SubHomeScreenDummy();
+            }
             Map<String, dynamic>? lastData = snapshot.data as Map<String, dynamic>;
             if (lastData != null) {
               return SubHomeScreen(responseData: lastData,);

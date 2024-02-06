@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sogak/Widgets/ChartWidget.dart';
 import 'package:sogak/Widgets/MoodTagWidget.dart';
 import 'package:sogak/Widgets/HomeScreenUnderWidget.dart';
+import 'dart:convert';
 
 class SubHomeScreen extends StatefulWidget {
   SubHomeScreen({required this.responseData});
@@ -15,6 +16,13 @@ class SubHomeScreen extends StatefulWidget {
 class _SubHomeScreenState extends State<SubHomeScreen> {
   @override
   Widget build(BuildContext context) {
+    List<dynamic> detailMoodList = widget.responseData['detail_mood'];
+    List<int> splitDigitsList = detailMoodList
+        .expand((number) => number.toString().split('').map(int.parse))
+        .toList();
+    List<MoodTagWidget> moodTagWidgets = createMoodTagWidgets(splitDigitsList);
+    String decodedWhatHappened = utf8.decode(widget.responseData['what_happened'].codeUnits);
+
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -36,37 +44,29 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
               flex: 1,
               child: HomeScreenUnderWidget(
                 inputQuestions: "Last Happened",
-                inputWidget: Text(widget.responseData['what_happened'].toString()),
+                inputWidget: Text(decodedWhatHappened)
               )),
           Flexible(
             flex: 1,
             child: HomeScreenUnderWidget(
-                inputQuestions: "How are you feeling?",
-                inputWidget: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(widget.responseData['date'].toString()),
-                    Row(
-                      children: [
-                        MoodTagWidget(
-                          inputmood:
-                              widget.responseData['detail_mood'][0].toInt(),
-                        ),
-                        MoodTagWidget(
-                          inputmood:
-                              widget.responseData['detail_mood'][0].toInt(),
-                        ),
-                        MoodTagWidget(
-                          inputmood:
-                              widget.responseData['detail_mood'][0].toInt(),
-                        ),
-                      ],
-                    ),
-                  ],
-                )),
+              inputQuestions: "How are you feeling?",
+              inputWidget: Wrap(spacing: 4.0, children: moodTagWidgets)
+
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+List<MoodTagWidget> createMoodTagWidgets(List<int> splitDigitsList) {
+  List<MoodTagWidget> moodTagWidgets = [];
+  for (int i = 0; i < splitDigitsList.length; i++) {
+    moodTagWidgets.add(
+      MoodTagWidget(inputmood: splitDigitsList[i]),
+    );
+  }
+
+  return moodTagWidgets;
 }

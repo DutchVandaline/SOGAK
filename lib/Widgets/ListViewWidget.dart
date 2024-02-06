@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sogak/Screens/DetailScreen.dart';
 import 'package:sogak/Widgets/MoodTagWidget.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
 
 class ListViewWidget extends StatefulWidget {
   const ListViewWidget({required this.inputData});
@@ -17,10 +18,16 @@ class _ListViewWidgetState extends State<ListViewWidget> {
   Widget build(BuildContext context) {
     String inputDate = widget.inputData['date'];
     int baseMoodState = widget.inputData['base_mood'];
+    List<dynamic> detailMoodList = widget.inputData['detail_mood'];
+    List<int> splitDigitsList = detailMoodList
+        .expand((number) => number.toString().split('').map(int.parse))
+        .toList();
     DateTime originalDate = DateTime.parse(inputDate);
     String formattedDateMonth =
         DateFormat('MMM').format(originalDate).toUpperCase();
     String formattedDateDate = DateFormat('d').format(originalDate);
+    String decodedWhatHappened =
+        utf8.decode(widget.inputData['what_happened'].codeUnits);
 
     return GestureDetector(
       onTap: () {
@@ -54,8 +61,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     color: widget.inputData['sogak_bool']
                         ? Colors.black45
                         : baseMoodState <= 3
-                            ? Colors.red
-                            : Colors.grey,
+                            ? Colors.grey
+                            : Colors.red,
                   ),
                 ),
                 Padding(
@@ -101,13 +108,13 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                   )
                                 : widget.inputData['sogak_bool']
                                     ? Text(
-                                        widget.inputData['what_happened'],
+                                        "이미 소각된 감정입니다.\n어떤 감정이든지 이제는 사라졌습니다.",
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(color: Colors.grey),
                                       )
                                     : Text(
-                                        widget.inputData['what_happened'],
+                                        decodedWhatHappened,
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(color: Colors.white),
@@ -116,17 +123,29 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                               height: 5.0,
                             ),
                             widget.inputData['sogak_bool']
-                                ? Text(
-                                    "소각된 감정입니다.",
-                                    style: TextStyle(color: Colors.grey),
+                                ? Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 2.0, vertical: 3.0),
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            border:
+                                                Border.all(color: Colors.grey),
+                                            borderRadius:
+                                                BorderRadius.circular(3.0)),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5.0),
+                                          child: Text(
+                                            "소각된 감정입니다",
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                        )),
                                   )
-                                : Row(
-                                    children: [
-                                      MoodTagWidget(inputmood: 2),
-                                      MoodTagWidget(inputmood: 2),
-                                      MoodTagWidget(inputmood: 2),
-                                    ],
-                                  ),
+                                : Wrap(
+                                    spacing: 1.0,
+                                    children:
+                                        createMoodTagWidgets(splitDigitsList)),
                           ],
                         ))),
               ],
@@ -136,4 +155,15 @@ class _ListViewWidgetState extends State<ListViewWidget> {
       ),
     );
   }
+}
+
+List<MoodTagWidget> createMoodTagWidgets(List<int> splitDigitsList) {
+  List<MoodTagWidget> moodTagWidgets = [];
+  for (int i = 0; i < splitDigitsList.length; i++) {
+    moodTagWidgets.add(
+      MoodTagWidget(inputmood: splitDigitsList[i]),
+    );
+  }
+
+  return moodTagWidgets;
 }
