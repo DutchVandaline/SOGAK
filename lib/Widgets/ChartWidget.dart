@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
-
 class ChartWidget extends StatefulWidget {
   @override
   State<ChartWidget> createState() => _ChartWidgetState();
@@ -50,8 +49,6 @@ class _ChartWidgetState extends State<ChartWidget> {
             return Text('아직 추가된 감정이 없습니다.');
           } else {
             List<Map<String, dynamic>> monthlyData = snapshot.data!;
-            print("${monthlyData[0]['count']}");
-            print("${monthlyData[4]['count']}");
             return SfCircularChart(
               title: ChartTitle(
                   text: "$titleMonth월의 감정", alignment: ChartAlignment.center),

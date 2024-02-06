@@ -55,18 +55,17 @@ Future<dynamic>? selectedSogakData(int inputId) async {
   }
 }
 
-
-//TODO: Patch에 add와 같은 문제 발생. 아마 json.encode 문제일듯
 Future<void> patchMoodtoSogak(int _inputId, String _afterMemo ) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId');
+  var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
   var response = await http.patch(url, headers: {
     'Authorization': 'Token $_userToken'
   }, body: {
-    "movetosogak_bool":jsonEncode(false),
-    "sogak_bool":jsonEncode(true),
-    "after_memo":"$_afterMemo"
+    "movetosogak_bool": 'false',
+    "sogak_bool": 'true',
+    "what_happened": '이미 소각된 감정입니다',
+    "after_memo": "$_afterMemo"
   });
   if (response.statusCode == 200) {
     print(response.body);
@@ -363,7 +362,6 @@ class _SogakScreenState extends State<SogakScreen> {
                                     onTap: () {
                                       setState(() {
                                         patchMoodtoSogak(selectedId, "sogaked");
-                                        selectedId = -1;
                                       });
 
                                     },

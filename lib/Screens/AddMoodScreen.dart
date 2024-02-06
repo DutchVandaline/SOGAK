@@ -34,7 +34,7 @@ void postMood(
   }, body: {
     'base_mood': '$_base_mood',
     'date': '$_date',
-    'detail_mood': json.encode(_detail_mood),
+    'detail_mood': jsonEncode(_detail_mood),
     'what_happened': '$_what_happened',
     'tired_rate': '$_tired_rate',
     'stress_rate': '$_stress_rate',
