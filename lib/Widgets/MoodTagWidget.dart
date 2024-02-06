@@ -25,7 +25,7 @@ class MoodTagWidget extends StatelessWidget {
     }
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 3.0),
+      padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 3.0),
       child: Container(
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),

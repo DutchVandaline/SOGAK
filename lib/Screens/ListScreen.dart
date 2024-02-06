@@ -4,8 +4,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//TODO: change style in list screen. ui change
-
 class ListScreen extends StatefulWidget {
   @override
   State<ListScreen> createState() => _ListScreenState();
