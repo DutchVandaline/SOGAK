@@ -32,7 +32,6 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     )));
       },
       child: Container(
-        width: MediaQuery.of(context).size.width,
         child: Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
             child: Container(
@@ -84,7 +83,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                       maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
                                     )
-                                  : Text(widget.inputData['what_happened']),
+                                  : Text(widget.inputData['what_happened'], maxLines: 3, overflow: TextOverflow.ellipsis),
                               SizedBox(height: 5.0,),
                               Row(
                                 children: [

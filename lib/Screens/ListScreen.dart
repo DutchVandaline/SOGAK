@@ -13,9 +13,9 @@ Future<List<dynamic>?>? getData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? _userToken = prefs.getString('UserToken');
   var url =
-  Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
+      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
   var response =
-  await http.get(url, headers: {'Authorization': 'Token $_userToken'});
+      await http.get(url, headers: {'Authorization': 'Token $_userToken'});
 
   if (response.statusCode == 200) {
     List<dynamic> responseData = json.decode(response.body);
@@ -39,9 +39,7 @@ class _ListScreenState extends State<ListScreen> {
           "Daily Moods 👏",
           style: TextStyle(fontSize: 25.0),
         ),
-        backgroundColor: Theme
-            .of(context)
-            .scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: false,
         leadingWidth: 40.0,
         elevation: 0.0,
@@ -55,21 +53,20 @@ class _ListScreenState extends State<ListScreen> {
           } else if (snapshot.hasError) {
             return Text("불러오는데 에러가 발생했습니다.");
           } else {
-            List<dynamic> FeelingDatum =
-            snapshot.data as List<dynamic>;
+            List<dynamic> FeelingDatum = snapshot.data as List<dynamic>;
             if (FeelingDatum != null) {
               return ListView.builder(
-                itemCount: FeelingDatum.length,
-                itemBuilder: (context, index) {
-                  print(FeelingDatum[index]);
-                  return ListViewWidget(
-                    inputData: FeelingDatum[index]);
-                }
-              );
+                  itemCount: FeelingDatum.length,
+                  itemBuilder: (context, index) {
+                    print(FeelingDatum[index]);
+                    return ListViewWidget(inputData: FeelingDatum[index]);
+                  });
             } else {
               return Text('No data available');
             }
           }
-        },),);
+        },
+      ),
+    );
   }
 }
