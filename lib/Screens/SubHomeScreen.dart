@@ -17,11 +17,13 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
   @override
   Widget build(BuildContext context) {
     List<dynamic> detailMoodList = widget.responseData['detail_mood'];
+    bool sogakState = widget.responseData['sogak_bool'];
     List<int> splitDigitsList = detailMoodList
         .expand((number) => number.toString().split('').map(int.parse))
         .toList();
     List<MoodTagWidget> moodTagWidgets = createMoodTagWidgets(splitDigitsList);
-    String decodedWhatHappened = utf8.decode(widget.responseData['what_happened'].codeUnits);
+    String decodedWhatHappened =
+        utf8.decode(widget.responseData['what_happened'].codeUnits);
 
     return Container(
       height: MediaQuery.of(context).size.height,
@@ -43,15 +45,35 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
           Flexible(
               flex: 1,
               child: HomeScreenUnderWidget(
-                inputQuestions: "최근에 무슨 일이 있었나요?",
-                inputWidget: Text(decodedWhatHappened)
-              )),
+                  inputQuestions: "최근에 무슨 일이 있었나요?",
+                  inputWidget: sogakState
+                      ? Text("이미 소각된 일입니다.")
+                      : decodedWhatHappened == ""
+                          ? Text("입력된 일이 없습니다.")
+                          : Text(decodedWhatHappened))),
           Flexible(
             flex: 1,
             child: HomeScreenUnderWidget(
               inputQuestions: "그때, 어떤 감정을 느끼셨나요?",
-              inputWidget: Wrap(spacing: 4.0, children: moodTagWidgets)
-
+              inputWidget: sogakState
+                  ? Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 2.0, vertical: 3.0),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(3.0)),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Text(
+                              "소각된 감정입니다",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          )),
+                    )
+                  : Wrap(
+                      spacing: 1.0,
+                      children: createMoodTagWidgets(splitDigitsList)),
             ),
           ),
         ],

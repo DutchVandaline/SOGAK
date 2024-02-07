@@ -38,7 +38,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                 MaterialPageRoute(
                     builder: (context) => DetailScreen(
                           inputId: widget.inputData['id'],
-                        )));
+                        ))).then((value){setState(() {});});
       },
       child: Container(
         child: Padding(

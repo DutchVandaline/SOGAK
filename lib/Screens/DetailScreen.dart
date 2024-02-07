@@ -51,6 +51,21 @@ Future<void> patchMovetoSogak(int _inputId) async {
   }
 }
 
+void deleteMood(int inputId) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? _userToken = prefs.getString('UserToken');
+
+  var url = Uri.https(
+      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$inputId/');
+  var response = await http.delete(url, headers: {'Authorization': 'Token $_userToken'});
+  if (response.statusCode == 200) {
+    print("Data Deleted Successfully");
+  } else {
+    print('Error: ${response.statusCode}');
+    print('Error body: ${response.body}');
+  }
+}
+
 class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
@@ -70,7 +85,10 @@ class _DetailScreenState extends State<DetailScreen> {
                 Navigator.pop(context);
               },
               icon: Icon(Icons.local_fire_department_outlined)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.delete_forever)),
+          IconButton(onPressed: () {
+            deleteMood(widget.inputId);
+            Navigator.pop(context);
+          }, icon: Icon(Icons.delete_forever)),
         ],
       ),
       body: FutureBuilder(

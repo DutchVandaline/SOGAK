@@ -3,6 +3,7 @@ import 'package:sogak/Widgets/ListViewWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sogak/Screens/AddMoodScreen.dart';
 
 class ListScreen extends StatefulWidget {
   @override
@@ -32,7 +33,6 @@ Future<List<dynamic>?>? getData() async {
 class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
-    getData();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -44,6 +44,20 @@ class _ListScreenState extends State<ListScreen> {
         leadingWidth: 40.0,
         elevation: 0.0,
         shadowColor: Colors.transparent,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddMoodScreen()));
+                },
+                icon: Icon(
+                  Icons.add,
+                  size: 30.0,
+                )),
+          )
+        ],
       ),
       body: FutureBuilder(
         future: getData(),
