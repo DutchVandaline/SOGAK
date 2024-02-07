@@ -371,8 +371,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                                 return SogakListWidget(
                                                     inputFeeling: SogakData);
                                               } else {
-                                                return Text(
-                                                    'No data available');
+                                                return Text('No data available');
                                               }
                                             }
                                           }
@@ -457,6 +456,7 @@ class _SogakListWidgetState extends State<SogakListWidget> {
     String formattedDateMonth =
         DateFormat('MMM').format(originalDate).toUpperCase();
     String formattedDateDate = DateFormat('d').format(originalDate);
+    String decodedWhatHappened = utf8.decode(widget.inputFeeling['what_happened'].codeUnits);
 
     return Container(
       child: Padding(
@@ -513,7 +513,7 @@ class _SogakListWidgetState extends State<SogakListWidget> {
                               overflow: TextOverflow.ellipsis,
                             )
                                 : Text(
-                              widget.inputFeeling['what_happened'],
+                              decodedWhatHappened,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),

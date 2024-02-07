@@ -43,13 +43,13 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
           Flexible(
               flex: 1,
               child: HomeScreenUnderWidget(
-                inputQuestions: "Last Happened",
+                inputQuestions: "최근에 무슨 일이 있었나요?",
                 inputWidget: Text(decodedWhatHappened)
               )),
           Flexible(
             flex: 1,
             child: HomeScreenUnderWidget(
-              inputQuestions: "How are you feeling?",
+              inputQuestions: "그때, 어떤 감정을 느끼셨나요?",
               inputWidget: Wrap(spacing: 4.0, children: moodTagWidgets)
 
             ),

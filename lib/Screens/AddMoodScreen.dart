@@ -26,7 +26,6 @@ void postMood(int _base_mood, String _date, String _detail_mood,
   var url =
       Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
   var response = await http.post(url, headers: {
-    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': 'Token $_userToken'
   }, body: {
     'base_mood': '$_base_mood',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sogak/Screens/SubDetailScreen.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -61,7 +62,7 @@ class _DetailScreenState extends State<DetailScreen> {
         elevation: 0.0,
         shadowColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        title: Text("Detail 🔍"),
+        title: Text("세부 감정 🔍"),
         actions: [
           IconButton(
               onPressed: () {
@@ -69,9 +70,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 Navigator.pop(context);
               },
               icon: Icon(Icons.local_fire_department_outlined)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
           IconButton(onPressed: () {}, icon: Icon(Icons.delete_forever)),
-
         ],
       ),
       body: FutureBuilder(
@@ -85,7 +84,8 @@ class _DetailScreenState extends State<DetailScreen> {
             var SogakData = snapshot.data;
             print(SogakData);
             if (SogakData != null) {
-              return Text("yeah");
+              return Padding(padding: EdgeInsets.all(5.0),
+              child: DetailSubScreen(inputData: SogakData),);
             } else {
               return Text('No data available');
             }
@@ -95,3 +95,4 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 }
+
