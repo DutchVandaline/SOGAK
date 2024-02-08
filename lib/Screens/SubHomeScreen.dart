@@ -54,6 +54,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
           Flexible(
             flex: 1,
             child: HomeScreenUnderWidget(
+              inputHeight: MediaQuery.of(context).size.width * 0.3,
               inputQuestions: "그때, 어떤 감정을 느끼셨나요?",
               inputWidget: sogakState
                   ? Padding(
@@ -67,7 +68,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 5.0),
                             child: Text(
                               "소각된 감정입니다",
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(color: Colors.white),
                             ),
                           )),
                     )

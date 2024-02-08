@@ -42,6 +42,7 @@ class _MainScreenState extends State<MainScreen> {
           },
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          elevation: 0.5,
         ),
       ),
     );

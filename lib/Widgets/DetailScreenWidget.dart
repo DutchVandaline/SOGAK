@@ -16,7 +16,7 @@ class DetailScreenWidget extends StatelessWidget {
           width: inputWidth,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
-              color: Colors.black45),
+              color: Color(0xFF292929)),
           child: Center(
             child: inputWidget,
           )),

@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     } else if (currentHour >= 0 && currentHour < 6) {
       setState(() {
-        inputText = "평화로운 밤이군요 👋";
+        inputText = "평화로운 밤입니다 👋";
       });
     } else if (currentHour >= 6 && currentHour < 12) {
       setState(() {
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: IconButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddMoodScreen()));
+                      MaterialPageRoute(builder: (context) => AddMoodScreen())).then((value){setState(() {});});
                 },
                 icon: Icon(
                   Icons.add,

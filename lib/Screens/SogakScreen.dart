@@ -98,10 +98,6 @@ class _SogakScreenState extends State<SogakScreen> {
     return Scaffold(
         backgroundColor: Color(0xff252527),
         appBar: AppBar(
-          title: const Text(
-            "소각로 🔥",
-            style: TextStyle(fontSize: 25.0),
-          ),
           backgroundColor: Color(0xff252527),
           centerTitle: false,
           leadingWidth: 40.0,
@@ -142,7 +138,7 @@ class _SogakScreenState extends State<SogakScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "소각 消却",
+                            "소각",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 30.0,
@@ -244,73 +240,75 @@ class _SogakScreenState extends State<SogakScreen> {
                                                             });
                                                           },
 
+                                                          child: Padding(padding: EdgeInsets.all(3.0),
                                                           child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: Colors.transparent.withOpacity(0.1),
+                                                                borderRadius: BorderRadius.circular(10.0)
+                                                            ),
+
                                                             child: Padding(
-                                                                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(bottom: BorderSide(color: Colors.grey))),
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                                                                        child: Container(
-                                                                          width: 5.0,
-                                                                          height: 50.0,
-                                                                          color: baseMoodState <= 3 ? Colors.grey : Colors.red,
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                                                        child: Container(
-                                                                            child: Column(
-                                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                                              children: [
-                                                                                Text(
-                                                                                  formattedDateMonth,
-                                                                                  style: TextStyle(fontSize: 15.0),
-                                                                                  textAlign: TextAlign.center,
-                                                                                ),
-                                                                                Text(
-                                                                                  formattedDateDate,
-                                                                                  style: TextStyle(fontSize: 25.0),
-                                                                                  textAlign: TextAlign.center,
-                                                                                ),
-                                                                              ],
-                                                                            )),
-                                                                      ),
-                                                                      Padding(
-                                                                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                                                          child: Container(
-                                                                            width: MediaQuery.of(context).size.width * 0.65,
-                                                                              child: Column(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    "무슨 일이 있었나요?",
-                                                                                    style: TextStyle(fontWeight: FontWeight.bold),
-                                                                                  ),
-                                                                                  FeelingDatum[index]['what_happened'] == null ||
-                                                                                      FeelingDatum[index]['what_happened'] == ""
-                                                                                      ? Text(
-                                                                                    "기록된 일이 없습니다.",
-                                                                                    maxLines: 3,
-                                                                                    overflow: TextOverflow.ellipsis,
-                                                                                  )
-                                                                                      : Text(
-                                                                                    FeelingDatum[index]['what_happened'],
-                                                                                    overflow: TextOverflow.ellipsis,
-                                                                                    maxLines: 2,
-                                                                                  ),
-                                                                                ],
-                                                                              ))),
-                                                                    ],
+                                                              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                                                                    child: Container(
+                                                                      width: 5.0,
+                                                                      height: 50.0,
+                                                                      color: baseMoodState <= 3 ? Colors.grey : Colors.red,
+                                                                    ),
                                                                   ),
-                                                                )),
-                                                          ),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                                                    child: Container(
+                                                                        child: Column(
+                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Text(
+                                                                              formattedDateMonth,
+                                                                              style: TextStyle(fontSize: 15.0),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                            Text(
+                                                                              formattedDateDate,
+                                                                              style: TextStyle(fontSize: 25.0),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                          ],
+                                                                        )),
+                                                                  ),
+                                                                  Padding(
+                                                                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                                                      child: Container(
+                                                                          width: MediaQuery.of(context).size.width * 0.65,
+                                                                          child: Column(
+                                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Text(
+                                                                                "무슨 일이 있었나요?",
+                                                                                style: TextStyle(fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                              FeelingDatum[index]['what_happened'] == null ||
+                                                                                  FeelingDatum[index]['what_happened'] == ""
+                                                                                  ? Text(
+                                                                                "기록된 일이 없습니다.",
+                                                                                maxLines: 3,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                              )
+                                                                                  : Text(
+                                                                                FeelingDatum[index]['what_happened'],
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                maxLines: 2,
+                                                                              ),
+                                                                            ],
+                                                                          ))),
+                                                                ],
+                                                              ),),
+                                                          ),)
                                                         );
                                                       } else{
                                                         return SizedBox.shrink();

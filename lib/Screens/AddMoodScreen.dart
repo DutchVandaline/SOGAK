@@ -12,6 +12,7 @@ int stressRate = 5;
 int baseMoodRate = 0;
 bool errorState = false;
 String inputWhatHappened = "";
+DateTime initialDateInput = DateTime.now();
 
 class AddMoodScreen extends StatefulWidget {
   @override
@@ -45,17 +46,13 @@ void postMood(int _base_mood, String _date, String _detail_mood,
 
 class _AddMoodScreenState extends State<AddMoodScreen> {
   final WhatHappenedController = TextEditingController();
+  String formattedDate = DateFormat('MMM dd, yyyy').format(DateTime.now());
   String addDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          "감정을 추가하세요 😌",
-        ),
-        centerTitle: false,
         backgroundColor: Theme.of(context).cardColor,
         leadingWidth: 40.0,
         elevation: 0.0,
@@ -69,48 +66,77 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
             height: MediaQuery.of(context).size.height,
             child: ListView(
               children: [
-                Center(
-                  child: Text(addDate),
-                ),
                 AddMoodWidget(
-                    widgetTitle: "전반적인 오늘",
-                    detailText: "오늘 하루를 하나로 표현한다면?",
+                    widgetTitle: "오늘 하루",
+                    inputAction: GestureDetector(
+                      onTap: () async {
+                        final DateTime? selected = await showDatePicker(
+                            context: context,
+                            initialEntryMode: DatePickerEntryMode.calendarOnly,
+                            initialDate: initialDateInput,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                            builder: (context, child) {
+                              return Theme(
+                                  data: Theme.of(context).copyWith(
+                                      colorScheme: ColorScheme.dark(
+                                          primary: Color(0xFF444444),
+                                          onPrimary: Colors.white,
+                                          onSurface: Colors.white),
+                                      textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(
+                                              foregroundColor: Colors.white))),
+                                  child: child!);
+                            });
+                        if (selected != null) {
+                          setState(() {
+                            initialDateInput = selected;
+                            addDate = DateFormat('yyyy-MM-dd').format(selected);
+                            formattedDate =
+                                (DateFormat.yMMMd()).format(selected);
+                            print(addDate);
+                          });
+                        }
+                      },
+                      child: Text(formattedDate),
+                    ),
                     inputWidget: Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.1,
                       child: GroupButton(
-                        onSelected: (button, index, isSelected){
+                        onSelected: (button, index, isSelected) {
                           baseMoodRate = index + 1;
                           print(baseMoodRate);
                         },
                         buttons: [
-                          "매우\n불만족", "불만족", "보통", "만족", "매우\n만족",
+                          "매우\n불만족",
+                          "불만족",
+                          "보통",
+                          "만족",
+                          "매우\n만족",
                         ],
                         options: GroupButtonOptions(
                           selectedColor: Colors.white,
                           unselectedBorderColor: Colors.white,
                           unselectedColor: Theme.of(context).cardColor,
-                          selectedTextStyle: TextStyle(color: Colors.black),
-                          unselectedTextStyle: TextStyle(color: Colors.white),
+                          selectedTextStyle:
+                              TextStyle(color: Colors.black, fontSize: 15.0),
+                          unselectedTextStyle:
+                              TextStyle(color: Colors.white, fontSize: 15.0),
                           textAlign: TextAlign.center,
-                          buttonHeight: 65.0,
-                          buttonWidth: 65.0,
+                          buttonHeight: 62.0,
+                          buttonWidth: 62.0,
+                          borderRadius: BorderRadius.circular(10.0),
                           spacing: 10.0,
-
                         ),
-
                       ),
                     )),
-                SizedBox(height: 30.0),
                 AddMoodWidget(
                     widgetTitle: "피로도",
-                    detailText: "신체적 피로도를 선택하세요.",
+                    inputAction: Text("${tiredRate}0%"),
                     inputWidget: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: SliderWidget(
-                        inputText1: "완전 피로",
-                        inputText2: "무난",
-                        inputText3: "완전 개운",
                         inputSlider: Slider(
                           value: tiredRate.toDouble(),
                           onChanged: (double newValue) {
@@ -125,11 +151,9 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                         ),
                       ),
                     )),
-                SizedBox(height: 30.0),
                 AddMoodWidget(
                     widgetTitle: "세부 감정",
-                    detailText:
-                        "세부 감정을 하나 이상 선택하세요.",
+                    inputAction: SizedBox.shrink(),
                     inputWidget: Container(
                       child: Column(
                         children: [
@@ -150,7 +174,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                               MoodSelectWidget(
                                   inputMood: "😭 슬픈", inputNumb: 4),
                               MoodSelectWidget(
-                                  inputMood: "🤮 혐오스러운", inputNumb: 7),
+                                  inputMood: "🤬 분노하는", inputNumb: 5),
                             ],
                           ),
                           Row(
@@ -159,22 +183,18 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                               MoodSelectWidget(
                                   inputMood: "😱 공포스러운", inputNumb: 6),
                               MoodSelectWidget(
-                                  inputMood: "🤬 분노하는", inputNumb: 5),
+                                  inputMood: "🤮 혐오스러운", inputNumb: 7),
                             ],
                           ),
                         ],
                       ),
                     )),
-                SizedBox(height: 30.0),
                 AddMoodWidget(
-                    widgetTitle: "스트레스 지수",
-                    detailText: "정신적 피로도를 선택하세요.",
+                    widgetTitle: "스트레스",
+                    inputAction: Text("${stressRate}0%"),
                     inputWidget: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: SliderWidget(
-                        inputText1: "낮음",
-                        inputText2: "보통",
-                        inputText3: "높음",
                         inputSlider: Slider(
                           value: stressRate.toDouble(),
                           onChanged: (double newValue) {
@@ -189,14 +209,13 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                         ),
                       ),
                     )),
-                SizedBox(height: 30.0),
                 AddMoodWidget(
                     widgetTitle: "무슨 일이었나요?",
-                    detailText: "솔직히 작성할수록 소각의 효과가 큽니다.",
+                    inputAction: SizedBox.shrink(),
                     inputWidget: Container(
                       height: MediaQuery.of(context).size.height * 0.3,
                       decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
+                          color: Color(0xFF303030),
                           borderRadius: BorderRadius.circular(10.0)),
                       child: TextField(
                         controller: WhatHappenedController,
@@ -241,42 +260,40 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                               ),
                             )),
                       )
-                    : SizedBox(height: 30.0),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          String inputMoodList = MoodList.join();
-                          if (MoodList.length >= 1 && baseMoodRate != 0) {
-                            postMood(baseMoodRate, addDate, inputMoodList,
-                                inputWhatHappened, tiredRate, stressRate);
-                            MoodList = [];
-                            tiredRate = 5;
-                            stressRate = 5;
-                            baseMoodRate = 0;
-                            inputWhatHappened = "";
-                            errorState = false;
-                            Navigator.pop(context);
-                          } else {
-                            errorState = true;
-                          }
-                        });
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 60.0,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15.0)),
-                        child: Center(
-                          child: Text(
-                            "Add Mood",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
+                    : SizedBox.shrink(),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      String inputMoodList = MoodList.join();
+                      if (MoodList.length >= 1 && baseMoodRate != 0) {
+                        postMood(baseMoodRate, addDate, inputMoodList,
+                            inputWhatHappened, tiredRate, stressRate);
+                        MoodList = [];
+                        tiredRate = 5;
+                        stressRate = 5;
+                        baseMoodRate = 0;
+                        inputWhatHappened = "";
+                        errorState = false;
+                        Navigator.pop(context);
+                      } else {
+                        errorState = true;
+                      }
+                    });
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 60.0,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15.0)),
+                    child: Center(
+                      child: Text(
+                        "Add Mood",
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
-                    ))
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -324,51 +341,70 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
               ),
             ),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
+                border: Border.all(
+                  color: Colors.white,
+                ),
+                borderRadius: BorderRadius.circular(7.0),
                 color: _onpressed ? Colors.white : Colors.transparent),
           ),
         ));
   }
 }
 
-
 class AddMoodWidget extends StatelessWidget {
   AddMoodWidget(
       {required this.widgetTitle,
-      required this.detailText,
-      required this.inputWidget});
+      required this.inputWidget,
+      required this.inputAction});
 
   final String widgetTitle;
-  final String detailText;
   final Widget inputWidget;
+  final Widget inputAction;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          widgetTitle,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 20.0),
+      child: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF303030),
+            borderRadius: BorderRadius.circular(15.0),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text(
-            detailText,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        SizedBox(
-          height: 5.0,
-        ),
-        inputWidget,
-      ],
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: Text(
+                          widgetTitle,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.0),
+                        child: inputAction,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: inputWidget,
+                ),
+              ],
+            ),
+          )),
     );
   }
 }

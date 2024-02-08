@@ -74,11 +74,18 @@ class _ListScreenState extends State<ListScreen> {
             }
             List<dynamic> FeelingDatum = snapshot.data as List<dynamic>;
             if (FeelingDatum != null) {
-              return ListView.builder(
-                  itemCount: FeelingDatum.length,
-                  itemBuilder: (context, index) {
-                    print(FeelingDatum[index]);
-                    return ListViewWidget(inputData: FeelingDatum[index]);
+              return RefreshIndicator(
+                triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                color: Colors.white,
+                  displacement: 9,
+                  child: ListView.builder(
+                      itemCount: FeelingDatum.length,
+                      itemBuilder: (context, index) {
+                        print(FeelingDatum[index]['sogak_bool']);
+                        return ListViewWidget(inputData: FeelingDatum[index]);
+                      }),
+                  onRefresh: () async {
+                    setState(() {});
                   });
             } else {
               return Text('No data available');
