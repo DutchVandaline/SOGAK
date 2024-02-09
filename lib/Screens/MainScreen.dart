@@ -16,6 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: MainTheme().theme,
       home: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,

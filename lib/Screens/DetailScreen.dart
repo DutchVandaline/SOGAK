@@ -97,7 +97,9 @@ class _DetailScreenState extends State<DetailScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Text("불러오는데 에러가 발생했습니다.");
+            return Center(
+              child: Text("이미 삭제되었거나\n불러오는데 오류가 발생했습니다."),
+            );
           } else {
             var SogakData = snapshot.data;
             print(SogakData);

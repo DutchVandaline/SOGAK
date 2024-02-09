@@ -227,7 +227,7 @@ List<MoodTagWidget> createMoodTagWidgets(List<int> splitDigitsList) {
   List<MoodTagWidget> moodTagWidgets = [];
   for (int i = 0; i < splitDigitsList.length; i++) {
     moodTagWidgets.add(
-      MoodTagWidget(inputmood: splitDigitsList[i]),
+      MoodTagWidget(inputmood: splitDigitsList[i],sogakBool: true,),
     );
   }
 

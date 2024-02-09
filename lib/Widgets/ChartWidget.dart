@@ -74,12 +74,11 @@ class _ChartWidgetState extends State<ChartWidget> {
                     dataLabelSettings: DataLabelSettings(isVisible: true)),
               ],
               palette: [
-                Color.fromRGBO(255, 255, 255, 1),
-                Color.fromRGBO(191, 191, 191, 1),
-                Color.fromRGBO(157, 157, 157, 1),
-                Color.fromRGBO(121, 121, 121, 1),
-                Color.fromRGBO(85, 85, 85, 1),
-                Color.fromRGBO(49, 49, 49, 1),
+                Color.fromRGBO(246, 114, 128, 1),
+                Color.fromRGBO(255, 205, 96, 1),
+                Color.fromRGBO(116, 180, 155, 1),
+                Color.fromRGBO(0, 168, 181, 1),
+                Color.fromRGBO(73, 76, 162, 1),
               ],
             );
           }

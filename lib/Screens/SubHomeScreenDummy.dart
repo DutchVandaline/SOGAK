@@ -58,13 +58,11 @@ class SubHomeScreenDummy extends StatelessWidget {
           Flexible(
               flex: 1,
               child: HomeScreenUnderWidget(
-                  inputQuestions: "Last Happened",
                   inputWidget:
                       Text("아직 발생한 일이 없습니다.\n감정을 추가하려면 위에 + 버튼을 누르세요."))),
           Flexible(
             flex: 1,
             child: HomeScreenUnderWidget(
-              inputQuestions: "How are you feeling?",
               inputWidget: Text("아직 추가된 감정이 없습니다.\n감정을 추가하려면 위에 + 버튼을 누르세요."),
             ),
           ),

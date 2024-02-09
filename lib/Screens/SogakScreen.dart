@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sogak/Screens/SogakStatusScreen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -54,29 +55,11 @@ Future<dynamic>? selectedSogakData(int inputId) async {
   }
 }
 
-Future<void> patchMoodtoSogak(int _inputId, String _afterMemo ) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
-  var response = await http.patch(url, headers: {
-    'Authorization': 'Token $_userToken'
-  }, body: {
-    "movetosogak_bool": 'false',
-    "sogak_bool": 'true',
-    "after_memo": "$_afterMemo"
-  });
-  if (response.statusCode == 200) {
-    print(response.body);
-  } else {
-    print('Error: ${response.statusCode}');
-    print('Error body: ${response.body}');
-  }
-}
-
 Future<void> backToList(int _inputId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
+  var url = Uri.https(
+      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
   var response = await http.patch(url, headers: {
     'Authorization': 'Token $_userToken'
   }, body: {
@@ -92,6 +75,12 @@ Future<void> backToList(int _inputId) async {
 
 class _SogakScreenState extends State<SogakScreen> {
   bool sogakState = false;
+
+  @override
+  void initState(){
+    setState(() {selectedId = -1;});
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +137,7 @@ class _SogakScreenState extends State<SogakScreen> {
                             height: 5.0,
                           ),
                           Text(
-                            "당신의 마음 속, 불편했던 감정을 소각하세요.\n소각하려면 화염을 길게 누르세요.",
+                            "당신의 마음 속 감정을 소각하세요.\n소각하려면 화염을 길게 누르세요.",
                             style: Theme.of(context).textTheme.bodyMedium,
                             textAlign: TextAlign.center,
                           ),
@@ -203,11 +192,14 @@ class _SogakScreenState extends State<SogakScreen> {
                                                   child:
                                                       CircularProgressIndicator());
                                             } else if (snapshot.hasError) {
-                                              return Text("불러오는데 에러가 발생했습니다.");
+                                              return Center(
+                                                  child: Text("안정성을 위해 서버를 확인 중 입니다.\n잠시 후 다시 시도해 주세요.",textAlign: TextAlign.center,)
+                                              );
                                             } else {
                                               if (snapshot.data == null) {
                                                 return Center(
-                                                  child: Text('아직 추가된 감정이 없습니다.'),
+                                                  child:
+                                                      Text('아직 추가된 감정이 없습니다.'),
                                                 );
                                               }
                                               List<dynamic> FeelingDatum =
@@ -217,55 +209,100 @@ class _SogakScreenState extends State<SogakScreen> {
                                                 return ListView.builder(
                                                     itemCount:
                                                         FeelingDatum.length,
-                                                    itemBuilder: (context, index) {
-                                                      String inputDate = FeelingDatum[index]['date'];
-                                                      int baseMoodState = FeelingDatum[index]['base_mood'];
-                                                      DateTime originalDate = DateTime.parse(inputDate);
-                                                      String formattedDateMonth =
-                                                      DateFormat('MMM').format(originalDate).toUpperCase();
-                                                      String formattedDateDate = DateFormat('d').format(originalDate);
-                                                      if (FeelingDatum[index]['movetosogak_bool'] == true) {
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      String inputDate =
+                                                          FeelingDatum[index]
+                                                              ['date'];
+                                                      int baseMoodState =
+                                                          FeelingDatum[index]
+                                                              ['base_mood'];
+                                                      DateTime originalDate =
+                                                          DateTime.parse(
+                                                              inputDate);
+                                                      String
+                                                          formattedDateMonth =
+                                                          DateFormat('MMM')
+                                                              .format(
+                                                                  originalDate)
+                                                              .toUpperCase();
+                                                      String formattedDateDate =
+                                                          DateFormat('d')
+                                                              .format(
+                                                                  originalDate);
+                                                      if (FeelingDatum[index][
+                                                              'movetosogak_bool'] ==
+                                                          true) {
                                                         return GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              selectedId = FeelingDatum[index]['id'];
-                                                              print(selectedId);
-                                                            });
-                                                          },
-                                                          onLongPress: (){
-                                                            setState(() {
-                                                              selectedId = FeelingDatum[index]['id'];
-                                                              backToList(selectedId);
-                                                              selectedId = -1;
-                                                            });
-                                                          },
-
-                                                          child: Padding(padding: EdgeInsets.all(3.0),
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                                color: Colors.transparent.withOpacity(0.1),
-                                                                borderRadius: BorderRadius.circular(10.0)
-                                                            ),
-
+                                                            onTap: () {
+                                                              setState(() {
+                                                                selectedId =
+                                                                    FeelingDatum[
+                                                                            index]
+                                                                        ['id'];
+                                                                print(
+                                                                    selectedId);
+                                                              });
+                                                            },
+                                                            onLongPress: () {
+                                                              setState(() {
+                                                                selectedId =
+                                                                    FeelingDatum[
+                                                                            index]
+                                                                        ['id'];
+                                                                backToList(
+                                                                    selectedId);
+                                                                selectedId = -1;
+                                                              });
+                                                            },
                                                             child: Padding(
-                                                              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                                                                    child: Container(
-                                                                      width: 5.0,
-                                                                      height: 50.0,
-                                                                      color: baseMoodState <= 3 ? Colors.grey : Colors.red,
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                                                    child: Container(
-                                                                        child: Column(
-                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(3.0),
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors
+                                                                        .transparent
+                                                                        .withOpacity(
+                                                                            0.1),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0)),
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.symmetric(
+                                                                      vertical:
+                                                                          8.0,
+                                                                      horizontal:
+                                                                          10.0),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding:
+                                                                            EdgeInsets.symmetric(vertical: 8.0),
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              5.0,
+                                                                          height:
+                                                                              50.0,
+                                                                          color: baseMoodState <= 3
+                                                                              ? Colors.grey
+                                                                              : Colors.red,
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding:
+                                                                            EdgeInsets.symmetric(horizontal: 5.0),
+                                                                        child: Container(
+                                                                            child: Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
                                                                           children: [
                                                                             Text(
                                                                               formattedDateMonth,
@@ -279,39 +316,41 @@ class _SogakScreenState extends State<SogakScreen> {
                                                                             ),
                                                                           ],
                                                                         )),
+                                                                      ),
+                                                                      Padding(
+                                                                          padding:
+                                                                              EdgeInsets.symmetric(horizontal: 8.0),
+                                                                          child: Container(
+                                                                              width: MediaQuery.of(context).size.width * 0.65,
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    "무슨 일이 있었나요?",
+                                                                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                                                                  ),
+                                                                                  FeelingDatum[index]['what_happened'] == null || FeelingDatum[index]['what_happened'] == ""
+                                                                                      ? Text(
+                                                                                          "기록된 일이 없습니다.",
+                                                                                          maxLines: 3,
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                        )
+                                                                                      : Text(
+                                                                                          FeelingDatum[index]['what_happened'],
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                          maxLines: 2,
+                                                                                        ),
+                                                                                ],
+                                                                              ))),
+                                                                    ],
                                                                   ),
-                                                                  Padding(
-                                                                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                                                      child: Container(
-                                                                          width: MediaQuery.of(context).size.width * 0.65,
-                                                                          child: Column(
-                                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                                            children: [
-                                                                              Text(
-                                                                                "무슨 일이 있었나요?",
-                                                                                style: TextStyle(fontWeight: FontWeight.bold),
-                                                                              ),
-                                                                              FeelingDatum[index]['what_happened'] == null ||
-                                                                                  FeelingDatum[index]['what_happened'] == ""
-                                                                                  ? Text(
-                                                                                "기록된 일이 없습니다.",
-                                                                                maxLines: 3,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                              )
-                                                                                  : Text(
-                                                                                FeelingDatum[index]['what_happened'],
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                maxLines: 2,
-                                                                              ),
-                                                                            ],
-                                                                          ))),
-                                                                ],
-                                                              ),),
-                                                          ),)
-                                                        );
-                                                      } else{
-                                                        return SizedBox.shrink();
+                                                                ),
+                                                              ),
+                                                            ));
+                                                      } else {
+                                                        return SizedBox
+                                                            .shrink();
                                                       }
                                                     });
                                               } else {
@@ -353,7 +392,9 @@ class _SogakScreenState extends State<SogakScreen> {
                                         future: selectedSogakData(selectedId),
                                         builder: (context, snapshot) {
                                           if (selectedId == -1) {
-                                            return Center(child: Text("선택된 감정이 없습니다."),);
+                                            return Center(
+                                              child: Text("선택된 감정이 없습니다."),
+                                            );
                                           } else {
                                             if (snapshot.connectionState ==
                                                 ConnectionState.waiting) {
@@ -369,7 +410,8 @@ class _SogakScreenState extends State<SogakScreen> {
                                                 return SogakListWidget(
                                                     inputFeeling: SogakData);
                                               } else {
-                                                return Text('No data available');
+                                                return Text(
+                                                    'No data available');
                                               }
                                             }
                                           }
@@ -385,11 +427,19 @@ class _SogakScreenState extends State<SogakScreen> {
                               children: [
                                 GestureDetector(
                                     onTap: () {
-                                      setState(() {
-                                        patchMoodtoSogak(selectedId, "sogaked");
-                                        selectedId = -1;
-                                      });
-
+                                      if (selectedId == -1) {
+                                        print("not possible");
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SogakStatusScreen(
+                                              inputId: selectedId,
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.all(8.0),
@@ -454,7 +504,8 @@ class _SogakListWidgetState extends State<SogakListWidget> {
     String formattedDateMonth =
         DateFormat('MMM').format(originalDate).toUpperCase();
     String formattedDateDate = DateFormat('d').format(originalDate);
-    String decodedWhatHappened = utf8.decode(widget.inputFeeling['what_happened'].codeUnits);
+    String decodedWhatHappened =
+        utf8.decode(widget.inputFeeling['what_happened'].codeUnits);
 
     return Container(
       child: Padding(
@@ -476,25 +527,25 @@ class _SogakListWidgetState extends State<SogakListWidget> {
                   padding: EdgeInsets.symmetric(horizontal: 5.0),
                   child: Container(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            formattedDateMonth,
-                            style: TextStyle(fontSize: 15.0),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            formattedDateDate,
-                            style: TextStyle(fontSize: 25.0),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      )),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        formattedDateMonth,
+                        style: TextStyle(fontSize: 15.0),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        formattedDateDate,
+                        style: TextStyle(fontSize: 25.0),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  )),
                 ),
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.65,
+                        width: MediaQuery.of(context).size.width * 0.65,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -504,17 +555,17 @@ class _SogakListWidgetState extends State<SogakListWidget> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             widget.inputFeeling['what_happened'] == null ||
-                                widget.inputFeeling['what_happened'] == ""
+                                    widget.inputFeeling['what_happened'] == ""
                                 ? Text(
-                              "기록된 일이 없습니다.",
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            )
+                                    "기록된 일이 없습니다.",
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  )
                                 : Text(
-                              decodedWhatHappened,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
+                                    decodedWhatHappened,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
                           ],
                         ))),
               ],

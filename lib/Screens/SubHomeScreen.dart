@@ -45,7 +45,6 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
           Flexible(
               flex: 1,
               child: HomeScreenUnderWidget(
-                  inputQuestions: "최근에 무슨 일이 있었나요?",
                   inputWidget: sogakState
                       ? Text("이미 소각된 일입니다.")
                       : decodedWhatHappened == ""
@@ -55,7 +54,6 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
             flex: 1,
             child: HomeScreenUnderWidget(
               inputHeight: MediaQuery.of(context).size.width * 0.3,
-              inputQuestions: "그때, 어떤 감정을 느끼셨나요?",
               inputWidget: sogakState
                   ? Padding(
                       padding:
@@ -63,9 +61,9 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                       child: Container(
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(3.0)),
+                              borderRadius: BorderRadius.circular(10.0)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.0),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
                             child: Text(
                               "소각된 감정입니다",
                               style: TextStyle(color: Colors.white),
@@ -87,7 +85,7 @@ List<MoodTagWidget> createMoodTagWidgets(List<int> splitDigitsList) {
   List<MoodTagWidget> moodTagWidgets = [];
   for (int i = 0; i < splitDigitsList.length; i++) {
     moodTagWidgets.add(
-      MoodTagWidget(inputmood: splitDigitsList[i]),
+      MoodTagWidget(inputmood: splitDigitsList[i], sogakBool: true,),
     );
   }
 

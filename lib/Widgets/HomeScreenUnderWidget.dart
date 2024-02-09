@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HomeScreenUnderWidget extends StatelessWidget {
-  HomeScreenUnderWidget({this.inputQuestions, this.inputWidget, this.inputHeight});
+  HomeScreenUnderWidget({this.inputWidget, this.inputHeight});
 
-  final inputQuestions;
   final inputWidget;
   final inputHeight;
 
@@ -19,17 +18,11 @@ class HomeScreenUnderWidget extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              inputQuestions,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            inputWidget
-          ],
+        child: Center(
+          child: inputWidget,
+        )
         ),
       ),
-    ),);
+    );
   }
 }

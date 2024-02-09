@@ -57,6 +57,10 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
         leadingWidth: 40.0,
         elevation: 0.0,
         shadowColor: Colors.transparent,
+        leading: IconButton(onPressed: (){
+          errorState = false;
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back_ios)),
       ),
       body: SafeArea(
         child: Padding(
@@ -120,9 +124,9 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                           unselectedBorderColor: Colors.white,
                           unselectedColor: Theme.of(context).cardColor,
                           selectedTextStyle:
-                              TextStyle(color: Colors.black, fontSize: 15.0),
+                              TextStyle(color: Colors.black, fontSize: 18.0),
                           unselectedTextStyle:
-                              TextStyle(color: Colors.white, fontSize: 15.0),
+                              TextStyle(color: Colors.white, fontSize: 18.0),
                           textAlign: TextAlign.center,
                           buttonHeight: 62.0,
                           buttonWidth: 62.0,
@@ -132,8 +136,8 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       ),
                     )),
                 AddMoodWidget(
-                    widgetTitle: "피로도",
-                    inputAction: Text("${tiredRate}0%"),
+                    widgetTitle: "신체적 피로도",
+                    inputAction: Text(tiredRate == 0 ? "0%" : "${tiredRate}0%"),
                     inputWidget: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: SliderWidget(
@@ -190,8 +194,8 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       ),
                     )),
                 AddMoodWidget(
-                    widgetTitle: "스트레스",
-                    inputAction: Text("${stressRate}0%"),
+                    widgetTitle: "정신적 스트레스",
+                    inputAction: Text(stressRate == 0 ? "0%" : "${stressRate}0%"),
                     inputWidget: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: SliderWidget(
@@ -245,7 +249,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                     )),
                 errorState
                     ? Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                         child: Container(
                             width: MediaQuery.of(context).size.width * 0.9,
                             height: 30.0,
@@ -280,6 +284,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       }
                     });
                   },
+                  child: Padding(padding: EdgeInsets.all(5.0),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: 60.0,
@@ -288,12 +293,12 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                         borderRadius: BorderRadius.circular(15.0)),
                     child: Center(
                       child: Text(
-                        "Add Mood",
+                        "감정 추가하기",
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),
                   ),
-                ),
+                  ),)
               ],
             ),
           ),
@@ -345,7 +350,7 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
                   color: Colors.white,
                 ),
                 borderRadius: BorderRadius.circular(7.0),
-                color: _onpressed ? Colors.white : Colors.transparent),
+                color: _onpressed ? Colors.white : Color(0xFF303030)),
           ),
         ));
   }
