@@ -196,6 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   print("Password Matches!");
                   createUser(
                       inputEmail, inputPassword, "User${DateTime.now()}");
+                  Navigator.pop(context);
                 } else {
                   print("Check the Password!");
                 }

@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else if(snapshot.hasError) {
             return Center(
-              child: Text("안정성을 위해 서버를 확인 중 입니다.\n잠시 후 다시 시도해 주세요.",textAlign: TextAlign.center,),
+              child: Text("잠시 후 다시 시도해 주세요.",textAlign: TextAlign.center,),
             );
           } else {
             if (snapshot.data == null) {

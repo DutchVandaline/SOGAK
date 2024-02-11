@@ -91,7 +91,7 @@ class _DetailScreenState extends State<DetailScreen> {
           }, icon: Icon(Icons.delete_forever)),
         ],
       ),
-      body: FutureBuilder(
+      body: SafeArea(child: FutureBuilder(
         future: getDatabyId(widget.inputId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -105,13 +105,13 @@ class _DetailScreenState extends State<DetailScreen> {
             print(SogakData);
             if (SogakData != null) {
               return Padding(padding: EdgeInsets.all(5.0),
-              child: DetailSubScreen(inputData: SogakData),);
+                child: DetailSubScreen(inputData: SogakData),);
             } else {
               return Text('No data available');
             }
           }
         },
-      ),
+      ),),
     );
   }
 }

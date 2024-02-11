@@ -40,7 +40,7 @@ class _MoodTagWidgetState extends State<MoodTagWidget> with SingleTickerProvider
                 borderRadius: BorderRadius.circular(7.0)),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
-              child: Text(moodTag),
+              child: Text(moodTag,style: TextStyle(fontSize: 16.0),),
             )),
       ),
     );

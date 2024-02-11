@@ -66,18 +66,25 @@ Future<void> patchMoodtoSogak(int _inputId, String _afterMemo) async {
 
 class _SogakStatusScreenState extends State<SogakStatusScreen>{
 
+  @override
+  void initState(){
+    checkSogak();
+    super.initState();
+  }
+
+
   void checkSogak() async {
     setState(() {
       sogakState = "소각로 확인 중...";
       sogakStatus = 0.2;
     });
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: 3));
     setState(() {
       fadeAway = false;
       sogakState = "감정 소각 중...";
       sogakStatus = 0.8;
     });
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 4));
     setState(() {
       patchMoodtoSogak(widget.inputId, "");
       sogakStatus = 1.0;
@@ -203,13 +210,15 @@ class _SogakStatusScreenState extends State<SogakStatusScreen>{
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    sogakComplete
-                        ? Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SplashScreen()),
-                            (route) => false)
-                        : print("stay");
+                    if(sogakComplete){
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SplashScreen()),
+                              (route) => false);
+                    } else{
+                      print("stay");
+                    }
                   },
                   child: Container(
                     decoration: BoxDecoration(

@@ -44,12 +44,11 @@ class SubHomeScreenDummy extends StatelessWidget {
                         dataLabelSettings: DataLabelSettings(isVisible: true)),
                   ],
                   palette: [
-                    Color.fromRGBO(255, 255, 255, 1),
-                    Color.fromRGBO(191, 191, 191, 1),
-                    Color.fromRGBO(157, 157, 157, 1),
-                    Color.fromRGBO(121, 121, 121, 1),
-                    Color.fromRGBO(85, 85, 85, 1),
-                    Color.fromRGBO(49, 49, 49, 1),
+                    Color.fromRGBO(246, 114, 128, 1),
+                    Color.fromRGBO(255, 205, 96, 1),
+                    Color.fromRGBO(116, 180, 155, 1),
+                    Color.fromRGBO(0, 168, 181, 1),
+                    Color.fromRGBO(73, 76, 162, 1),
                   ],
                 ),
               ),
@@ -59,11 +58,11 @@ class SubHomeScreenDummy extends StatelessWidget {
               flex: 1,
               child: HomeScreenUnderWidget(
                   inputWidget:
-                      Text("아직 발생한 일이 없습니다.\n감정을 추가하려면 위에 + 버튼을 누르세요."))),
+                      Text("아직 발생한 일이 없습니다.\n감정을 추가하려면 위에 + 버튼을 누르세요.",textAlign: TextAlign.center,))),
           Flexible(
             flex: 1,
             child: HomeScreenUnderWidget(
-              inputWidget: Text("아직 추가된 감정이 없습니다.\n감정을 추가하려면 위에 + 버튼을 누르세요."),
+              inputWidget: Text("아직 추가된 감정이 없습니다.\n감정을 추가하려면 위에 + 버튼을 누르세요.",textAlign: TextAlign.center,),
             ),
           ),
         ],

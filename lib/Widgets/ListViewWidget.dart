@@ -101,7 +101,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                       "어떤 감정이든지 이제는 소각되었습니다.",
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(color: Colors.grey),
+                                      style: TextStyle(color: Colors.grey, fontSize: 16.0),
                                     )
                                   : widget.inputData['what_happened'] == null ||
                                           widget.inputData['what_happened'] == ""
@@ -110,14 +110,14 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                           maxLines: 3,
                                           overflow: TextOverflow.ellipsis,
                                           style: widget.inputData['sogak_bool']
-                                              ? TextStyle(color: Colors.grey)
-                                              : TextStyle(color: Colors.white),
+                                              ? TextStyle(color: Colors.grey, fontSize: 16.0)
+                                              : TextStyle(color: Colors.white, fontSize: 16.0),
                                         )
                                       : Text(
                                           decodedWhatHappened,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(color: Colors.white, fontSize: 16.0),
                                         ),
                               SizedBox(
                                 height: 5.0,
@@ -139,7 +139,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                             child: Text(
                                               "소각된 감정입니다",
                                               style:
-                                                  TextStyle(color: Colors.grey),
+                                                  TextStyle(color: Colors.grey, fontSize: 16.0),
                                             ),
                                           )),
                                     )
