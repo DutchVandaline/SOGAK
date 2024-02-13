@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.1.1
   crypto: ^3.0.1
   group_button: ^5.3.4
+  table_calendar: ^3.1.0
 
 dev_dependencies:
   flutter_test:

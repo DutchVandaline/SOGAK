@@ -75,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        automaticallyImplyLeading: false,
         centerTitle: false,
         leadingWidth: 40.0,
         elevation: 0.0,

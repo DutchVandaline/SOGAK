@@ -21,7 +21,6 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
     List<int> splitDigitsList = detailMoodList
         .expand((number) => number.toString().split('').map(int.parse))
         .toList();
-    List<MoodTagWidget> moodTagWidgets = createMoodTagWidgets(splitDigitsList);
     String decodedWhatHappened =
         utf8.decode(widget.responseData['what_happened'].codeUnits);
 

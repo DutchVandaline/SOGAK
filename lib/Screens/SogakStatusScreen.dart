@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sogak/Widgets/MoodTagWidget.dart';
 import 'package:sogak/Widgets/WarmingSentences.dart';
 import 'package:sogak/Screens/SplashScreen.dart';
-import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:core';
@@ -126,7 +125,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen>{
                               snapshot.data as Map<String, dynamic>?;
                           print(SogakData!['detail_mood']);
                           List<dynamic> detailMoodList =
-                              SogakData!['detail_mood'];
+                              SogakData['detail_mood'];
                           List<int> splitDigitsList = detailMoodList
                               .expand((number) =>
                                   number.toString().split('').map(int.parse))

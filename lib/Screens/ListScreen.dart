@@ -4,17 +4,18 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sogak/Screens/AddMoodScreen.dart';
+import 'package:intl/intl.dart';
 
 class ListScreen extends StatefulWidget {
   @override
   State<ListScreen> createState() => _ListScreenState();
 }
 
-Future<List<dynamic>?>? getData() async {
+Future<List<dynamic>?>? getData(String inputDate) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? _userToken = prefs.getString('UserToken');
   var url =
-      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
+      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/get_monthly_feelings/$inputDate');
   var response =
       await http.get(url, headers: {'Authorization': 'Token $_userToken'});
 
@@ -33,6 +34,8 @@ Future<List<dynamic>?>? getData() async {
 class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
+    var now = new DateTime.now();
+    String formatDate = DateFormat('yyyy-MM').format(now);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -43,14 +46,14 @@ class _ListScreenState extends State<ListScreen> {
         centerTitle: false,
         leadingWidth: 40.0,
         elevation: 0.0,
-        shadowColor: Colors.transparent,
+        shadowColor: Color(0xFF222222),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 8.0),
             child: IconButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddMoodScreen()));
+                      MaterialPageRoute(builder: (context) => AddMoodScreen())).then((value){setState(() {});});
                 },
                 icon: Icon(
                   Icons.add,
@@ -60,14 +63,16 @@ class _ListScreenState extends State<ListScreen> {
         ],
       ),
       body: FutureBuilder(
-        future: getData(),
+        future: getData(formatDate),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator(color: Colors.white,));
           } else if (snapshot.hasError) {
             return Center(
-              child: Text("잠시 후 다시 시도해 주세요.",textAlign: TextAlign.center,)
-            );
+                child: Text(
+              "잠시 후 다시 시도해 주세요.",
+              textAlign: TextAlign.center,
+            ));
           } else {
             if (snapshot.data == null) {
               return Center(
@@ -76,20 +81,23 @@ class _ListScreenState extends State<ListScreen> {
             }
             List<dynamic> FeelingDatum = snapshot.data as List<dynamic>;
             if (FeelingDatum != null) {
-              return RefreshIndicator(
-                  triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                  color: Colors.white,
-                  backgroundColor: Colors.transparent,
-                  displacement: 9,
-                  child: ListView.builder(
-                      itemCount: FeelingDatum.length,
-                      itemBuilder: (context, index) {
-                        print(FeelingDatum[index]['sogak_bool']);
-                        return ListViewWidget(inputData: FeelingDatum[index]);
-                      }),
-                  onRefresh: () async {
-                    setState(() {});
-                  });
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                child: RefreshIndicator(
+                    triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                    color: Colors.white,
+                    backgroundColor: Colors.transparent,
+                    displacement: 9,
+                    child: ListView.builder(
+                        itemCount: FeelingDatum.length,
+                        itemBuilder: (context, index) {
+                          return ListViewWidget(
+                              inputData: FeelingDatum[index]);
+                        }),
+                    onRefresh: () async {
+                      setState(() {});
+                    }),
+              );
             } else {
               return Text('No data available');
             }

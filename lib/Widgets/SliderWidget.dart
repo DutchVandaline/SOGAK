@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sogak/Widgets/CustomSliderThumb.dart';
 
 class SliderWidget extends StatefulWidget {
   SliderWidget({required this.inputSlider});

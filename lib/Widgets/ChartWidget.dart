@@ -14,7 +14,7 @@ Future<List<Map<String, dynamic>>>? getMonthlyData(String month) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? _userToken = prefs.getString('UserToken');
   var url = Uri.https(
-      'sogak-api-nraiv.run.goorm.site', '/api/feeling/count_by_month/$month');
+      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/count_by_month/$month');
   var response =
       await http.get(url, headers: {'Authorization': 'Token $_userToken'});
 
@@ -42,7 +42,7 @@ class _ChartWidgetState extends State<ChartWidget> {
         future: getMonthlyData(formatDate),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return CircularProgressIndicator(color: Colors.white,);
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

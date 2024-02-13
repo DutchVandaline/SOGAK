@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sogak/Widgets/HomeScreenUnderWidget.dart';
-import 'package:sogak/Widgets/ChartWidget.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class SubHomeScreenDummy extends StatelessWidget {

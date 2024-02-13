@@ -55,7 +55,6 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
     int baseMoodState = widget.inputData['base_mood'];
     int stressRate = widget.inputData['stress_rate'];
     int tiredRate = widget.inputData['tired_rate'];
-    String inputWhatHappened = widget.inputData['what_happened'];
     List<dynamic> detailMoodList = widget.inputData['detail_mood'];
     List<int> splitDigitsList = detailMoodList
         .expand((number) => number.toString().split('').map(int.parse))
@@ -229,10 +228,11 @@ class NumberWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(inputTitle),
+          Text(inputTitle, textAlign: TextAlign.center,),
           Text(
             inputText,
-            style: TextStyle(fontSize: 25.0),
+            style: TextStyle(fontSize: 25.0, ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
@@ -245,7 +245,7 @@ class NumberWidget extends StatelessWidget {
 String BasedOnBaseMood(int inputBaseMood) {
   String outputTag = "";
   if (inputBaseMood == 1) {
-    return outputTag = "매우 불만족";
+    return outputTag = "매우\n불만족";
   } else if (inputBaseMood == 2) {
     return outputTag = "불만족";
   } else if (inputBaseMood == 3) {

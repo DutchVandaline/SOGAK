@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 List<String> WarmingSentences = [
   "감정이 소각될 동안 만이라도 멍 때리고 계세요.",
   "소각의 화염은 당신의 감정을 정화하는\n능력을 가졌습니다.",
