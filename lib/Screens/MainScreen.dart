@@ -4,7 +4,7 @@ import 'package:sogak/Screens/HomeScreen.dart';
 import 'package:sogak/Screens/ListScreen.dart';
 import 'package:sogak/Screens/SogakScreen.dart';
 import 'package:sogak/Screens/CalendarScreen.dart';
-import 'package:sogak/Screens/ProfileScreen.dart';
+import 'package:sogak/Screens/SettingScreen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -26,21 +26,21 @@ class _MainScreenState extends State<MainScreen> {
           CalendarScreen(),
           SogakScreen(),
           ListScreen(),
-          ProfileScreen(),
+          SettingScreen(),
         ][currentPageIndex],
         bottomNavigationBar: NavigationBar(
           indicatorColor: Colors.transparent,
           destinations: const [
             NavigationDestination(
-                icon: Icon(Icons.home_filled), label: "Home"),
+                icon: Icon(Icons.home_filled), label: "홈"),
             NavigationDestination(
-                icon: Icon(Icons.calendar_month_outlined), label: "Monthly"),
+                icon: Icon(Icons.calendar_month_outlined), label: "캘린더"),
             NavigationDestination(
-                icon: Icon(Icons.local_fire_department_outlined), label: "Sogak"),
+                icon: Icon(Icons.local_fire_department_outlined), label: "소각"),
             NavigationDestination(
-                icon: Icon(Icons.list_outlined), label: "List"),
+                icon: Icon(Icons.list_outlined), label: "목록"),
             NavigationDestination(
-                icon: Icon(Icons.account_circle), label: "Profile"),
+                icon: Icon(Icons.settings), label: "설정"),
           ],
           selectedIndex: currentPageIndex,
           onDestinationSelected: (int index) {

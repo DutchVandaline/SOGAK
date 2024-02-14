@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -6,40 +10,124 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  Future<Map<String, dynamic>?> getMyAccount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? _userToken = prefs.getString('UserToken');
+    var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/user/me/');
+    var response =
+        await http.get(url, headers: {'Authorization': 'Token $_userToken'});
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic>? responseData = json.decode(response.body);
+      return responseData;
+    } else {
+      throw Exception('Error: ${response.statusCode}, ${response.body}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "마이페이지",
+          "프로필",
           style: TextStyle(fontSize: 25.0),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        automaticallyImplyLeading: false,
-        centerTitle: false,
         leadingWidth: 40.0,
         elevation: 0.0,
         shadowColor: Colors.transparent,
       ),
-      body: Column(
-        children: [
-          GestureDetector(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 80.0,
-                decoration: BoxDecoration(
-                    color: Color(0xFF292929),
-                    borderRadius: BorderRadius.circular(15.0)),
-                child: Center(
-                  child: Text("프로필"),
-                ),
+      body: FutureBuilder(
+        future: getMyAccount(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "잠시 후 다시 시도해 주세요.",
+                textAlign: TextAlign.center,
               ),
-            ),
-          ),
-        ],
+            );
+          } else {
+            if (snapshot.data == null) {
+              return SizedBox.shrink();
+            }
+            Map<String, dynamic>? UserData =
+                snapshot.data as Map<String, dynamic>;
+            if (UserData != null) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.0),
+                    child: Text("사용자 정보"),
+                  ),
+                  ProfileWidget(
+                    inputData: UserData,
+                    requireQuery: 'name',
+                    inputText: "닉네임",
+                  ),
+                  ProfileWidget(
+                    inputData: UserData,
+                    requireQuery: 'email',
+                    inputText: "이메일",
+                  ),
+                ],
+              );
+            } else {
+              return Text('No data available');
+            }
+          }
+        },
       ),
     );
+  }
+}
+
+class ProfileWidget extends StatefulWidget {
+  ProfileWidget(
+      {required this.inputData,
+      required this.requireQuery,
+      required this.inputText});
+
+  final dynamic inputData;
+  final String inputText;
+  final String requireQuery;
+
+  @override
+  State<ProfileWidget> createState() => _ProfileWidgetState();
+}
+
+class _ProfileWidgetState extends State<ProfileWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 60.0,
+          decoration: BoxDecoration(
+            color: Color(0xFF292929),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 2.0),
+                child: Text(widget.inputText, style: TextStyle(overflow: TextOverflow.fade),),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 2.0),
+                child: Text(widget.inputData[widget.requireQuery]),
+              )
+            ],
+          ),
+        ));
   }
 }
