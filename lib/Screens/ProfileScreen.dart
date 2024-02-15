@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sogak/Screens/SplashScreen.dart';
 import 'dart:convert';
 
 class ProfileScreen extends StatefulWidget {
@@ -10,6 +11,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
   Future<Map<String, dynamic>?> getMyAccount() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? _userToken = prefs.getString('UserToken');
@@ -22,6 +24,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return responseData;
     } else {
       throw Exception('Error: ${response.statusCode}, ${response.body}');
+    }
+  }
+
+  Future<void> userErase() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? _userToken = prefs.getString('UserToken');
+    if (_userToken != null) {
+      var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/user/delete/');
+      var response = await http.delete(
+        url,
+        headers: {'Authorization': 'Token $_userToken'},
+      );
+      if (response.statusCode == 204) {
+        prefs.remove('UserToken');
+      } else {
+        throw Exception('Error: ${response.statusCode}, ${response.body}');
+      }
     }
   }
 
@@ -58,25 +77,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 snapshot.data as Map<String, dynamic>;
             if (UserData != null) {
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 20.0,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 30.0),
+                        child: Text("사용자 정보"),
+                      ),
+                      ProfileWidget(
+                        inputData: UserData,
+                        requireQuery: 'name',
+                        inputText: "이름",
+                      ),
+                      ProfileWidget(
+                        inputData: UserData,
+                        requireQuery: 'email',
+                        inputText: "이메일",
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 30.0),
-                    child: Text("사용자 정보"),
-                  ),
-                  ProfileWidget(
-                    inputData: UserData,
-                    requireQuery: 'name',
-                    inputText: "닉네임",
-                  ),
-                  ProfileWidget(
-                    inputData: UserData,
-                    requireQuery: 'email',
-                    inputText: "이메일",
-                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 30.0),
+                        child: Text(
+                          "Danger Zone",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showLogoutDialog(context);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 5.0),
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                  color: Color(0xFF292929),
+                                  borderRadius: BorderRadius.circular(15.0)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 20.0),
+                                        child: Icon(Icons.phonelink_erase),
+                                      ),
+                                      SizedBox(width: 20.0),
+                                      Text("회원 탈퇴"),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 20.0),
+                                    child: Icon(Icons.arrow_forward_ios),
+                                  ),
+                                ],
+                              )),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               );
             } else {
@@ -85,6 +158,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
           }
         },
       ),
+    );
+  }
+
+  void showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('회원 탈퇴'),
+          content: Text('정말 소각 회원을 탈퇴하시겠습니까?\n모든 데이터가 영구적으로 삭제됩니다.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                '취소',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                await userErase().then((value) => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => SplashScreen()),
+                    (route) => false));
+              },
+              child: Text(
+                '탈퇴',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -119,8 +227,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 2.0),
-                child: Text(widget.inputText, style: TextStyle(overflow: TextOverflow.fade),),
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text(
+                  widget.inputText,
+                  style: TextStyle(overflow: TextOverflow.fade),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 2.0),

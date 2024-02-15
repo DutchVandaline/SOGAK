@@ -23,7 +23,7 @@ Future<List<dynamic>?>? getData() async {
     if (responseData.isNotEmpty) {
       return responseData;
     } else {
-      return null;
+      return [];
     }
   } else {
     throw Exception('Error: ${response.statusCode}, ${response.body}');
@@ -43,7 +43,7 @@ Future<List<dynamic>?>? getMonthlyData(String inputDate) async {
     if (responseData.isNotEmpty) {
       return responseData;
     } else {
-      return null;
+      return [];
     }
   } else {
     throw Exception('Error: ${response.statusCode}, ${response.body}');
@@ -96,6 +96,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "감정 달력 🙏",
+          style: TextStyle(fontSize: 25.0),
+        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        automaticallyImplyLeading: false,
+        centerTitle: false,
+        leadingWidth: 40.0,
+        elevation: 0.0,
+        shadowColor: Colors.transparent,
+      ),
       body: _isLoading
           ? Center(
               child: Column(
@@ -110,113 +122,124 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 Text("데이터를 가져오는 중입니다..."),
               ],
             ))
-          : RefreshIndicator(
-              triggerMode: RefreshIndicatorTriggerMode.onEdge,
-              color: Colors.white,
-              backgroundColor: Color(0xFF222222),
-              displacement: 10,
-              edgeOffset: 20.0,
-              onRefresh: () async {
-                await fetchDataAndCacheMonthlyData();
-              },
-              child: ListView.builder(
-                itemCount: monthlyDataCache.length,
-                itemBuilder: (context, index) {
-                  String month = monthlyDataCache.keys.toList()[index];
-                  return FutureBuilder(
-                    future: Future.value(monthlyDataCache[month]),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            "Error occurred while fetching data",
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      } else {
-                        List<dynamic> feelingData =
-                            snapshot.data as List<dynamic>;
-                        DateTime monthDate = DateTime.parse(month + '-01');
-                        String formattedMonth =
-                            DateFormat('yyyy년 MM월').format(monthDate);
-                        return Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xFF292929),
-                                borderRadius: BorderRadius.circular(20.0),
+          : monthlyDataCache.isEmpty
+              ? Center(
+                  child: Text("아직 추가된 감정이 없습니다.\n새로운 감정을 추가해보세요."),
+                )
+              : RefreshIndicator(
+                  triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                  color: Colors.white,
+                  backgroundColor: Color(0xFF222222),
+                  displacement: 10,
+                  edgeOffset: 20.0,
+                  onRefresh: () async {
+                    await fetchDataAndCacheMonthlyData();
+                  },
+                  child: ListView.builder(
+                    itemCount: monthlyDataCache.length,
+                    itemBuilder: (context, index) {
+                      String month = monthlyDataCache.keys.toList()[index];
+                      return FutureBuilder(
+                        future: Future.value(monthlyDataCache[month]),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Text(
+                                "Error occurred while fetching data",
+                                textAlign: TextAlign.center,
                               ),
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 20.0, top: 10.0),
-                                    child: Text(
-                                      formattedMonth,
-                                      textAlign: TextAlign.center,
-                                    ),
+                            );
+                          } else {
+                            List<dynamic> feelingData =
+                                snapshot.data as List<dynamic>;
+                            DateTime monthDate = DateTime.parse(month + '-01');
+                            String formattedMonth =
+                                DateFormat('yyyy년 MM월').format(monthDate);
+                            return Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFF292929),
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20.0, vertical: 10.0),
-                                    child: GridView.builder(
-                                      itemCount: feelingData.length,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 7,
-                                        childAspectRatio: 1 / 1,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 10,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.2,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20.0, top: 10.0),
+                                        child: Text(
+                                          formattedMonth,
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
-                                      itemBuilder:
-                                          (BuildContext context, index) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            bool sogakState = feelingData[index]
-                                                ['sogak_bool'];
-                                            sogakState
-                                                ? {}
-                                                : Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            DetailScreen(
-                                                              inputId:
-                                                                  feelingData[
-                                                                          index]
-                                                                      ['id'],
-                                                            ))).then((value) {
-                                                    setState(() {
-                                                      fetchDataAndCacheMonthlyData();
-                                                    });
-                                                  });
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: getColorBase(
-                                                  feelingData, index),
-                                            ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.0, vertical: 10.0),
+                                        child: GridView.builder(
+                                          itemCount: feelingData.length,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 7,
+                                            childAspectRatio: 1 / 1,
+                                            mainAxisSpacing: 10,
+                                            crossAxisSpacing: 10,
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )),
-                        );
-                      }
+                                          itemBuilder:
+                                              (BuildContext context, index) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                bool sogakState =
+                                                    feelingData[index]
+                                                        ['sogak_bool'];
+                                                sogakState
+                                                    ? {}
+                                                    : Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                DetailScreen(
+                                                                  inputId:
+                                                                      feelingData[
+                                                                              index]
+                                                                          [
+                                                                          'id'],
+                                                                ))).then(
+                                                        (value) {
+                                                        setState(() {
+                                                          fetchDataAndCacheMonthlyData();
+                                                        });
+                                                      });
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: getColorBase(
+                                                      feelingData, index),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            );
+                          }
+                        },
+                      );
                     },
-                  );
-                },
-              ),
-            ),
+                  ),
+                ),
     );
   }
 }

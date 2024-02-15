@@ -83,7 +83,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen>{
       sogakState = "감정 소각 중...";
       sogakStatus = 0.8;
     });
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: 2));
     setState(() {
       patchMoodtoSogak(widget.inputId, "");
       sogakStatus = 1.0;

@@ -63,8 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String inputEmail = "";
-    String inputPassword = "";
+    // String inputEmail = "";
+    // String inputPassword = "";
 
     return Scaffold(
       body: SafeArea(
@@ -112,7 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: TextField(
                   controller: EmailController,
                   onChanged: (text) {
-                    inputEmail = text;
+                    //inputEmail = text;
+                    EmailController.text = text;
                   },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -149,7 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: TextField(
                   controller: PasswordController,
                   onChanged: (text) {
-                    inputPassword = text;
+                    //inputPassword = text;
+                    PasswordController.text = text;
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -177,7 +179,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             GestureDetector(
               onTap: () {
-                createToken(inputEmail, inputPassword);
+                createToken(EmailController.text, PasswordController.text);
+                setState(() {
+                  EmailController.text = "";
+                  PasswordController.text = "";
+                });
               },
               child: Padding(
                 padding:
@@ -193,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(15.0)),
                   child: Center(
                     child: Text(
-                      "Login",
+                      "로그인",
                       style: Theme
                           .of(context)
                           .textTheme
@@ -207,6 +213,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                       builder: (context) => SignUpScreen()));
+                  setState(() {
+                    displayError = false;
+                  });
                 },
                 child: Center(
                   child: Text.rich(

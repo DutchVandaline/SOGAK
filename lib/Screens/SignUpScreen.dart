@@ -23,25 +23,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  void createUser(
-      String _enterEmail, String _enterPassword, String _enterName) async {
+  void createUser(String _enterEmail, String _enterPassword, String _enterName) async {
     var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/user/create/');
     var response = await http.post(url, body: {
       'email': _enterEmail,
       'password': _enterPassword,
       'name': _enterName
     });
-    if (response.statusCode == 200) {
-      print('Sign-up successful');
-      Navigator.pop(context);
-    } else {
-      print('Error: ${response.statusCode}');
-      print('Error body: ${response.body}');
-      setState(() {
-        displayError = true;
-      });
+    if (mounted) {
+      if (response.statusCode == 200) {
+        print('Sign-up successful');
+        Navigator.pop(context);
+      } else {
+        print('Error: ${response.statusCode}');
+        print('Error body: ${response.body}');
+        setState(() {
+          displayError = true;
+        });
+      }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.circular(15.0)),
                   child: Center(
                     child: Text(
-                      "Sign-Up",
+                      "회원 가입",
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),

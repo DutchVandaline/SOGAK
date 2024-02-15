@@ -121,7 +121,6 @@ class _SogakScreenState extends State<SogakScreen> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                   child: Container(
-                      height: MediaQuery.of(context).size.height * 0.12,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

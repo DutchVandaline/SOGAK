@@ -2,10 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:sogak/Widgets/SettingScreenWidget.dart';
 import 'package:sogak/Screens/ProfileScreen.dart';
 import 'package:sogak/Screens/DeveloperScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sogak/Screens/SplashScreen.dart';
+import 'package:http/http.dart' as http;
 
 class SettingScreen extends StatefulWidget {
   @override
   State<SettingScreen> createState() => _ProfileScreenState();
+}
+
+Future<void> logout() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? _userToken = prefs.getString('UserToken');
+  if (_userToken != null) {
+    var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/user/logout/');
+    var response = await http.post(
+      url,
+      headers: {'Authorization': 'Token $_userToken'},
+    );
+    if (response.statusCode == 200) {
+      prefs.remove('UserToken');
+    } else {
+      throw Exception('Error: ${response.statusCode}, ${response.body}');
+    }
+  }
 }
 
 class _ProfileScreenState extends State<SettingScreen> {
@@ -44,6 +64,39 @@ class _ProfileScreenState extends State<SettingScreen> {
               inputIcon: Icon(Icons.account_circle),
               inputText: "프로필",
               inputScreen: ProfileScreen()),
+          GestureDetector(
+            onTap: () {
+              showLogoutDialog(context);
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                      color: Color(0xFF292929),
+                      borderRadius: BorderRadius.circular(15.0)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 20.0),
+                            child: Icon(Icons.logout),
+                          ),
+                          SizedBox(width: 20.0),
+                          Text("로그아웃"),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 20.0),
+                        child: Icon(Icons.arrow_forward_ios),
+                      ),
+                    ],
+                  )),
+            ),
+          ),
           SettingScreenWidget(
               inputIcon: Icon(Icons.gamepad_outlined),
               inputText: "개발자 소개",
@@ -52,4 +105,31 @@ class _ProfileScreenState extends State<SettingScreen> {
       ),
     );
   }
+  void showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('로그아웃'),
+          content: Text('정말로 소각에서 로그아웃 하시겠습니까?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('취소',  style: TextStyle(color: Colors.white),),
+            ),
+            TextButton(
+              onPressed: () async {
+                await logout();
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SplashScreen()), (route) => false);
+              },
+              child: Text('로그아웃', style: TextStyle(color: Colors.white),),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
