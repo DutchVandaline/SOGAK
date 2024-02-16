@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sogak/Screens/SplashScreen.dart';
 import 'dart:convert';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -167,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('회원 탈퇴'),
-          content: Text('정말 소각 회원을 탈퇴하시겠습니까?\n모든 데이터가 영구적으로 삭제됩니다.'),
+          content: Text('정말 소각을 탈퇴하시겠습니까?\n모든 기록이 영구적으로 삭제됩니다.'),
           actions: [
             TextButton(
               onPressed: () {

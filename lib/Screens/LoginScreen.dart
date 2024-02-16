@@ -5,7 +5,6 @@ import 'package:sogak/Screens/MainScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-
 bool displayError = false;
 
 class LoginScreen extends StatefulWidget {
@@ -62,10 +61,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    // String inputEmail = "";
-    // String inputPassword = "";
+  void initState(){
+    setState(() {
+      displayError = false;
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(

@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<SettingScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('로그아웃'),
-          content: Text('정말로 소각에서 로그아웃 하시겠습니까?'),
+          content: Text('정말로 로그아웃 하시겠습니까?'),
           actions: [
             TextButton(
               onPressed: () {

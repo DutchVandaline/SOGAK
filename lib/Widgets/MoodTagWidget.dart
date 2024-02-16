@@ -14,20 +14,30 @@ class _MoodTagWidgetState extends State<MoodTagWidget> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     String moodTag = "";
-    if (widget.inputmood == 1){
+    if (widget.inputmood == 'a'){
       moodTag = "행복한";
-    } else if (widget.inputmood == 2){
+    } else if (widget.inputmood == 'b'){
       moodTag = "흥분되는";
-    } else if (widget.inputmood == 3){
+    } else if (widget.inputmood == 'c'){
       moodTag = "사랑스러운";
-    } else if (widget.inputmood == 4){
+    } else if (widget.inputmood == 'd'){
       moodTag = "슬픈";
-    } else if (widget.inputmood == 5){
+    } else if (widget.inputmood == 'e'){
       moodTag = "분노하는";
-    } else if (widget.inputmood == 6){
+    } else if (widget.inputmood == 'f'){
       moodTag = "공포스러운";
-    } else if (widget.inputmood == 7){
-      moodTag = "혐오감이 드는";
+    } else if (widget.inputmood == 'g'){
+      moodTag = "혐오스러운";
+    } else if (widget.inputmood == 'h'){
+      moodTag = "공허한";
+    } else if (widget.inputmood == 'i'){
+      moodTag = "우울한";
+    } else if (widget.inputmood == 'j'){
+      moodTag = "감격스러운";
+    } else if (widget.inputmood == 'k'){
+      moodTag = "아픈";
+    } else if (widget.inputmood == 'l'){
+      moodTag = "답답한";
     }
     return AnimatedOpacity(
       opacity: widget.sogakBool ? 1.0 : 0.0,

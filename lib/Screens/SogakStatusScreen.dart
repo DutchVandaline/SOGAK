@@ -63,14 +63,12 @@ Future<void> patchMoodtoSogak(int _inputId, String _afterMemo) async {
   }
 }
 
-class _SogakStatusScreenState extends State<SogakStatusScreen>{
-
+class _SogakStatusScreenState extends State<SogakStatusScreen> {
   @override
-  void initState(){
+  void initState() {
     checkSogak();
     super.initState();
   }
-
 
   void checkSogak() async {
     setState(() {
@@ -94,7 +92,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen>{
 
   @override
   Widget build(BuildContext context) {
-    int randomNumb = Random().nextInt(WarmingSentences.length);
+    int randomNumb = Random().nextInt(warmingSentences.length);
     return Scaffold(
         backgroundColor: Color(0xff252527),
         body: SafeArea(
@@ -107,17 +105,14 @@ class _SogakStatusScreenState extends State<SogakStatusScreen>{
                   padding: EdgeInsets.all(5.0),
                   child: Container(
                     alignment: Alignment.bottomCenter,
-                    height: MediaQuery.of(context).size.height * 0.2,
                     child: FutureBuilder(
                       future: selectedSogakData(widget.inputId),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(child: Text(""));
+                          return const Center(child: Text(""));
                         } else if (snapshot.hasError) {
-                          print(widget.inputId);
-                          print(snapshot.data);
-                          return Center(
+                          return const Center(
                             child: Text("불러오는데 에러가 발생했습니다."),
                           );
                         } else {
@@ -126,18 +121,13 @@ class _SogakStatusScreenState extends State<SogakStatusScreen>{
                           print(SogakData!['detail_mood']);
                           List<dynamic> detailMoodList =
                               SogakData['detail_mood'];
-                          List<int> splitDigitsList = detailMoodList
-                              .expand((number) =>
-                                  number.toString().split('').map(int.parse))
+                          List splitDigitsList = detailMoodList
+                              .expand((character) => character.split(''))
                               .toList();
-                          if (SogakData != null) {
-                            return Wrap(
-                                spacing: 1.0,
-                                children:
-                                    createMoodTagWidgets(splitDigitsList));
-                          } else {
-                            return Text('No data available');
-                          }
+                          return Wrap(
+                              spacing: 1.0,
+                              alignment: WrapAlignment.center,
+                              children: createMoodTagWidgets(splitDigitsList));
                         }
                       },
                     ),
@@ -201,7 +191,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen>{
                   width: MediaQuery.of(context).size.width * 0.9,
                   alignment: Alignment.topCenter,
                   child: Text(
-                    WarmingSentences[randomNumb],
+                    warmingSentences[randomNumb],
                     textAlign: TextAlign.center,
                   ),
                 )),
@@ -209,13 +199,13 @@ class _SogakStatusScreenState extends State<SogakStatusScreen>{
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    if(sogakComplete){
+                    if (sogakComplete) {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SplashScreen()),
-                              (route) => false);
-                    } else{
+                          (route) => false);
+                    } else {
                       print("stay");
                     }
                   },
@@ -241,7 +231,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen>{
   }
 }
 
-List<MoodTagWidget> createMoodTagWidgets(List<int> splitDigitsList) {
+List<MoodTagWidget> createMoodTagWidgets(List splitDigitsList) {
   List<MoodTagWidget> moodTagWidgets = [];
   for (int i = 0; i < splitDigitsList.length; i++) {
     moodTagWidgets.add(

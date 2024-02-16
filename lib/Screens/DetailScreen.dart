@@ -57,7 +57,8 @@ void deleteMood(int inputId) async {
 
   var url = Uri.https(
       'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$inputId/');
-  var response = await http.delete(url, headers: {'Authorization': 'Token $_userToken'});
+  var response =
+      await http.delete(url, headers: {'Authorization': 'Token $_userToken'});
   if (response.statusCode == 200) {
     print("Data Deleted Successfully");
   } else {
@@ -82,37 +83,50 @@ class _DetailScreenState extends State<DetailScreen> {
           IconButton(
               onPressed: () {
                 patchMovetoSogak(widget.inputId);
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text(
+                    "소각로로 이동했습니다. 소각로에서 확인해주세요.",
+                    maxLines: 1,
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                  duration: Duration(seconds: 2),
+                ));
                 Navigator.pop(context);
               },
               icon: Icon(Icons.local_fire_department_outlined)),
-          IconButton(onPressed: () {
-            deleteMood(widget.inputId);
-            Navigator.pop(context);
-          }, icon: Icon(Icons.delete_forever)),
+          IconButton(
+              onPressed: () {
+                deleteMood(widget.inputId);
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.delete_forever)),
         ],
       ),
-      body: SafeArea(child: FutureBuilder(
-        future: getDatabyId(widget.inputId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text("이미 삭제되었거나\n불러오는데 오류가 발생했습니다."),
-            );
-          } else {
-            var SogakData = snapshot.data;
-            print(SogakData);
-            if (SogakData != null) {
-              return Padding(padding: EdgeInsets.all(5.0),
-                child: DetailSubScreen(inputData: SogakData),);
+      body: SafeArea(
+        child: FutureBuilder(
+          future: getDatabyId(widget.inputId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text("이미 삭제되었거나\n불러오는데 오류가 발생했습니다."),
+              );
             } else {
-              return Text('No data available');
+              var SogakData = snapshot.data;
+              print(SogakData);
+              if (SogakData != null) {
+                return Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: DetailSubScreen(inputData: SogakData),
+                );
+              } else {
+                return Text('No data available');
+              }
             }
-          }
-        },
-      ),),
+          },
+        ),
+      ),
     );
   }
 }
-

@@ -56,9 +56,8 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
     int stressRate = widget.inputData['stress_rate'];
     int tiredRate = widget.inputData['tired_rate'];
     List<dynamic> detailMoodList = widget.inputData['detail_mood'];
-    List<int> splitDigitsList = detailMoodList
-        .expand((number) => number.toString().split('').map(int.parse))
-        .toList();
+    List splitDigitsList =
+        detailMoodList.expand((character) => character.split('')).toList();
     List<MoodTagWidget> moodTagWidgets = createMoodTagWidgets(splitDigitsList);
 
     DateTime originalDate = DateTime.parse(inputDate);
@@ -81,9 +80,9 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
                       children: [
                         Container(
                             child: Text(
-                              formattedDateMonth,
-                              style: Theme.of(context).textTheme.titleLarge,
-                            )),
+                          formattedDateMonth,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        )),
                         Container(
                             child: Text(formattedDateDate,
                                 style: TextStyle(fontSize: 50.0)))
@@ -95,10 +94,14 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
               Flexible(
                   flex: 2,
                   child: DetailScreenWidget(
-                    inputWidget: Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Wrap(children: moodTagWidgets),
-                    ),
+                    inputWidget: ListView(children: [
+                      SizedBox(height: 20.0),
+                      Center(
+                          child: Wrap(
+                        children: moodTagWidgets,
+                        alignment: WrapAlignment.center,
+                      )),
+                    ]),
                     inputWidth: MediaQuery.of(context).size.width * 0.8,
                     inputHeight: 150.0,
                   )),
@@ -146,16 +149,13 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                            borderSide:
-                            BorderSide(color: Colors.transparent),
+                            borderSide: BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
-                            borderSide:
-                            BorderSide(color: Colors.transparent),
+                            borderSide: BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(15.0)),
                         enabledBorder: OutlineInputBorder(
-                            borderSide:
-                            BorderSide(color: Colors.transparent),
+                            borderSide: BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(15.0)),
                         hintText: "입력된 값이 없습니다.",
                         hintStyle: TextStyle(
@@ -176,6 +176,10 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
             onTap: () {
               print(WhatHappenedController.text);
               patchWhatHappened(inputId, WhatHappenedController.text);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("정상적으로 수정되었습니다."),
+                duration: Duration(seconds: 2),
+              ));
             },
             child: Padding(
               padding: EdgeInsets.all(10.0),
@@ -196,12 +200,11 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
           ),
         ],
       ),
-
     );
   }
 }
 
-List<MoodTagWidget> createMoodTagWidgets(List<int> splitDigitsList) {
+List<MoodTagWidget> createMoodTagWidgets(List splitDigitsList) {
   List<MoodTagWidget> moodTagWidgets = [];
   for (int i = 0; i < splitDigitsList.length; i++) {
     moodTagWidgets.add(
@@ -228,10 +231,15 @@ class NumberWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(inputTitle, textAlign: TextAlign.center,),
+          Text(
+            inputTitle,
+            textAlign: TextAlign.center,
+          ),
           Text(
             inputText,
-            style: TextStyle(fontSize: 25.0, ),
+            style: TextStyle(
+              fontSize: 25.0,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

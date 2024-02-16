@@ -36,7 +36,7 @@ class _MainScreenState extends State<MainScreen> {
             NavigationDestination(
                 icon: Icon(Icons.calendar_month_outlined), label: "캘린더"),
             NavigationDestination(
-                icon: Icon(Icons.local_fire_department_outlined), label: "소각"),
+                icon: Icon(Icons.local_fire_department_outlined), label: "소각로"),
             NavigationDestination(
                 icon: Icon(Icons.list_outlined), label: "목록"),
             NavigationDestination(

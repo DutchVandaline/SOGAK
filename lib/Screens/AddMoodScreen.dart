@@ -6,12 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:group_button/group_button.dart';
 import 'dart:core';
 
-List<int> MoodList = [];
+List<String> MoodList = [];
 int tiredRate = 5;
 int stressRate = 5;
 int baseMoodRate = 0;
 bool errorState = false;
-String inputWhatHappened = "";
 DateTime initialDateInput = DateTime.now();
 
 class AddMoodScreen extends StatefulWidget {
@@ -50,6 +49,27 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
   String addDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   @override
+  void initState() {
+    MoodList = [];
+    tiredRate = 5;
+    stressRate = 5;
+    baseMoodRate = 0;
+    errorState = false;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WhatHappenedController.dispose();
+    MoodList = [];
+    tiredRate = 5;
+    stressRate = 5;
+    baseMoodRate = 0;
+    errorState = false;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -57,10 +77,12 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
         leadingWidth: 40.0,
         elevation: 0.0,
         shadowColor: Colors.transparent,
-        leading: IconButton(onPressed: (){
-          errorState = false;
-          Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+            onPressed: () {
+              errorState = false;
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios)),
       ),
       body: SafeArea(
         child: Padding(
@@ -159,43 +181,29 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                     widgetTitle: "세부 감정",
                     inputAction: SizedBox.shrink(),
                     inputWidget: Container(
-                      child: Column(
+                        child: Center(
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MoodSelectWidget(
-                                  inputMood: "😁 행복한", inputNumb: 1),
-                              MoodSelectWidget(
-                                  inputMood: "🥰 사랑스러운", inputNumb: 3),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MoodSelectWidget(
-                                  inputMood: "🤩 흥분되는", inputNumb: 2),
-                              MoodSelectWidget(
-                                  inputMood: "😭 슬픈", inputNumb: 4),
-                              MoodSelectWidget(
-                                  inputMood: "🤬 분노하는", inputNumb: 5),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MoodSelectWidget(
-                                  inputMood: "😱 공포스러운", inputNumb: 6),
-                              MoodSelectWidget(
-                                  inputMood: "🤮 혐오스러운", inputNumb: 7),
-                            ],
-                          ),
+                          MoodSelectWidget(inputMood: "행복한", inputNumb: 'a'),
+                          MoodSelectWidget(inputMood: "흥분되는", inputNumb: 'b'),
+                          MoodSelectWidget(inputMood: "사랑스러운", inputNumb: 'c'),
+                          MoodSelectWidget(inputMood: "슬픈", inputNumb: 'd'),
+                          MoodSelectWidget(inputMood: "분노하는", inputNumb: 'e'),
+                          MoodSelectWidget(inputMood: "공포스러운", inputNumb: 'f'),
+                          MoodSelectWidget(inputMood: "혐오스러운", inputNumb: 'g'),
+                          MoodSelectWidget(inputMood: "공허한", inputNumb: 'h'),
+                          MoodSelectWidget(inputMood: "우울한", inputNumb: 'i'),
+                          MoodSelectWidget(inputMood: "감격스러운", inputNumb: 'j'),
+                          MoodSelectWidget(inputMood: "아픈", inputNumb: 'k'),
+                          MoodSelectWidget(inputMood: "답답한", inputNumb: 'l'),
                         ],
                       ),
-                    )),
+                    ))),
                 AddMoodWidget(
                     widgetTitle: "정신적 스트레스",
-                    inputAction: Text(stressRate == 0 ? "0%" : "${stressRate}0%"),
+                    inputAction:
+                        Text(stressRate == 0 ? "0%" : "${stressRate}0%"),
                     inputWidget: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: SliderWidget(
@@ -225,7 +233,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                         controller: WhatHappenedController,
                         onChanged: (text) {
                           setState(() {
-                            inputWhatHappened = text;
+                            WhatHappenedController.text = text;
                           });
                         },
                         decoration: InputDecoration(
@@ -249,7 +257,8 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                     )),
                 errorState
                     ? Padding(
-                        padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                        padding:
+                            EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                         child: Container(
                             width: MediaQuery.of(context).size.width * 0.9,
                             height: 30.0,
@@ -271,12 +280,11 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       String inputMoodList = MoodList.join();
                       if (MoodList.length >= 1 && baseMoodRate != 0) {
                         postMood(baseMoodRate, addDate, inputMoodList,
-                            inputWhatHappened, tiredRate, stressRate);
+                            WhatHappenedController.text, tiredRate, stressRate);
                         MoodList = [];
                         tiredRate = 5;
                         stressRate = 5;
                         baseMoodRate = 0;
-                        inputWhatHappened = "";
                         errorState = false;
                         Navigator.pop(context);
                       } else {
@@ -284,21 +292,23 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       }
                     });
                   },
-                  child: Padding(padding: EdgeInsets.all(5.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 60.0,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15.0)),
-                    child: Center(
-                      child: Text(
-                        "감정 추가하기",
-                        style: Theme.of(context).textTheme.bodySmall,
+                  child: Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60.0,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15.0)),
+                      child: Center(
+                        child: Text(
+                          "감정 추가하기",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
                       ),
                     ),
                   ),
-                  ),)
+                )
               ],
             ),
           ),
@@ -309,7 +319,8 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
 }
 
 class MoodSelectWidget extends StatefulWidget {
-  MoodSelectWidget({this.inputMood, this.inputNumb});
+  MoodSelectWidget({Key? key, this.inputMood, this.inputNumb})
+      : super(key: key);
 
   final inputMood;
   final inputNumb;
@@ -324,7 +335,7 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 3.0),
         child: GestureDetector(
           onTap: () {
             setState(() {
@@ -341,7 +352,10 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
               child: Text(
                 widget.inputMood,
                 style: _onpressed
-                    ? TextStyle(fontSize: 20.0, color: Colors.black)
+                    ? TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.black,
+                      )
                     : TextStyle(fontSize: 20.0, color: Colors.white),
               ),
             ),

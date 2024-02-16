@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 bool displayError = false;
+bool passwordError = false;
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
+
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
@@ -13,17 +16,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final PasswordController = TextEditingController();
   final CheckPasswordController = TextEditingController();
 
-
   @override
   void dispose() {
     EmailController.dispose();
     PasswordController.dispose();
     CheckPasswordController.dispose();
     displayError = false;
+    passwordError = false;
     super.dispose();
   }
 
-  void createUser(String _enterEmail, String _enterPassword, String _enterName) async {
+  void createUser(
+      String _enterEmail, String _enterPassword, String _enterName) async {
     var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/user/create/');
     var response = await http.post(url, body: {
       'email': _enterEmail,
@@ -33,58 +37,65 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (mounted) {
       if (response.statusCode == 200) {
         print('Sign-up successful');
-        Navigator.pop(context);
       } else {
         print('Error: ${response.statusCode}');
         print('Error body: ${response.body}');
-        setState(() {
-          displayError = true;
-        });
+        displayError = true;
       }
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    String inputEmail = "";
-    String inputPassword = "";
-    String checkPassword = "";
-
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 20.0, bottom: 8.0),
-              child: Container(
-                child: Text(
-                  "Hello\nthere!",
-                  style: TextStyle(fontSize: 40.0),
-                ),
+              child: Text(
+                "Hello\nthere!",
+                style: TextStyle(fontSize: 40.0),
               ),
             ),
-            displayError
+            passwordError
                 ? Center(
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.0),
                         color: Colors.red.shade100,
                       ),
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          "가입된 계정이거나 비밀번호가 일치하지 않습니다.",
+                          "비밀번호는 5자리 이상 이어야 합니다.",
                           style: TextStyle(color: Colors.red),
                         ),
                       ),
                     ),
                   )
-                : SizedBox(
-                    height: 20.0,
-                  ),
+                : displayError
+                    ? Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            color: Colors.red.shade100,
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              "가입된 계정이거나 비밀번호가 일치하지 않습니다.",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                      )
+                    : const SizedBox(
+                        height: 20.0,
+                      ),
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
@@ -95,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextField(
                   controller: EmailController,
                   onChanged: (text) {
-                    inputEmail = text;
+                    EmailController.text = text;
                   },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -109,9 +120,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           borderSide: BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(15.0)),
                       hintText: "가입할 Email을 입력하세요.",
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                           fontSize: 18.0, fontWeight: FontWeight.normal),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.email_outlined,
                         color: Colors.white,
                       )),
@@ -130,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextField(
                   controller: PasswordController,
                   onChanged: (text) {
-                    inputPassword = text;
+                    PasswordController.text = text;
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -166,7 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextField(
                   controller: CheckPasswordController,
                   onChanged: (text) {
-                    checkPassword = text;
+                    CheckPasswordController.text = text;
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -179,9 +190,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderSide: BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     hintText: "비밀번호를 다시 한 번 입력하세요",
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                         fontSize: 18.0, fontWeight: FontWeight.normal),
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.password_outlined,
                       color: Colors.white,
                     ),
@@ -194,17 +205,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (inputPassword == checkPassword) {
-                  print("Password Matches!");
-                  createUser(
-                      inputEmail, inputPassword, "User${DateTime.now()}");
+                if (PasswordController.text == CheckPasswordController.text &&
+                    passwordError == false) {
+                  createUser(EmailController.text, PasswordController.text,
+                      "User${DateTime.now()}");
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("회원 가입이 완료되었습니다. 로그인해주세요."),
+                    duration: Duration(seconds: 2),
+                  ));
                   Navigator.pop(context);
                 } else {
                   print("Check the Password!");
+                  setState(() {
+                    passwordError = true;
+                  });
                 }
               },
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 60.0,
