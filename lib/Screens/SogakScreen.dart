@@ -85,9 +85,9 @@ class _SogakScreenState extends State<SogakScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xff252527),
+        backgroundColor: const Color(0xff252527),
         appBar: AppBar(
-          backgroundColor: Color(0xff252527),
+          backgroundColor: const Color(0xff252527),
           centerTitle: false,
           leadingWidth: 40.0,
           elevation: 0.0,
@@ -106,7 +106,7 @@ class _SogakScreenState extends State<SogakScreen> {
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.34,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                       fit: BoxFit.fitWidth,
                       alignment: FractionalOffset.bottomCenter,
@@ -114,25 +114,25 @@ class _SogakScreenState extends State<SogakScreen> {
                     )),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                      const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                   child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "소각",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 30.0,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5.0,
                           ),
                           Text(
@@ -158,7 +158,7 @@ class _SogakScreenState extends State<SogakScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 5.0),
                                   child: Text(
                                     "소각할 감정 목록",
@@ -180,23 +180,23 @@ class _SogakScreenState extends State<SogakScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                           border: Border.all(
-                                              color: Color(0xFF666666)),
+                                              color: const Color(0xFF666666)),
                                         ),
                                         child: FutureBuilder(
                                           future: getMovetoSogakData(),
                                           builder: (context, snapshot) {
                                             if (snapshot.connectionState ==
                                                 ConnectionState.waiting) {
-                                              return Center(
+                                              return const Center(
                                                   child:
                                                       CircularProgressIndicator());
                                             } else if (snapshot.hasError) {
-                                              return Center(
+                                              return const Center(
                                                   child: Text("잠시 후 다시 시도해 주세요.",textAlign: TextAlign.center,)
                                               );
                                             } else {
                                               if (snapshot.data == null) {
-                                                return Center(
+                                                return const Center(
                                                   child:
                                                       Text('아직 추가된 감정이 없습니다.'),
                                                 );
@@ -256,7 +256,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                                             },
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(3.0),
                                                               child: Container(
                                                                 decoration: BoxDecoration(
@@ -268,7 +268,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                                                         BorderRadius.circular(
                                                                             10.0)),
                                                                 child: Padding(
-                                                                  padding: EdgeInsets.symmetric(
+                                                                  padding: const EdgeInsets.symmetric(
                                                                       vertical:
                                                                           8.0,
                                                                       horizontal:
@@ -283,7 +283,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                                                     children: [
                                                                       Padding(
                                                                         padding:
-                                                                            EdgeInsets.symmetric(vertical: 8.0),
+                                                                            const EdgeInsets.symmetric(vertical: 8.0),
                                                                         child:
                                                                             Container(
                                                                           width:
@@ -297,7 +297,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                                                       ),
                                                                       Padding(
                                                                         padding:
-                                                                            EdgeInsets.symmetric(horizontal: 5.0),
+                                                                            const EdgeInsets.symmetric(horizontal: 5.0),
                                                                         child: Container(
                                                                             child: Column(
                                                                           mainAxisAlignment:
@@ -305,12 +305,12 @@ class _SogakScreenState extends State<SogakScreen> {
                                                                           children: [
                                                                             Text(
                                                                               formattedDateMonth,
-                                                                              style: TextStyle(fontSize: 15.0),
+                                                                              style: const TextStyle(fontSize: 15.0),
                                                                               textAlign: TextAlign.center,
                                                                             ),
                                                                             Text(
                                                                               formattedDateDate,
-                                                                              style: TextStyle(fontSize: 25.0),
+                                                                              style: const TextStyle(fontSize: 25.0),
                                                                               textAlign: TextAlign.center,
                                                                             ),
                                                                           ],
@@ -318,19 +318,19 @@ class _SogakScreenState extends State<SogakScreen> {
                                                                       ),
                                                                       Padding(
                                                                           padding:
-                                                                              EdgeInsets.symmetric(horizontal: 8.0),
+                                                                              const EdgeInsets.symmetric(horizontal: 8.0),
                                                                           child: Container(
                                                                               width: MediaQuery.of(context).size.width * 0.65,
                                                                               child: Column(
                                                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
-                                                                                  Text(
+                                                                                  const Text(
                                                                                     "무슨 일이 있었나요?",
                                                                                     style: TextStyle(fontWeight: FontWeight.bold),
                                                                                   ),
                                                                                   FeelingDatum[index]['what_happened'] == null || FeelingDatum[index]['what_happened'] == ""
-                                                                                      ? Text(
+                                                                                      ? const Text(
                                                                                           "기록된 일이 없습니다.",
                                                                                           maxLines: 3,
                                                                                           overflow: TextOverflow.ellipsis,
@@ -348,12 +348,12 @@ class _SogakScreenState extends State<SogakScreen> {
                                                               ),
                                                             ));
                                                       } else {
-                                                        return SizedBox
+                                                        return const SizedBox
                                                             .shrink();
                                                       }
                                                     });
                                               } else {
-                                                return Text(
+                                                return const Text(
                                                     'No data available');
                                               }
                                             }
@@ -366,7 +366,7 @@ class _SogakScreenState extends State<SogakScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 5.0),
                                   child: Text(
                                     "선택된 감정",
@@ -385,23 +385,23 @@ class _SogakScreenState extends State<SogakScreen> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         border: Border.all(
-                                            color: Color(0xFF666666)),
+                                            color: const Color(0xFF666666)),
                                       ),
                                       child: FutureBuilder(
                                         future: selectedSogakData(selectedId),
                                         builder: (context, snapshot) {
                                           if (selectedId == -1) {
-                                            return Center(
+                                            return const Center(
                                               child: Text("선택된 감정이 없습니다."),
                                             );
                                           } else {
                                             if (snapshot.connectionState ==
                                                 ConnectionState.waiting) {
-                                              return Center(
+                                              return const Center(
                                                   child:
                                                       CircularProgressIndicator());
                                             } else if (snapshot.hasError) {
-                                              return Text("불러오는데 에러가 발생했습니다.");
+                                              return const Text("불러오는데 에러가 발생했습니다.");
                                             } else {
                                               var SogakData = snapshot.data;
                                               print(SogakData);
@@ -409,7 +409,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                                 return SogakListWidget(
                                                     inputFeeling: SogakData);
                                               } else {
-                                                return Text(
+                                                return const Text(
                                                     'No data available');
                                               }
                                             }
@@ -441,7 +441,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                       }
                                     },
                                     child: Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         height: 50.0,
                                         width:
@@ -452,7 +452,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text(
                                             "소각하기",
                                             style: TextStyle(
@@ -463,14 +463,14 @@ class _SogakScreenState extends State<SogakScreen> {
                                       ),
                                     )),
                                 Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: IconButton(
                                       onPressed: () {
                                         setState(() {
                                           sogakState = false;
                                         });
                                       },
-                                      icon: Icon(Icons.close, size: 40.0)),
+                                      icon: const Icon(Icons.close, size: 40.0)),
                                 ),
                               ],
                             )
@@ -479,7 +479,7 @@ class _SogakScreenState extends State<SogakScreen> {
                       ),
                     ),
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ],
         ));
   }
@@ -508,14 +508,14 @@ class _SogakListWidgetState extends State<SogakListWidget> {
 
     return Container(
       child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
           child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Container(
                     width: 5.0,
                     height: 50.0,
@@ -523,39 +523,39 @@ class _SogakListWidgetState extends State<SogakListWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: Container(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         formattedDateMonth,
-                        style: TextStyle(fontSize: 15.0),
+                        style: const TextStyle(fontSize: 15.0),
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         formattedDateDate,
-                        style: TextStyle(fontSize: 25.0),
+                        style: const TextStyle(fontSize: 25.0),
                         textAlign: TextAlign.center,
                       ),
                     ],
                   )),
                 ),
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Container(
                         width: MediaQuery.of(context).size.width * 0.65,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "무슨 일이 있었나요?",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             widget.inputFeeling['what_happened'] == null ||
                                     widget.inputFeeling['what_happened'] == ""
-                                ? Text(
+                                ? const Text(
                                     "기록된 일이 없습니다.",
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,

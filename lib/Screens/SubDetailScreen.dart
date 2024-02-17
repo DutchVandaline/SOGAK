@@ -83,9 +83,8 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
                           formattedDateMonth,
                           style: Theme.of(context).textTheme.titleLarge,
                         )),
-                        Container(
-                            child: Text(formattedDateDate,
-                                style: TextStyle(fontSize: 50.0)))
+                        Text(formattedDateDate,
+                            style: const TextStyle(fontSize: 50.0))
                       ],
                     ),
                     inputWidth: MediaQuery.of(context).size.width * 0.5,
@@ -95,7 +94,7 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
                   flex: 2,
                   child: DetailScreenWidget(
                     inputWidget: ListView(children: [
-                      SizedBox(height: 20.0),
+                      const SizedBox(height: 20.0),
                       Center(
                           child: Wrap(
                         children: moodTagWidgets,
@@ -129,12 +128,12 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
           ),
           DetailScreenWidget(
             inputWidget: Padding(
-              padding: EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(5.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text("무슨 일이 있었나요?"),
                   ),
@@ -149,16 +148,16 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
+                            borderSide: const BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
+                            borderSide: const BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(15.0)),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
+                            borderSide: const BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(15.0)),
                         hintText: "입력된 값이 없습니다.",
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.normal),
                       ),
                       cursorColor: Colors.grey,
@@ -176,20 +175,20 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
             onTap: () {
               print(WhatHappenedController.text);
               patchWhatHappened(inputId, WhatHappenedController.text);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text("정상적으로 수정되었습니다."),
                 duration: Duration(seconds: 2),
               ));
             },
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Container(
                 height: 50.0,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0)),
-                child: Center(
+                child: const Center(
                   child: Text(
                     "🖋️ 수정하기",
                     style: TextStyle(color: Colors.black, fontSize: 24.0),
@@ -219,7 +218,7 @@ List<MoodTagWidget> createMoodTagWidgets(List splitDigitsList) {
 }
 
 class NumberWidget extends StatelessWidget {
-  NumberWidget({required this.inputTitle, required this.inputText});
+  const NumberWidget({required this.inputTitle, required this.inputText});
 
   final String inputTitle;
   final String inputText;
@@ -237,7 +236,7 @@ class NumberWidget extends StatelessWidget {
           ),
           Text(
             inputText,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 25.0,
             ),
             textAlign: TextAlign.center,

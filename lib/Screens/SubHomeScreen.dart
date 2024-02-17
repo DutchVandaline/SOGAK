@@ -5,7 +5,7 @@ import 'package:sogak/Widgets/HomeScreenUnderWidget.dart';
 import 'dart:convert';
 
 class SubHomeScreen extends StatefulWidget {
-  SubHomeScreen({required this.responseData});
+  const SubHomeScreen({required this.responseData});
 
   final responseData;
 
@@ -23,7 +23,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
     String decodedWhatHappened =
         utf8.decode(widget.responseData['what_happened'].codeUnits);
 
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -44,9 +44,9 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
               flex: 1,
               child: HomeScreenUnderWidget(
                   inputWidget: sogakState
-                      ? Text("이미 소각된 일입니다.")
+                      ? const Text("이미 소각된 일입니다.")
                       : decodedWhatHappened == ""
-                          ? Text("입력된 일이 없습니다.")
+                          ? const Text("입력된 일이 없습니다.")
                           : Text(decodedWhatHappened))),
           Flexible(
             flex: 1,
@@ -54,13 +54,13 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                 inputHeight: MediaQuery.of(context).size.width * 0.3,
                 inputWidget: sogakState
                     ? Padding(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: 2.0, vertical: 3.0),
                         child: Container(
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
                                 borderRadius: BorderRadius.circular(10.0)),
-                            child: Padding(
+                            child: const Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 10.0, vertical: 3.0),
                               child: Text(
@@ -71,7 +71,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                       )
                     : ListView(
                     children: [
-                      SizedBox(height: 10.0,),
+                      const SizedBox(height: 10.0,),
                         Center(
                           child: Wrap(
                               alignment: WrapAlignment.center,

@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({Key? key}) : super(key: key);
+
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
@@ -97,7 +99,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "감정 달력 🙏",
           style: TextStyle(fontSize: 25.0),
         ),
@@ -109,7 +111,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         shadowColor: Colors.transparent,
       ),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -123,7 +125,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ],
             ))
           : monthlyDataCache.isEmpty
-              ? Center(
+              ? const Center(
                   child: Text("아직 추가된 감정이 없습니다.\n새로운 감정을 추가해보세요."),
                 )
               : RefreshIndicator(
@@ -144,9 +146,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
+                            return const Center(
+                                child: CircularProgressIndicator());
                           } else if (snapshot.hasError) {
-                            return Center(
+                            return const Center(
                               child: Text(
                                 "Error occurred while fetching data",
                                 textAlign: TextAlign.center,
@@ -172,7 +175,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             left: 20.0, top: 10.0),
                                         child: Text(
                                           formattedMonth,
@@ -180,15 +183,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 20.0, vertical: 10.0),
                                         child: GridView.builder(
                                           itemCount: feelingData.length,
                                           physics:
-                                              NeverScrollableScrollPhysics(),
+                                              const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 7,
                                             childAspectRatio: 1 / 1,
                                             mainAxisSpacing: 10,
@@ -249,15 +252,15 @@ Color getColorBase(List<dynamic> inputData, int index) {
     return Colors.white12;
   } else {
     if (inputData[index]['base_mood'] == 1) {
-      return Color.fromRGBO(73, 76, 162, 1);
+      return const Color.fromRGBO(73, 76, 162, 1);
     } else if (inputData[index]['base_mood'] == 2) {
-      return Color.fromRGBO(0, 168, 181, 1);
+      return const Color.fromRGBO(0, 168, 181, 1);
     } else if (inputData[index]['base_mood'] == 3) {
-      return Color.fromRGBO(116, 180, 155, 1);
+      return const Color.fromRGBO(116, 180, 155, 1);
     } else if (inputData[index]['base_mood'] == 4) {
-      return Color.fromRGBO(255, 205, 96, 1);
+      return const Color.fromRGBO(255, 205, 96, 1);
     } else {
-      return Color.fromRGBO(246, 114, 128, 1);
+      return const Color.fromRGBO(246, 114, 128, 1);
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SliderWidget extends StatefulWidget {
-  SliderWidget({required this.inputSlider});
+  const SliderWidget({Key? key, required this.inputSlider}) : super(key: key);
 
   final Widget inputSlider;
 
@@ -14,15 +14,15 @@ class _SliderWidgetState extends State<SliderWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 17.0,),
+          const SizedBox(height: 17.0,),
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
-              trackShape: RectangularSliderTrackShape(),
-              thumbShape: RoundSliderThumbShape(),
+              trackShape: const RectangularSliderTrackShape(),
+              thumbShape: const RoundSliderThumbShape(),
               thumbColor: Colors.red,
               overlayShape: SliderComponentShape.noOverlay,
               valueIndicatorShape: SliderComponentShape.noOverlay,

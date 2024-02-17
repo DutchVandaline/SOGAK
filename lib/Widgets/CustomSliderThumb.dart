@@ -45,14 +45,14 @@ class CustomSliderThumbRect extends SliderComponentShape {
       ..color = sliderTheme.activeTrackColor! //Thumb Background Color
       ..style = PaintingStyle.fill;
 
-    TextSpan span = new TextSpan(
-        style: new TextStyle(
+    TextSpan span = TextSpan(
+        style: TextStyle(
             fontSize: thumbHeight * .3,
             fontWeight: FontWeight.w700,
             color: sliderTheme.thumbColor,
             height: 1),
         text: ' ');
-    TextPainter tp = new TextPainter(
+    TextPainter tp = TextPainter(
         text: span,
         textAlign: TextAlign.left,
         textDirection: TextDirection.ltr);

@@ -14,8 +14,8 @@ class ListScreen extends StatefulWidget {
 Future<List<dynamic>?>? getData(String inputDate) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? _userToken = prefs.getString('UserToken');
-  var url =
-      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/get_monthly_feelings/$inputDate');
+  var url = Uri.https('sogak-api-nraiv.run.goorm.site',
+      '/api/feeling/feelings/get_monthly_feelings/$inputDate');
   var response =
       await http.get(url, headers: {'Authorization': 'Token $_userToken'});
 
@@ -34,7 +34,7 @@ Future<List<dynamic>?>? getData(String inputDate) async {
 class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
-    var now = new DateTime.now();
+    var now = DateTime.now();
     String formatDate = DateFormat('yyyy-MM').format(now);
     return Scaffold(
       appBar: AppBar(
@@ -46,16 +46,20 @@ class _ListScreenState extends State<ListScreen> {
         centerTitle: false,
         leadingWidth: 40.0,
         elevation: 0.0,
-        shadowColor: Color(0xFF222222),
+        shadowColor: const Color(0xFF222222),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddMoodScreen())).then((value){setState(() {});});
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddMoodScreen())).then((value) {
+                    setState(() {});
+                  });
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.add,
                   size: 30.0,
                 )),
@@ -66,41 +70,39 @@ class _ListScreenState extends State<ListScreen> {
         future: getData(formatDate),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator(color: Colors.white,));
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.white,
+            ));
           } else if (snapshot.hasError) {
-            return Center(
+            return const Center(
                 child: Text(
               "잠시 후 다시 시도해 주세요.",
               textAlign: TextAlign.center,
             ));
           } else {
             if (snapshot.data == null) {
-              return Center(
+              return const Center(
                 child: Text('아직 추가된 감정이 없습니다.'),
               );
             }
             List<dynamic> FeelingDatum = snapshot.data as List<dynamic>;
-            if (FeelingDatum != null) {
-              return Container(
-                height: MediaQuery.of(context).size.height,
-                child: RefreshIndicator(
-                    triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                    color: Colors.white,
-                    backgroundColor: Colors.transparent,
-                    displacement: 9,
-                    child: ListView.builder(
-                        itemCount: FeelingDatum.length,
-                        itemBuilder: (context, index) {
-                          return ListViewWidget(
-                              inputData: FeelingDatum[index]);
-                        }),
-                    onRefresh: () async {
-                      setState(() {});
-                    }),
-              );
-            } else {
-              return Text('No data available');
-            }
+            return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: RefreshIndicator(
+                  triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                  color: Colors.white,
+                  backgroundColor: Colors.transparent,
+                  displacement: 9,
+                  child: ListView.builder(
+                      itemCount: FeelingDatum.length,
+                      itemBuilder: (context, index) {
+                        return ListViewWidget(inputData: FeelingDatum.reversed.toList()[index]);
+                      }),
+                  onRefresh: () async {
+                    setState(() {});
+                  }),
+            );
           }
         },
       ),

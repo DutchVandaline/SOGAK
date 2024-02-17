@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "프로필",
           style: TextStyle(fontSize: 25.0),
         ),
@@ -62,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         future: getMyAccount(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(
               child: Text(
@@ -82,10 +82,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 30.0),
                         child: Text("사용자 정보"),
                       ),
@@ -104,10 +104,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 30.0),
                         child: Text(
                           "Danger Zone",
@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           showLogoutDialog(context);
                         },
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 5.0),
                           child: Container(
                               width: MediaQuery.of(context).size.width,
@@ -127,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                   color: Color(0xFF292929),
                                   borderRadius: BorderRadius.circular(15.0)),
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [

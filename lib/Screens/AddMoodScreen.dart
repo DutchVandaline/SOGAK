@@ -130,11 +130,12 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.1,
                       child: GroupButton(
+
                         onSelected: (button, index, isSelected) {
                           baseMoodRate = index + 1;
                           print(baseMoodRate);
                         },
-                        buttons: [
+                        buttons: const [
                           "매우\n불만족",
                           "불만족",
                           "보통",
@@ -146,9 +147,9 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                           unselectedBorderColor: Colors.white,
                           unselectedColor: Theme.of(context).cardColor,
                           selectedTextStyle:
-                              TextStyle(color: Colors.black, fontSize: 18.0),
+                              const TextStyle(color: Colors.black, fontSize: 13.0),
                           unselectedTextStyle:
-                              TextStyle(color: Colors.white, fontSize: 18.0),
+                              const TextStyle(color: Colors.white, fontSize: 13.0),
                           textAlign: TextAlign.center,
                           buttonHeight: 62.0,
                           buttonWidth: 62.0,
@@ -179,33 +180,54 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                     )),
                 AddMoodWidget(
                     widgetTitle: "세부 감정",
-                    inputAction: SizedBox.shrink(),
-                    inputWidget: Container(
-                        child: Center(
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        children: [
-                          MoodSelectWidget(inputMood: "행복한", inputNumb: 'a'),
-                          MoodSelectWidget(inputMood: "흥분되는", inputNumb: 'b'),
-                          MoodSelectWidget(inputMood: "사랑스러운", inputNumb: 'c'),
-                          MoodSelectWidget(inputMood: "슬픈", inputNumb: 'd'),
-                          MoodSelectWidget(inputMood: "분노하는", inputNumb: 'e'),
-                          MoodSelectWidget(inputMood: "공포스러운", inputNumb: 'f'),
-                          MoodSelectWidget(inputMood: "혐오스러운", inputNumb: 'g'),
-                          MoodSelectWidget(inputMood: "공허한", inputNumb: 'h'),
-                          MoodSelectWidget(inputMood: "우울한", inputNumb: 'i'),
-                          MoodSelectWidget(inputMood: "감격스러운", inputNumb: 'j'),
-                          MoodSelectWidget(inputMood: "아픈", inputNumb: 'k'),
-                          MoodSelectWidget(inputMood: "답답한", inputNumb: 'l'),
-                        ],
-                      ),
-                    ))),
+                    inputAction: const SizedBox.shrink(),
+                    inputWidget: Column(
+                      children: [
+                        SizedBox(
+                          height: 55.0,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: const [
+                              MoodSelectWidget(inputMood: "😁행복한", inputNumb: 'a'),
+                              MoodSelectWidget(inputMood: "🤩흥분되는", inputNumb: 'b'),
+                              MoodSelectWidget(inputMood: "😍사랑스러운", inputNumb: 'c'),
+                              MoodSelectWidget(inputMood: "😢슬픈", inputNumb: 'd'),
+                              MoodSelectWidget(inputMood: "🥳감격스러운", inputNumb: 'j'),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 55.0,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: const [
+                              MoodSelectWidget(inputMood: "🤬분노하는", inputNumb: 'e'),
+                              MoodSelectWidget(inputMood: "😦공허한", inputNumb: 'h'),
+                              MoodSelectWidget(inputMood: "😱공포스러운", inputNumb: 'f'),
+                              MoodSelectWidget(inputMood: "🫠우울한", inputNumb: 'i'),
+                              MoodSelectWidget(inputMood: "🤮혐오스러운", inputNumb: 'g'),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 55.0,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: const [
+                              MoodSelectWidget(inputMood: "🤢아픈", inputNumb: 'k'),
+                              MoodSelectWidget(inputMood: "😓답답한", inputNumb: 'l'),
+                              MoodSelectWidget(inputMood: "🤔귀찮은", inputNumb: 'm'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
                 AddMoodWidget(
                     widgetTitle: "정신적 스트레스",
                     inputAction:
                         Text(stressRate == 0 ? "0%" : "${stressRate}0%"),
                     inputWidget: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: SliderWidget(
                         inputSlider: Slider(
                           value: stressRate.toDouble(),
@@ -223,11 +245,11 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                     )),
                 AddMoodWidget(
                     widgetTitle: "무슨 일이었나요?",
-                    inputAction: SizedBox.shrink(),
+                    inputAction: const SizedBox.shrink(),
                     inputWidget: Container(
                       height: MediaQuery.of(context).size.height * 0.3,
                       decoration: BoxDecoration(
-                          color: Color(0xFF303030),
+                          color: const Color(0xFF303030),
                           borderRadius: BorderRadius.circular(10.0)),
                       child: TextField(
                         controller: WhatHappenedController,
@@ -238,16 +260,19 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                         },
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent),
                               borderRadius: BorderRadius.circular(15.0)),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent),
                               borderRadius: BorderRadius.circular(15.0)),
                           enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent),
                               borderRadius: BorderRadius.circular(15.0)),
                           hintText: "무슨 일이 있었나요?",
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.normal),
                         ),
                         cursorColor: Colors.grey,
@@ -266,7 +291,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                                 color: Colors.red.withOpacity(0.3),
                                 borderRadius: BorderRadius.circular(5.0),
                                 border: Border.all(color: Colors.red)),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 "입력된 값이 잘못되었습니다.",
                                 style: TextStyle(color: Colors.red),
@@ -319,7 +344,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
 }
 
 class MoodSelectWidget extends StatefulWidget {
-  MoodSelectWidget({Key? key, this.inputMood, this.inputNumb})
+  const MoodSelectWidget({Key? key, this.inputMood, this.inputNumb})
       : super(key: key);
 
   final inputMood;
@@ -335,7 +360,7 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 3.0),
+        padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0),
         child: GestureDetector(
           onTap: () {
             setState(() {
@@ -348,22 +373,25 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
           },
           child: Container(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
-              child: Text(
-                widget.inputMood,
-                style: _onpressed
-                    ? TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.black,
-                      )
-                    : TextStyle(fontSize: 20.0, color: Colors.white),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+              child: Center(
+                child: Text(
+                  widget.inputMood,
+                  style: _onpressed
+                      ? const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.black,
+                        )
+                      : const TextStyle(fontSize: 15.0, color: Colors.white),
+                ),
               ),
             ),
             decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.white,
                 ),
-                borderRadius: BorderRadius.circular(7.0),
+                borderRadius: BorderRadius.circular(13.0),
                 color: _onpressed ? Colors.white : Color(0xFF303030)),
           ),
         ));
@@ -383,7 +411,7 @@ class AddMoodWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 20.0),
       child: Container(
           decoration: BoxDecoration(
             color: Color(0xFF303030),
@@ -403,7 +431,7 @@ class AddMoodWidget extends StatelessWidget {
                         padding: EdgeInsets.only(left: 10.0),
                         child: Text(
                           widgetTitle,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
@@ -411,14 +439,14 @@ class AddMoodWidget extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 10.0),
+                        padding: const EdgeInsets.only(right: 10.0),
                         child: inputAction,
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: inputWidget,
                 ),
               ],

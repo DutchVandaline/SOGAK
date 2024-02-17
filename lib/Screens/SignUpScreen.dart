@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 bool displayError = false;
 bool passwordError = false;
+bool emailError = false;
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -40,7 +41,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } else {
         print('Error: ${response.statusCode}');
         print('Error body: ${response.body}');
-        displayError = true;
+        setState(() {
+          displayError = true;
+        });
       }
     }
   }
@@ -61,41 +64,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style: TextStyle(fontSize: 40.0),
               ),
             ),
-            passwordError
-                ? Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        color: Colors.red.shade100,
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          "비밀번호는 5자리 이상 이어야 합니다.",
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ),
-                    ),
+            emailError
+                ? const ErrorWidget(
+                    inputString: "이메일 값이 잘못되었습니다.",
                   )
-                : displayError
-                    ? Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.red.shade100,
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(
-                              "가입된 계정이거나 비밀번호가 일치하지 않습니다.",
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ),
-                        ),
+                : passwordError
+                    ? const ErrorWidget(
+                        inputString: "비밀번호는 다섯자리 이상이어야합니다.",
                       )
-                    : const SizedBox(
-                        height: 20.0,
-                      ),
+                    : displayError
+                        ? const ErrorWidget(
+                            inputString: "가입된 계정이거나 비밀번호가 일치하지 않습니다.",
+                          )
+                        : const SizedBox(
+                            height: 20.0,
+                          ),
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
@@ -154,9 +137,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderSide: BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     hintText: "비밀번호를 입력하세요",
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                         fontSize: 18.0, fontWeight: FontWeight.normal),
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.password_outlined,
                       color: Colors.white,
                     ),
@@ -205,8 +188,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (PasswordController.text == CheckPasswordController.text &&
-                    passwordError == false) {
+                if (PasswordController.text.length < 5 &&
+                    CheckPasswordController.text.length < 5) {
+                  setState(() {
+                    emailError = false;
+                    passwordError = true;
+                    displayError = false;
+                  });
+                } else if (PasswordController.text !=
+                    CheckPasswordController.text) {
+                  setState(() {
+                    emailError = false;
+                    passwordError = false;
+                    displayError = true;
+                  });
+                } else if (!EmailController.text.contains("@") &&
+                    !EmailController.text.contains(".")) {
+                  setState(() {
+                    emailError = true;
+                    passwordError = false;
+                    displayError = false;
+                  });
+                } else if (PasswordController.text ==
+                        CheckPasswordController.text &&
+                    PasswordController.text.length >= 5 &&
+                    CheckPasswordController.text.length >= 5 &&
+                    EmailController.text.contains("@") &&
+                    EmailController.text.contains(".")) {
                   createUser(EmailController.text, PasswordController.text,
                       "User${DateTime.now()}");
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -214,11 +222,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     duration: Duration(seconds: 2),
                   ));
                   Navigator.pop(context);
-                } else {
-                  print("Check the Password!");
-                  setState(() {
-                    passwordError = true;
-                  });
                 }
               },
               child: Padding(
@@ -252,6 +255,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: 40.0,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ErrorWidget extends StatelessWidget {
+  const ErrorWidget({Key? key, required this.inputString}) : super(key: key);
+  final String inputString;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.red.shade100,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              inputString,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
         ),
       ),
     );

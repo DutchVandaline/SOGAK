@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DetailScreenWidget extends StatelessWidget {
-  DetailScreenWidget({required this.inputWidget, required this.inputWidth, required this.inputHeight});
+  const DetailScreenWidget({Key? key, required this.inputWidget, required this.inputWidth, required this.inputHeight}) : super(key: key);
 
   final Widget inputWidget;
   final double inputWidth;
@@ -10,13 +10,13 @@ class DetailScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
       child: Container(
           height: inputHeight,
           width: inputWidth,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
-              color: Color(0xFF292929)),
+              color: const Color(0xFF292929)),
           child: Center(
             child: inputWidget,
           )),

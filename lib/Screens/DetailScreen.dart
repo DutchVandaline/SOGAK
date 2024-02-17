@@ -107,9 +107,9 @@ class _DetailScreenState extends State<DetailScreen> {
           future: getDatabyId(widget.inputId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Center(
+              return const Center(
                 child: Text("이미 삭제되었거나\n불러오는데 오류가 발생했습니다."),
               );
             } else {

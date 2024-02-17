@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MoodTagWidget extends StatefulWidget {
-  MoodTagWidget({this.inputmood, this.sogakBool});
+  const MoodTagWidget({Key? key, this.inputmood, this.sogakBool}) : super(key: key);
 
   final inputmood;
   final sogakBool;
@@ -38,19 +38,21 @@ class _MoodTagWidgetState extends State<MoodTagWidget> with SingleTickerProvider
       moodTag = "아픈";
     } else if (widget.inputmood == 'l'){
       moodTag = "답답한";
+    } else if (widget.inputmood == 'm'){
+      moodTag = "귀찮은";
     }
     return AnimatedOpacity(
       opacity: widget.sogakBool ? 1.0 : 0.0,
       duration: const Duration(seconds: 2),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 3.0),
+        padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 3.0),
         child: Container(
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(7.0)),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
-              child: Text(moodTag,style: TextStyle(fontSize: 16.0),),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
+              child: Text(moodTag,style: const TextStyle(fontSize: 16.0),),
             )),
       ),
     );

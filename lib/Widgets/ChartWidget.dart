@@ -35,24 +35,24 @@ Future<List<Map<String, dynamic>>>? getMonthlyData(String month) async {
 class _ChartWidgetState extends State<ChartWidget> {
   @override
   Widget build(BuildContext context) {
-    var now = new DateTime.now();
+    var now = DateTime.now();
     String formatDate = DateFormat('yyyy-MM').format(now);
     String titleMonth = DateFormat('M').format(now);
     return FutureBuilder<List<Map<String, dynamic>>?>(
         future: getMonthlyData(formatDate),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(color: Colors.white,);
+            return const CircularProgressIndicator(color: Colors.white,);
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Text('아직 추가된 감정이 없습니다.');
+            return const Text('아직 추가된 감정이 없습니다.');
           } else {
             List<Map<String, dynamic>> monthlyData = snapshot.data!;
             return SfCircularChart(
               title: ChartTitle(
                   text: "$titleMonth월의 감정", alignment: ChartAlignment.center),
-              legend: Legend(
+              legend: const Legend(
                 isVisible: true,
                 position: LegendPosition.left,
                 isResponsive: true,
@@ -71,9 +71,9 @@ class _ChartWidgetState extends State<ChartWidget> {
                     xValueMapper: (_PieData data, _) => data.xData,
                     yValueMapper: (_PieData data, _) => data.yData,
                     dataLabelMapper: (_PieData data, _) => data.text,
-                    dataLabelSettings: DataLabelSettings(isVisible: true)),
+                    dataLabelSettings: const DataLabelSettings(isVisible: true)),
               ],
-              palette: [
+              palette: const [
                 Color.fromRGBO(246, 114, 128, 1),
                 Color.fromRGBO(255, 205, 96, 1),
                 Color.fromRGBO(116, 180, 155, 1),

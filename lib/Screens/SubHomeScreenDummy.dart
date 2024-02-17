@@ -5,7 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class SubHomeScreenDummy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -19,9 +19,9 @@ class SubHomeScreenDummy extends StatelessWidget {
               color: Theme.of(context).cardColor,
               child: Center(
                 child: SfCircularChart(
-                  title: ChartTitle(
+                  title: const ChartTitle(
                       text: "감정을 추가하세요", alignment: ChartAlignment.center),
-                  legend: Legend(
+                  legend: const Legend(
                     isVisible: true,
                     position: LegendPosition.left,
                     isResponsive: true,
@@ -40,9 +40,9 @@ class SubHomeScreenDummy extends StatelessWidget {
                         xValueMapper: (_PieData data, _) => data.xData,
                         yValueMapper: (_PieData data, _) => data.yData,
                         dataLabelMapper: (_PieData data, _) => data.text,
-                        dataLabelSettings: DataLabelSettings(isVisible: true)),
+                        dataLabelSettings: const DataLabelSettings(isVisible: true)),
                   ],
-                  palette: [
+                  palette: const [
                     Color.fromRGBO(246, 114, 128, 1),
                     Color.fromRGBO(255, 205, 96, 1),
                     Color.fromRGBO(116, 180, 155, 1),
@@ -53,12 +53,12 @@ class SubHomeScreenDummy extends StatelessWidget {
               ),
             ),
           ),
-          Flexible(
+          const Flexible(
               flex: 1,
               child: HomeScreenUnderWidget(
                   inputWidget:
                       Text("아직 발생한 일이 없습니다.\n감정을 추가하려면 + 버튼을 누르세요.",textAlign: TextAlign.center,))),
-          Flexible(
+          const Flexible(
             flex: 1,
             child: HomeScreenUnderWidget(
               inputWidget: Text("아직 추가된 감정이 없습니다.\n감정을 추가하려면 + 버튼을 누르세요.",textAlign: TextAlign.center,),

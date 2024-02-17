@@ -164,7 +164,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
                     children: [
                       Container(
                         height: MediaQuery.of(context).size.height * 0.34,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             image: DecorationImage(
                           fit: BoxFit.fitWidth,
                           alignment: FractionalOffset.bottomCenter,

@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class ListViewWidget extends StatefulWidget {
-  const ListViewWidget({required this.inputData});
+  const ListViewWidget({Key? key, required this.inputData}) : super(key: key);
 
   final inputData;
 
@@ -31,7 +31,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
     return GestureDetector(
       onTap: () {
         widget.inputData['sogak_bool']
-            ? print("sogaked")
+            ? {}
             : Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -40,20 +40,20 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                         )));
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
         child: Container(
             decoration: BoxDecoration(
-              color: Color(0xFF292929),
+              color: const Color(0xFF292929),
               borderRadius: BorderRadius.circular(15.0),
             ),
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Container(
                       width: 5.0,
                       height: 50.0,
@@ -65,37 +65,37 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Container(
-                        child: Column(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           formattedDateMonth,
                           style: widget.inputData['sogak_bool']
-                              ? TextStyle(fontSize: 15.0, color: Colors.grey)
-                              : TextStyle(fontSize: 15.0),
+                              ? const TextStyle(
+                                  fontSize: 15.0, color: Colors.grey)
+                              : const TextStyle(fontSize: 15.0),
                           textAlign: TextAlign.center,
                         ),
                         Text(
                           formattedDateDate,
                           style: widget.inputData['sogak_bool']
-                              ? TextStyle(fontSize: 25.0, color: Colors.grey)
-                              : TextStyle(fontSize: 25.0),
+                              ? const TextStyle(
+                                  fontSize: 25.0, color: Colors.grey)
+                              : const TextStyle(fontSize: 25.0),
                           textAlign: TextAlign.center,
                         ),
                       ],
-                    )),
+                    ),
                   ),
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Container(
-                          child: Column(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           widget.inputData['sogak_bool']
-                              ? Text(
+                              ? const Text(
                                   "어떤 감정이든지 이제는 소각되었습니다.",
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -109,10 +109,10 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                       maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
                                       style: widget.inputData['sogak_bool']
-                                          ? TextStyle(
+                                          ? const TextStyle(
                                               color: Colors.grey,
                                               fontSize: 16.0)
-                                          : TextStyle(
+                                          : const TextStyle(
                                               color: Colors.white,
                                               fontSize: 16.0),
                                     )
@@ -120,10 +120,10 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                       decodedWhatHappened,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white, fontSize: 16.0),
                                     ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5.0,
                           ),
                           widget.inputData['sogak_bool']
@@ -148,14 +148,15 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                       )),
                                 )
                               : SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.75,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.75,
                                   child: Wrap(
                                       spacing: 1.0,
                                       children: createMoodTagWidgets(
                                           splitDigitsList)),
                                 ),
                         ],
-                      ))),
+                      )),
                 ],
               ),
             )),
