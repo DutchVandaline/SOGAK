@@ -1,41 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:sogak/Services/Api_services.dart';
 import 'package:sogak/Widgets/ListViewWidget.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sogak/Screens/AddMoodScreen.dart';
 import 'package:intl/intl.dart';
+import 'package:sogak/Screens/AddMoodScreen.dart';
+
+List<String> dropDownList = [];
+var now = DateTime.now();
+String formatDate = DateFormat('yyyy-MM').format(now);
 
 class ListScreen extends StatefulWidget {
   @override
   State<ListScreen> createState() => _ListScreenState();
 }
 
-Future<List<dynamic>?>? getData(String inputMonth) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https('sogak-api-nraiv.run.goorm.site',
-      '/api/feeling/feelings/get_monthly_feelings/$inputMonth');
-  var response =
-      await http.get(url, headers: {'Authorization': 'Token $_userToken'});
-
-  if (response.statusCode == 200) {
-    List<dynamic> responseData = json.decode(response.body);
-    if (responseData.isNotEmpty) {
-      return responseData;
-    } else {
-      return null;
-    }
-  } else {
-    throw Exception('Error: ${response.statusCode}, ${response.body}');
-  }
-}
-
 class _ListScreenState extends State<ListScreen> {
+  Map<String, List<dynamic>> monthlyDataCache = {};
+  bool _isLoading = false;
+
+  Future<void> fetchDataAndCacheMonthlyData() async {
+    List<String> uniqueList = [];
+    if (!mounted) return;
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      monthlyDataCache.clear();
+      List<dynamic>? responseData = await ApiService.getData();
+      if (responseData != null) {
+        for (var data in responseData) {
+          String yearMonth = data['date'].toString().substring(0, 7);
+          if (!uniqueList.contains(yearMonth)) {
+            uniqueList.add(yearMonth);
+          }
+        }
+        setState(() {
+          dropDownList = uniqueList.toList();
+          formatDate = dropDownList.isNotEmpty ? dropDownList.first : formatDate;
+        });
+      } else {
+        print('Error: Response data is null');
+      }
+    } catch (e) {
+      print('Error fetching and caching monthly data: $e');
+    }
+
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    fetchDataAndCacheMonthlyData();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    dropDownList = [];
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var now = DateTime.now();
-    String formatDate = DateFormat('yyyy-MM').format(now);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -48,6 +77,28 @@ class _ListScreenState extends State<ListScreen> {
         elevation: 0.0,
         shadowColor: const Color(0xFF222222),
         actions: [
+          DropdownButton(
+              value: formatDate,
+              items: dropDownList.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 15.0,
+                    ),
+                  ),
+                );
+              }).toList(),
+              onChanged: (String? value) {
+                value == null
+                    ? setState(() {
+                        formatDate = DateFormat('yyyy-MM').format(now);
+                      })
+                    : setState(() {
+                        formatDate = value!;
+                      });
+              }),
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
@@ -56,7 +107,9 @@ class _ListScreenState extends State<ListScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => AddMoodScreen())).then((value) {
-                    setState(() {});
+                    setState(() {
+                      fetchDataAndCacheMonthlyData();
+                    });
                   });
                 },
                 icon: const Icon(
@@ -67,7 +120,7 @@ class _ListScreenState extends State<ListScreen> {
         ],
       ),
       body: FutureBuilder(
-        future: getData(formatDate),
+        future: ApiService.getMonthlyData(formatDate),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -87,22 +140,30 @@ class _ListScreenState extends State<ListScreen> {
               );
             }
             List<dynamic> FeelingDatum = snapshot.data as List<dynamic>;
-            return SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: RefreshIndicator(
-                  triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                  color: Colors.white,
-                  backgroundColor: Colors.transparent,
-                  displacement: 9,
-                  child: ListView.builder(
-                      itemCount: FeelingDatum.length,
-                      itemBuilder: (context, index) {
-                        return ListViewWidget(inputData: FeelingDatum.reversed.toList()[index]);
-                      }),
-                  onRefresh: () async {
-                    setState(() {});
-                  }),
-            );
+            return FeelingDatum.isEmpty
+                ? const Center(
+                    child: Text("아직 추가된 감정이 없습니다."),
+                  )
+                : SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: RefreshIndicator(
+                        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                        color: Colors.white,
+                        backgroundColor: Colors.transparent,
+                        displacement: 9,
+                        child: ListView.builder(
+                            itemCount: FeelingDatum.length,
+                            itemBuilder: (context, index) {
+                              return ListViewWidget(
+                                  inputData:
+                                      FeelingDatum.reversed.toList()[index]);
+                            }),
+                        onRefresh: () async {
+                          setState(() {
+                            fetchDataAndCacheMonthlyData();
+                          });
+                        }),
+                  );
           }
         },
       ),

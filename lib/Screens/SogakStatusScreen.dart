@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sogak/Widgets/MoodTagWidget.dart';
 import 'package:sogak/Widgets/WarmingSentences.dart';
-import 'dart:convert';
+import 'package:sogak/Services/Api_services.dart';
 import 'dart:math';
 import 'dart:core';
 
@@ -21,47 +19,6 @@ class SogakStatusScreen extends StatefulWidget {
 
   @override
   State<SogakStatusScreen> createState() => _SogakStatusScreenState();
-}
-
-Future<dynamic>? selectedSogakData(int inputId) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https(
-      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$inputId');
-  var response =
-      await http.get(url, headers: {'Authorization': 'Token $_userToken'});
-
-  if (response.statusCode == 200) {
-    dynamic responseData = json.decode(response.body);
-    if (responseData.isNotEmpty) {
-      print(responseData);
-      return responseData;
-    } else {
-      return null;
-    }
-  } else {
-    throw Exception('Error: ${response.statusCode}, ${response.body}');
-  }
-}
-
-Future<void> patchMoodtoSogak(int _inputId, String _afterMemo) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https(
-      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
-  var response = await http.patch(url, headers: {
-    'Authorization': 'Token $_userToken'
-  }, body: {
-    "movetosogak_bool": 'false',
-    "sogak_bool": 'true',
-    "after_memo": "$_afterMemo"
-  });
-  if (response.statusCode == 200) {
-    print(response.body);
-  } else {
-    print('Error: ${response.statusCode}');
-    print('Error body: ${response.body}');
-  }
 }
 
 class _SogakStatusScreenState extends State<SogakStatusScreen> {
@@ -118,7 +75,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
                       child: Container(
                         alignment: Alignment.bottomCenter,
                         child: FutureBuilder(
-                          future: selectedSogakData(widget.inputId),
+                          future: ApiService.selectedSogakData(widget.inputId),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -253,8 +210,11 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('메모 추가'),
-          titlePadding: const EdgeInsets.only(top: 30.0, left: 40.0),
+          title: const Text(
+            '메모 추가',
+            style: TextStyle(fontSize: 20.0),
+          ),
+          titlePadding: const EdgeInsets.only(top: 30.0, left: 30.0),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -264,11 +224,12 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
               ),
               TextField(
                 controller: afterMemoController,
+                style: const TextStyle(fontSize: 15.0),
                 onChanged: (text) {
                   afterMemoController.text = text;
                 },
                 maxLength: 50,
-                maxLines: 3,
+                maxLines: 2,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.transparent),
@@ -279,9 +240,9 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
                   enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.circular(15.0)),
-                  hintText: "이후 메모를 추가하세요.",
+                  hintText: "추가하지 않으시려면 빈칸으로 두세요.",
                   hintStyle: const TextStyle(
-                      fontSize: 18.0, fontWeight: FontWeight.normal),
+                      fontSize: 15.0, fontWeight: FontWeight.normal),
                 ),
               )
             ],
@@ -289,14 +250,15 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
           actions: [
             TextButton(
               onPressed: () async {
-                await patchMoodtoSogak(widget.inputId, afterMemoController.text)
+                await ApiService.patchMoodtoSogak(
+                        widget.inputId, afterMemoController.text)
                     .then((value) => Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(builder: (context) => SplashScreen()),
                         (route) => false));
               },
               child: const Text(
-                '메모 추가',
+                '소각 완료',
                 style: TextStyle(color: Colors.white),
               ),
             ),

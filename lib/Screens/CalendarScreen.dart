@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sogak/Screens/DetailScreen.dart';
+import 'package:sogak/Services/Api_services.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
@@ -10,46 +11,6 @@ class CalendarScreen extends StatefulWidget {
 
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
-}
-
-Future<List<dynamic>?>? getData() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url =
-      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
-  var response =
-      await http.get(url, headers: {'Authorization': 'Token $_userToken'});
-
-  if (response.statusCode == 200) {
-    List<dynamic> responseData = json.decode(response.body);
-    if (responseData.isNotEmpty) {
-      return responseData;
-    } else {
-      return [];
-    }
-  } else {
-    throw Exception('Error: ${response.statusCode}, ${response.body}');
-  }
-}
-
-Future<List<dynamic>?>? getMonthlyData(String inputDate) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https('sogak-api-nraiv.run.goorm.site',
-      '/api/feeling/feelings/get_monthly_feelings/$inputDate');
-  var response =
-      await http.get(url, headers: {'Authorization': 'Token $_userToken'});
-
-  if (response.statusCode == 200) {
-    List<dynamic> responseData = json.decode(response.body);
-    if (responseData.isNotEmpty) {
-      return responseData;
-    } else {
-      return [];
-    }
-  } else {
-    throw Exception('Error: ${response.statusCode}, ${response.body}');
-  }
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
@@ -69,12 +30,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
     });
     try {
       monthlyDataCache.clear();
-      List<dynamic>? responseData = await getData();
+      List<dynamic>? responseData = await ApiService.getData();
       if (responseData != null) {
         for (var data in responseData) {
           String yearMonth = data['date'].toString().substring(0, 7);
           if (!monthlyDataCache.containsKey(yearMonth)) {
-            List<dynamic>? monthlyData = await getMonthlyData(yearMonth);
+            List<dynamic>? monthlyData =
+                await ApiService.getMonthlyData(yearMonth);
             if (monthlyData != null) {
               monthlyData.sort((a, b) => a['date'].compareTo(b['date']));
               monthlyDataCache[yearMonth] = monthlyData;
@@ -169,7 +131,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Padding(
@@ -232,7 +195,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                           },
                                         ),
                                       ),
-                                      SizedBox(height: 10.0,),
+                                      SizedBox(
+                                        height: 10.0,
+                                      ),
                                     ],
                                   )),
                             );

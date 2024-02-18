@@ -39,7 +39,9 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                 MaterialPageRoute(
                     builder: (context) => DetailScreen(
                           inputId: widget.inputData['id'],
-                        )));
+                        ))).then((value) {
+                setState(() {});
+              });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
@@ -117,17 +119,21 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                     )
                               : widget.inputData['what_happened'] == null ||
                                       widget.inputData['what_happened'] == ""
-                                  ? Text(
-                                      "기록된 일이 없습니다.",
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: widget.inputData['sogak_bool']
-                                          ? const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 16.0)
-                                          : const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16.0),
+                                  ? Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      child: Text(
+                                        "기록된 일이 없습니다.",
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: widget.inputData['sogak_bool']
+                                            ? const TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 16.0)
+                                            : const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.0),
+                                      ),
                                     )
                                   : SizedBox(
                                       width: MediaQuery.of(context).size.width *
@@ -145,29 +151,22 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                             height: 5.0,
                           ),
                           widget.inputData['sogak_bool']
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(
+                              ? const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 2.0, vertical: 3.0),
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.grey),
-                                          borderRadius:
-                                              BorderRadius.circular(7.0)),
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 3.0),
-                                        child: Text(
-                                          "소각된 감정입니다",
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 16.0),
-                                        ),
-                                      )),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.0, vertical: 3.0),
+                                    child: Text(
+                                      "소각된 감정입니다",
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 16.0),
+                                    ),
+                                  ),
                                 )
                               : SizedBox(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.75,
+                                      MediaQuery.of(context).size.width * 0.73,
                                   child: Wrap(
                                       spacing: 1.0,
                                       children: createMoodTagWidgets(

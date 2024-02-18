@@ -55,6 +55,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
     stressRate = 5;
     baseMoodRate = 0;
     errorState = false;
+    initialDateInput = DateTime.now();
     super.initState();
   }
 
@@ -66,6 +67,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
     stressRate = 5;
     baseMoodRate = 0;
     errorState = false;
+    initialDateInput = DateTime.now();
     super.dispose();
   }
 
@@ -105,7 +107,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                             builder: (context, child) {
                               return Theme(
                                   data: Theme.of(context).copyWith(
-                                      colorScheme: ColorScheme.dark(
+                                      colorScheme: const ColorScheme.dark(
                                           primary: Color(0xFF444444),
                                           onPrimary: Colors.white,
                                           onSurface: Colors.white),
@@ -188,11 +190,14 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: const [
-                              MoodSelectWidget(inputMood: "😁행복한", inputNumb: 'a'),
-                              MoodSelectWidget(inputMood: "🤩흥분되는", inputNumb: 'b'),
-                              MoodSelectWidget(inputMood: "😍사랑스러운", inputNumb: 'c'),
-                              MoodSelectWidget(inputMood: "😢슬픈", inputNumb: 'd'),
-                              MoodSelectWidget(inputMood: "🥳감격스러운", inputNumb: 'j'),
+                              MoodSelectWidget(inputMood: "언짢은", inputNumb: 'a'),
+                              MoodSelectWidget(inputMood: "짜증나는", inputNumb: 'b'),
+                              MoodSelectWidget(inputMood: "화난", inputNumb: 'c'),
+                              MoodSelectWidget(inputMood: "격분한", inputNumb: 'd'),
+                              MoodSelectWidget(inputMood: "불안한", inputNumb: 'e'),
+                              MoodSelectWidget(inputMood: "초조한", inputNumb: 'f'),
+                              MoodSelectWidget(inputMood: "불쾌한", inputNumb: 'g'),
+                              MoodSelectWidget(inputMood: "두려운", inputNumb: 'h'),
                             ],
                           ),
                         ),
@@ -201,11 +206,15 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: const [
-                              MoodSelectWidget(inputMood: "🤬분노하는", inputNumb: 'e'),
-                              MoodSelectWidget(inputMood: "😦공허한", inputNumb: 'h'),
-                              MoodSelectWidget(inputMood: "😱공포스러운", inputNumb: 'f'),
-                              MoodSelectWidget(inputMood: "🫠우울한", inputNumb: 'i'),
-                              MoodSelectWidget(inputMood: "🤮혐오스러운", inputNumb: 'g'),
+                              MoodSelectWidget(inputMood: "슬픈", inputNumb: 'i'),
+                              MoodSelectWidget(inputMood: "공허한", inputNumb: 'j'),
+                              MoodSelectWidget(inputMood: "우울한", inputNumb: 'k'),
+                              MoodSelectWidget(inputMood: "절망스러운", inputNumb: 'l'),
+                              MoodSelectWidget(inputMood: "역겨운", inputNumb: 'm'),
+                              MoodSelectWidget(inputMood: "진이 빠진", inputNumb: 'n'),
+                              MoodSelectWidget(inputMood: "시무룩한", inputNumb: 'o'),
+                              MoodSelectWidget(inputMood: "의욕 없는", inputNumb: 'p'),
+                              MoodSelectWidget(inputMood: "답답한", inputNumb: 'q'),
                             ],
                           ),
                         ),
@@ -214,9 +223,32 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: const [
-                              MoodSelectWidget(inputMood: "🤢아픈", inputNumb: 'k'),
-                              MoodSelectWidget(inputMood: "😓답답한", inputNumb: 'l'),
-                              MoodSelectWidget(inputMood: "🤔귀찮은", inputNumb: 'm'),
+                              MoodSelectWidget(inputMood: "집중하는", inputNumb: 'r'),
+                              MoodSelectWidget(inputMood: "흥분한", inputNumb: 's'),
+                              MoodSelectWidget(inputMood: "황홀한", inputNumb: 't'),
+                              MoodSelectWidget(inputMood: "흥겨운", inputNumb: 'u'),
+                              MoodSelectWidget(inputMood: "기쁜", inputNumb: 'v'),
+                              MoodSelectWidget(inputMood: "놀란", inputNumb: 'w'),
+                              MoodSelectWidget(inputMood: "희망찬", inputNumb: 'x'),
+                              MoodSelectWidget(inputMood: "유쾌한", inputNumb: 'y'),
+
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 55.0,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: const [
+                              MoodSelectWidget(inputMood: "평온한", inputNumb: 'z'),
+                              MoodSelectWidget(inputMood: "무난한", inputNumb: '1'),
+                              MoodSelectWidget(inputMood: "편안한", inputNumb: '2'),
+                              MoodSelectWidget(inputMood: "충만한", inputNumb: '3'),
+                              MoodSelectWidget(inputMood: "나른한", inputNumb: '4'),
+                              MoodSelectWidget(inputMood: "여유로운", inputNumb: '5'),
+                              MoodSelectWidget(inputMood: "안정적인", inputNumb: '6'),
+                              MoodSelectWidget(inputMood: "행복한", inputNumb: '7'),
+                              MoodSelectWidget(inputMood: "태평한", inputNumb: '8'),
                             ],
                           ),
                         ),

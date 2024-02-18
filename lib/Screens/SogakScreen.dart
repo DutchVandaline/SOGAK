@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sogak/Screens/SogakStatusScreen.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
+import 'package:sogak/Services/Api_services.dart';
 import 'dart:convert';
 import 'dart:ui';
 
@@ -14,64 +13,6 @@ class SogakScreen extends StatefulWidget {
   State<SogakScreen> createState() => _SogakScreenState();
 }
 
-Future<List<dynamic>?>? getMovetoSogakData() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url =
-      Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
-  var response =
-      await http.get(url, headers: {'Authorization': 'Token $_userToken'});
-
-  if (response.statusCode == 200) {
-    List<dynamic> responseData = json.decode(response.body);
-    if (responseData.isNotEmpty) {
-      return responseData;
-    } else {
-      return null;
-    }
-  } else {
-    throw Exception('Error: ${response.statusCode}, ${response.body}');
-  }
-}
-
-Future<dynamic>? selectedSogakData(int inputId) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https(
-      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$inputId');
-  var response =
-      await http.get(url, headers: {'Authorization': 'Token $_userToken'});
-
-  if (response.statusCode == 200) {
-    dynamic responseData = json.decode(response.body);
-    if (responseData.isNotEmpty) {
-      print(responseData);
-      return responseData;
-    } else {
-      return null;
-    }
-  } else {
-    throw Exception('Error: ${response.statusCode}, ${response.body}');
-  }
-}
-
-Future<void> backToList(int _inputId) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https(
-      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
-  var response = await http.patch(url, headers: {
-    'Authorization': 'Token $_userToken'
-  }, body: {
-    "movetosogak_bool": 'false',
-  });
-  if (response.statusCode == 200) {
-    print(response.body);
-  } else {
-    print('Error: ${response.statusCode}');
-    print('Error body: ${response.body}');
-  }
-}
 
 class _SogakScreenState extends State<SogakScreen> {
   bool sogakState = false;
@@ -183,7 +124,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                               color: const Color(0xFF666666)),
                                         ),
                                         child: FutureBuilder(
-                                          future: getMovetoSogakData(),
+                                          future: ApiService.getMovetoSogakData(),
                                           builder: (context, snapshot) {
                                             if (snapshot.connectionState ==
                                                 ConnectionState.waiting) {
@@ -249,7 +190,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                                                     FeelingDatum[
                                                                             index]
                                                                         ['id'];
-                                                                backToList(
+                                                                ApiService.backToList(
                                                                     selectedId);
                                                                 selectedId = -1;
                                                               });
@@ -388,7 +329,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                             color: const Color(0xFF666666)),
                                       ),
                                       child: FutureBuilder(
-                                        future: selectedSogakData(selectedId),
+                                        future: ApiService.selectedSogakData(selectedId),
                                         builder: (context, snapshot) {
                                           if (selectedId == -1) {
                                             return const Center(
