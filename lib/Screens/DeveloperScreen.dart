@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class DeveloperScreen extends StatelessWidget {
+  const DeveloperScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "개발자 소개",
             style: TextStyle(fontSize: 25.0),
           ),
@@ -20,11 +22,11 @@ class DeveloperScreen extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 300.0,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/flame.gif'))),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 20.0, top: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -44,7 +46,7 @@ class DeveloperScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 20.0, top: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

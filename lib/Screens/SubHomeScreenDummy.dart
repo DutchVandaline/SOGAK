@@ -3,6 +3,8 @@ import 'package:sogak/Widgets/HomeScreenUnderWidget.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class SubHomeScreenDummy extends StatelessWidget {
+  const SubHomeScreenDummy({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -71,7 +73,7 @@ class SubHomeScreenDummy extends StatelessWidget {
 }
 
 class _PieData {
-  _PieData(this.xData, this.yData, [this.text]);
+  _PieData(this.xData, this.yData);
 
   final String xData;
   final num yData;

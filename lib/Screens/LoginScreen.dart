@@ -8,6 +8,8 @@ import 'dart:convert';
 bool displayError = false;
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -37,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       userAuthorize(token);
       prefs.setString("UserToken", token);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-          builder: (context) => MainScreen()), (
+          builder: (context) => const MainScreen()), (
           route) => false);
     } else {
       print('Error: ${response.statusCode}');

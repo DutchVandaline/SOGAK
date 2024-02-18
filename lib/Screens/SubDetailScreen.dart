@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class DetailSubScreen extends StatefulWidget {
-  DetailSubScreen({required this.inputData});
+  DetailSubScreen({Key? key, required this.inputData}) : super(key: key);
 
   var inputData;
 
@@ -22,7 +22,7 @@ Future<void> patchWhatHappened(int _inputId, String updatedWhatHappened) async {
       'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
   var response = await http.patch(url,
       headers: {'Authorization': 'Token $_userToken'},
-      body: {"what_happened": '$updatedWhatHappened'});
+      body: {"what_happened": updatedWhatHappened});
   if (response.statusCode == 200) {
     print(response.body);
   } else {
@@ -137,7 +137,7 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text("무슨 일이 있었나요?"),
                   ),
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.26,
                     child: TextField(
                       controller: WhatHappenedController,
@@ -218,7 +218,7 @@ List<MoodTagWidget> createMoodTagWidgets(List splitDigitsList) {
 }
 
 class NumberWidget extends StatelessWidget {
-  const NumberWidget({required this.inputTitle, required this.inputText});
+  const NumberWidget({Key? key, required this.inputTitle, required this.inputText}) : super(key: key);
 
   final String inputTitle;
   final String inputText;

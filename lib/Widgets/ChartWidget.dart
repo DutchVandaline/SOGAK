@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class ChartWidget extends StatefulWidget {
+  const ChartWidget({Key? key}) : super(key: key);
+
   @override
   State<ChartWidget> createState() => _ChartWidgetState();
 }
@@ -87,7 +89,7 @@ class _ChartWidgetState extends State<ChartWidget> {
 }
 
 class _PieData {
-  _PieData(this.xData, this.yData, [this.text]);
+  _PieData(this.xData, this.yData);
 
   final String xData;
   final num yData;

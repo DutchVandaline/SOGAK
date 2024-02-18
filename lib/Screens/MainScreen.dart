@@ -7,6 +7,8 @@ import 'package:sogak/Screens/CalendarScreen.dart';
 import 'package:sogak/Screens/SettingScreen.dart';
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -22,11 +24,11 @@ class _MainScreenState extends State<MainScreen> {
       home: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: [
-          HomeScreen(),
-          CalendarScreen(),
-          SogakScreen(),
-          ListScreen(),
-          SettingScreen(),
+          const HomeScreen(),
+          const CalendarScreen(),
+          const SogakScreen(),
+          const ListScreen(),
+          const SettingScreen(),
         ][currentPageIndex],
         bottomNavigationBar: NavigationBar(
           indicatorColor: Colors.transparent,

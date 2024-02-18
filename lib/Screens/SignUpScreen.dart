@@ -94,13 +94,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(15.0)),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(15.0)),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(15.0)),
                       hintText: "가입할 Email을 입력하세요.",
                       hintStyle: const TextStyle(
@@ -128,13 +128,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
+                        borderSide: const BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
+                        borderSide: const BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
+                        borderSide: const BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     hintText: "비밀번호를 입력하세요",
                     hintStyle: const TextStyle(
@@ -164,13 +164,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
+                        borderSide: const BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
+                        borderSide: const BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
+                        borderSide: const BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     hintText: "비밀번호를 다시 한 번 입력하세요",
                     hintStyle: const TextStyle(
@@ -246,12 +246,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: Center(
+                child: const Center(
                     child: Text(
                   "이미 계정이 있으신가요?",
                   style: TextStyle(fontSize: 15.0),
                 ))),
-            SizedBox(
+            const SizedBox(
               height: 40.0,
             ),
           ],

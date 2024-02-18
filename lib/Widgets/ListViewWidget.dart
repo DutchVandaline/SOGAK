@@ -107,7 +107,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 16.0),
                                     )
-                                  : Container(
+                                  : SizedBox(
                                       width: MediaQuery.of(context).size.width *
                                           0.72,
                                       child: Text(
@@ -119,7 +119,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                     )
                               : widget.inputData['what_happened'] == null ||
                                       widget.inputData['what_happened'] == ""
-                                  ? Container(
+                                  ? SizedBox(
                                       width: MediaQuery.of(context).size.width *
                                           0.7,
                                       child: Text(

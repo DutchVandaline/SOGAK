@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomeScreenUnderWidget extends StatelessWidget {
-  const HomeScreenUnderWidget({this.inputWidget, this.inputHeight});
+  const HomeScreenUnderWidget({Key? key, this.inputWidget, this.inputHeight}) : super(key: key);
 
   final inputWidget;
   final inputHeight;

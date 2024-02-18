@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text(
                 "잠시 후 다시 시도해 주세요.",
                 textAlign: TextAlign.center,
@@ -72,91 +72,87 @@ class _ProfileScreenState extends State<ProfileScreen> {
             );
           } else {
             if (snapshot.data == null) {
-              return SizedBox.shrink();
+              return const SizedBox.shrink();
             }
             Map<String, dynamic>? UserData =
                 snapshot.data as Map<String, dynamic>;
-            if (UserData != null) {
-              return Column(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 20.0,
+            return Column(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 30.0),
+                      child: Text("사용자 정보"),
+                    ),
+                    ProfileWidget(
+                      inputData: UserData,
+                      requireQuery: 'name',
+                      inputText: "이름",
+                    ),
+                    ProfileWidget(
+                      inputData: UserData,
+                      requireQuery: 'email',
+                      inputText: "이메일",
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 30.0),
+                      child: Text(
+                        "Danger Zone",
+                        style: TextStyle(color: Colors.red),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 30.0),
-                        child: Text("사용자 정보"),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        showLogoutDialog(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 5.0),
+                        child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50.0,
+                            decoration: BoxDecoration(
+                                color: const Color(0xFF292929),
+                                borderRadius: BorderRadius.circular(15.0)),
+                            child: const Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 20.0),
+                                      child: Icon(Icons.phonelink_erase),
+                                    ),
+                                    SizedBox(width: 20.0),
+                                    Text("회원 탈퇴"),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 20.0),
+                                  child: Icon(Icons.arrow_forward_ios),
+                                ),
+                              ],
+                            )),
                       ),
-                      ProfileWidget(
-                        inputData: UserData,
-                        requireQuery: 'name',
-                        inputText: "이름",
-                      ),
-                      ProfileWidget(
-                        inputData: UserData,
-                        requireQuery: 'email',
-                        inputText: "이메일",
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 30.0),
-                        child: Text(
-                          "Danger Zone",
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          showLogoutDialog(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 5.0),
-                          child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 50.0,
-                              decoration: BoxDecoration(
-                                  color: Color(0xFF292929),
-                                  borderRadius: BorderRadius.circular(15.0)),
-                              child: const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 20.0),
-                                        child: Icon(Icons.phonelink_erase),
-                                      ),
-                                      SizedBox(width: 20.0),
-                                      Text("회원 탈퇴"),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 20.0),
-                                    child: Icon(Icons.arrow_forward_ios),
-                                  ),
-                                ],
-                              )),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              );
-            } else {
-              return Text('No data available');
-            }
-          }
+                    ),
+                  ],
+                )
+              ],
+            );
+                    }
         },
       ),
     );
@@ -167,14 +163,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('회원 탈퇴'),
-          content: Text('정말 소각을 탈퇴하시겠습니까?\n모든 기록이 영구적으로 삭제됩니다.'),
+          title: const Text('회원 탈퇴'),
+          content: const Text('정말 소각을 탈퇴하시겠습니까?\n모든 기록이 영구적으로 삭제됩니다.'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 '취소',
                 style: TextStyle(color: Colors.white),
               ),
@@ -183,10 +179,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () async {
                 await userErase().then((value) => Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => SplashScreen()),
+                    MaterialPageRoute(builder: (context) => const SplashScreen()),
                     (route) => false));
               },
-              child: Text(
+              child: const Text(
                 '탈퇴',
                 style: TextStyle(color: Colors.white),
               ),
@@ -199,10 +195,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 class ProfileWidget extends StatefulWidget {
-  ProfileWidget(
-      {required this.inputData,
+  const ProfileWidget(
+      {Key? key, required this.inputData,
       required this.requireQuery,
-      required this.inputText});
+      required this.inputText}) : super(key: key);
 
   final dynamic inputData;
   final String inputText;
@@ -216,26 +212,26 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: 60.0,
           decoration: BoxDecoration(
-            color: Color(0xFF292929),
+            color: const Color(0xFF292929),
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
                   widget.inputText,
-                  style: TextStyle(overflow: TextOverflow.fade),
+                  style: const TextStyle(overflow: TextOverflow.fade),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 2.0),
+                padding: const EdgeInsets.only(left: 2.0),
                 child: Text(widget.inputData[widget.requireQuery]),
               )
             ],

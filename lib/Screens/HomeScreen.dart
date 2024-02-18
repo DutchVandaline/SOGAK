@@ -7,6 +7,8 @@ import 'package:sogak/Services/Api_services.dart';
 String inputText = "";
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -38,17 +40,17 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(
           inputText,
-          style: TextStyle(fontSize: 25.0),
+          style: const TextStyle(fontSize: 25.0),
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddMoodScreen())).then((value){setState(() {});});
+                      MaterialPageRoute(builder: (context) => const AddMoodScreen())).then((value){setState(() {});});
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.add,
                   size: 30.0,
                 )),
@@ -65,24 +67,20 @@ class _HomeScreenState extends State<HomeScreen> {
         future: ApiService.getRecentData(),
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator()
             );
           } else if(snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text("잠시 후 다시 시도해 주세요.",textAlign: TextAlign.center,),
             );
           } else {
             if (snapshot.data == null) {
-              return SubHomeScreenDummy();
+              return const SubHomeScreenDummy();
             }
             Map<String, dynamic>? lastData = snapshot.data as Map<String, dynamic>;
-            if (lastData != null) {
-              return SubHomeScreen(responseData: lastData,);
-            } else {
-              return Text('No data available');
-            }
-          }
+            return SubHomeScreen(responseData: lastData,);
+                    }
         },
       ),
     );

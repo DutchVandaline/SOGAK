@@ -13,7 +13,7 @@ bool sogakComplete = false;
 double sogakStatus = 0.0;
 
 class SogakStatusScreen extends StatefulWidget {
-  SogakStatusScreen({required this.inputId});
+  const SogakStatusScreen({Key? key, required this.inputId}) : super(key: key);
 
   final int inputId;
 
@@ -119,7 +119,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
                           padding: const EdgeInsets.only(
                             bottom: 10.0,
                           ),
-                          child: Container(
+                          child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.6,
                             child: LinearProgressIndicator(
                               value: sogakStatus,
@@ -254,7 +254,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
                         widget.inputId, afterMemoController.text)
                     .then((value) => Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => SplashScreen()),
+                        MaterialPageRoute(builder: (context) => const SplashScreen()),
                         (route) => false));
               },
               child: const Text(

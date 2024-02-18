@@ -14,6 +14,8 @@ bool errorState = false;
 DateTime initialDateInput = DateTime.now();
 
 class AddMoodScreen extends StatefulWidget {
+  const AddMoodScreen({Key? key}) : super(key: key);
+
   @override
   State<AddMoodScreen> createState() => _AddMoodScreenState();
 }
@@ -29,9 +31,9 @@ void postMood(int _base_mood, String _date, String _detail_mood,
     'Authorization': 'Token $_userToken'
   }, body: {
     'base_mood': '$_base_mood',
-    'date': '$_date',
+    'date': _date,
     'detail_mood': _detail_mood,
-    'what_happened': '$_what_happened',
+    'what_happened': _what_happened,
     'tired_rate': '$_tired_rate',
     'stress_rate': '$_stress_rate',
   });
@@ -84,12 +86,12 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
               errorState = false;
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios)),
+            icon: const Icon(Icons.arrow_back_ios)),
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Container(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: ListView(
@@ -128,7 +130,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                       },
                       child: Text(formattedDate),
                     ),
-                    inputWidget: Container(
+                    inputWidget: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.1,
                       child: GroupButton(
@@ -164,7 +166,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                     widgetTitle: "신체적 피로도",
                     inputAction: Text(tiredRate == 0 ? "0%" : "${tiredRate}0%"),
                     inputWidget: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: SliderWidget(
                         inputSlider: Slider(
                           value: tiredRate.toDouble(),
@@ -190,14 +192,14 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: const [
-                              MoodSelectWidget(inputMood: "언짢은", inputNumb: 'a'),
-                              MoodSelectWidget(inputMood: "짜증나는", inputNumb: 'b'),
-                              MoodSelectWidget(inputMood: "화난", inputNumb: 'c'),
-                              MoodSelectWidget(inputMood: "격분한", inputNumb: 'd'),
-                              MoodSelectWidget(inputMood: "불안한", inputNumb: 'e'),
-                              MoodSelectWidget(inputMood: "초조한", inputNumb: 'f'),
-                              MoodSelectWidget(inputMood: "불쾌한", inputNumb: 'g'),
-                              MoodSelectWidget(inputMood: "두려운", inputNumb: 'h'),
+                              MoodSelectWidget(inputMood: "🙁언짢은", inputNumb: 'a'),
+                              MoodSelectWidget(inputMood: "😠짜증나는", inputNumb: 'b'),
+                              MoodSelectWidget(inputMood: "😡화난", inputNumb: 'c'),
+                              MoodSelectWidget(inputMood: "🤬격분한", inputNumb: 'd'),
+                              MoodSelectWidget(inputMood: "😕불안한", inputNumb: 'e'),
+                              MoodSelectWidget(inputMood: "😨초조한", inputNumb: 'f'),
+                              MoodSelectWidget(inputMood: "🤢불쾌한", inputNumb: 'g'),
+                              MoodSelectWidget(inputMood: "😧두려운", inputNumb: 'h'),
                             ],
                           ),
                         ),
@@ -206,15 +208,15 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: const [
-                              MoodSelectWidget(inputMood: "슬픈", inputNumb: 'i'),
-                              MoodSelectWidget(inputMood: "공허한", inputNumb: 'j'),
-                              MoodSelectWidget(inputMood: "우울한", inputNumb: 'k'),
-                              MoodSelectWidget(inputMood: "절망스러운", inputNumb: 'l'),
-                              MoodSelectWidget(inputMood: "역겨운", inputNumb: 'm'),
-                              MoodSelectWidget(inputMood: "진이 빠진", inputNumb: 'n'),
-                              MoodSelectWidget(inputMood: "시무룩한", inputNumb: 'o'),
-                              MoodSelectWidget(inputMood: "의욕 없는", inputNumb: 'p'),
-                              MoodSelectWidget(inputMood: "답답한", inputNumb: 'q'),
+                              MoodSelectWidget(inputMood: "😥슬픈", inputNumb: 'i'),
+                              MoodSelectWidget(inputMood: "🫥공허한", inputNumb: 'j'),
+                              MoodSelectWidget(inputMood: "😶우울한", inputNumb: 'k'),
+                              MoodSelectWidget(inputMood: "☹️절망스러운", inputNumb: 'l'),
+                              MoodSelectWidget(inputMood: "🤮역겨운", inputNumb: 'm'),
+                              MoodSelectWidget(inputMood: "😞진이 빠진", inputNumb: 'n'),
+                              MoodSelectWidget(inputMood: "☹️시무룩한", inputNumb: 'o'),
+                              MoodSelectWidget(inputMood: "🫤의욕 없는", inputNumb: 'p'),
+                              MoodSelectWidget(inputMood: "😬답답한", inputNumb: 'q'),
                             ],
                           ),
                         ),
@@ -223,14 +225,14 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: const [
-                              MoodSelectWidget(inputMood: "집중하는", inputNumb: 'r'),
-                              MoodSelectWidget(inputMood: "흥분한", inputNumb: 's'),
-                              MoodSelectWidget(inputMood: "황홀한", inputNumb: 't'),
-                              MoodSelectWidget(inputMood: "흥겨운", inputNumb: 'u'),
-                              MoodSelectWidget(inputMood: "기쁜", inputNumb: 'v'),
-                              MoodSelectWidget(inputMood: "놀란", inputNumb: 'w'),
-                              MoodSelectWidget(inputMood: "희망찬", inputNumb: 'x'),
-                              MoodSelectWidget(inputMood: "유쾌한", inputNumb: 'y'),
+                              MoodSelectWidget(inputMood: "🤨집중하는", inputNumb: 'r'),
+                              MoodSelectWidget(inputMood: "🤩흥분한", inputNumb: 's'),
+                              MoodSelectWidget(inputMood: "🥳황홀한", inputNumb: 't'),
+                              MoodSelectWidget(inputMood: "😆흥겨운", inputNumb: 'u'),
+                              MoodSelectWidget(inputMood: "😁기쁜", inputNumb: 'v'),
+                              MoodSelectWidget(inputMood: "😲놀란", inputNumb: 'w'),
+                              MoodSelectWidget(inputMood: "😃희망찬", inputNumb: 'x'),
+                              MoodSelectWidget(inputMood: "😁유쾌한", inputNumb: 'y'),
 
                             ],
                           ),
@@ -240,15 +242,15 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: const [
-                              MoodSelectWidget(inputMood: "평온한", inputNumb: 'z'),
-                              MoodSelectWidget(inputMood: "무난한", inputNumb: '1'),
-                              MoodSelectWidget(inputMood: "편안한", inputNumb: '2'),
-                              MoodSelectWidget(inputMood: "충만한", inputNumb: '3'),
-                              MoodSelectWidget(inputMood: "나른한", inputNumb: '4'),
-                              MoodSelectWidget(inputMood: "여유로운", inputNumb: '5'),
-                              MoodSelectWidget(inputMood: "안정적인", inputNumb: '6'),
-                              MoodSelectWidget(inputMood: "행복한", inputNumb: '7'),
-                              MoodSelectWidget(inputMood: "태평한", inputNumb: '8'),
+                              MoodSelectWidget(inputMood: "🙂평온한", inputNumb: 'z'),
+                              MoodSelectWidget(inputMood: "😑무난한", inputNumb: '1'),
+                              MoodSelectWidget(inputMood: "🫠편안한", inputNumb: '2'),
+                              MoodSelectWidget(inputMood: "☺️충만한", inputNumb: '3'),
+                              MoodSelectWidget(inputMood: "🥱나른한", inputNumb: '4'),
+                              MoodSelectWidget(inputMood: "😴여유로운", inputNumb: '5'),
+                              MoodSelectWidget(inputMood: "😪안정적인", inputNumb: '6'),
+                              MoodSelectWidget(inputMood: "🥰행복한", inputNumb: '7'),
+                              MoodSelectWidget(inputMood: "🙃태평한", inputNumb: '8'),
                             ],
                           ),
                         ),
@@ -315,7 +317,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                 errorState
                     ? Padding(
                         padding:
-                            EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                            const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                         child: Container(
                             width: MediaQuery.of(context).size.width * 0.9,
                             height: 30.0,
@@ -330,12 +332,12 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                               ),
                             )),
                       )
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
                 GestureDetector(
                   onTap: () {
                     setState(() {
                       String inputMoodList = MoodList.join();
-                      if (MoodList.length >= 1 && baseMoodRate != 0) {
+                      if (MoodList.isNotEmpty && baseMoodRate != 0) {
                         postMood(baseMoodRate, addDate, inputMoodList,
                             WhatHappenedController.text, tiredRate, stressRate);
                         MoodList = [];
@@ -350,7 +352,7 @@ class _AddMoodScreenState extends State<AddMoodScreen> {
                     });
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: 60.0,
@@ -424,17 +426,17 @@ class _MoodSelectWidgetState extends State<MoodSelectWidget> {
                   color: Colors.white,
                 ),
                 borderRadius: BorderRadius.circular(13.0),
-                color: _onpressed ? Colors.white : Color(0xFF303030)),
+                color: _onpressed ? Colors.white : const Color(0xFF303030)),
           ),
         ));
   }
 }
 
 class AddMoodWidget extends StatelessWidget {
-  AddMoodWidget(
-      {required this.widgetTitle,
+  const AddMoodWidget(
+      {Key? key, required this.widgetTitle,
       required this.inputWidget,
-      required this.inputAction});
+      required this.inputAction}) : super(key: key);
 
   final String widgetTitle;
   final Widget inputWidget;
@@ -446,21 +448,21 @@ class AddMoodWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 20.0),
       child: Container(
           decoration: BoxDecoration(
-            color: Color(0xFF303030),
+            color: const Color(0xFF303030),
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 10.0),
+                        padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
                           widgetTitle,
                           style: const TextStyle(

@@ -7,6 +7,8 @@ import 'package:sogak/Screens/SplashScreen.dart';
 import 'package:http/http.dart' as http;
 
 class SettingScreen extends StatefulWidget {
+  const SettingScreen({Key? key}) : super(key: key);
+
   @override
   State<SettingScreen> createState() => _ProfileScreenState();
 }
@@ -33,7 +35,7 @@ class _ProfileScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "마이페이지",
           style: TextStyle(fontSize: 25.0),
         ),
@@ -52,15 +54,15 @@ class _ProfileScreenState extends State<SettingScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: Colors.white),
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: AssetImage('assets/images/sogak.png'),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30.0,
           ),
-          SettingScreenWidget(
+          const SettingScreenWidget(
               inputIcon: Icon(Icons.account_circle),
               inputText: "프로필",
               inputScreen: ProfileScreen()),
@@ -69,14 +71,14 @@ class _ProfileScreenState extends State<SettingScreen> {
               showLogoutDialog(context);
             },
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
               child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 50.0,
                   decoration: BoxDecoration(
-                      color: Color(0xFF292929),
+                      color: const Color(0xFF292929),
                       borderRadius: BorderRadius.circular(15.0)),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
@@ -97,7 +99,7 @@ class _ProfileScreenState extends State<SettingScreen> {
                   )),
             ),
           ),
-          SettingScreenWidget(
+          const SettingScreenWidget(
               inputIcon: Icon(Icons.gamepad_outlined),
               inputText: "개발자 소개",
               inputScreen: DeveloperScreen()),
@@ -110,21 +112,21 @@ class _ProfileScreenState extends State<SettingScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('로그아웃'),
-          content: Text('정말로 로그아웃 하시겠습니까?'),
+          title: const Text('로그아웃'),
+          content: const Text('정말로 로그아웃 하시겠습니까?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('취소',  style: TextStyle(color: Colors.white),),
+              child: const Text('취소',  style: TextStyle(color: Colors.white),),
             ),
             TextButton(
               onPressed: () async {
                 await logout();
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SplashScreen()), (route) => false);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const SplashScreen()), (route) => false);
               },
-              child: Text('로그아웃', style: TextStyle(color: Colors.white),),
+              child: const Text('로그아웃', style: TextStyle(color: Colors.white),),
             ),
           ],
         );

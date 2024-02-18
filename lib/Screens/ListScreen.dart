@@ -9,6 +9,8 @@ var now = DateTime.now();
 String formatDate = DateFormat('yyyy-MM').format(now);
 
 class ListScreen extends StatefulWidget {
+  const ListScreen({Key? key}) : super(key: key);
+
   @override
   State<ListScreen> createState() => _ListScreenState();
 }
@@ -96,7 +98,7 @@ class _ListScreenState extends State<ListScreen> {
                         formatDate = DateFormat('yyyy-MM').format(now);
                       })
                     : setState(() {
-                        formatDate = value!;
+                        formatDate = value;
                       });
               }),
           Padding(
@@ -106,7 +108,7 @@ class _ListScreenState extends State<ListScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AddMoodScreen())).then((value) {
+                          builder: (context) => const AddMoodScreen())).then((value) {
                     setState(() {
                       fetchDataAndCacheMonthlyData();
                     });

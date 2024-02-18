@@ -5,7 +5,7 @@ import 'package:sogak/Widgets/HomeScreenUnderWidget.dart';
 import 'dart:convert';
 
 class SubHomeScreen extends StatefulWidget {
-  const SubHomeScreen({required this.responseData});
+  const SubHomeScreen({Key? key, required this.responseData}) : super(key: key);
 
   final responseData;
 
@@ -37,7 +37,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
               height: MediaQuery.of(context).size.height * 0.5,
               width: MediaQuery.of(context).size.width,
               color: Theme.of(context).cardColor,
-              child: Center(
+              child: const Center(
                 child: ChartWidget(),
               ),
             ),

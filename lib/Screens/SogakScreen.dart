@@ -9,6 +9,8 @@ bool sogakState = false;
 int selectedId = -1;
 
 class SogakScreen extends StatefulWidget {
+  const SogakScreen({Key? key}) : super(key: key);
+
   @override
   State<SogakScreen> createState() => _SogakScreenState();
 }
@@ -61,7 +63,7 @@ class _SogakScreenState extends State<SogakScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                  child: Container(
+                  child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +92,7 @@ class _SogakScreenState extends State<SogakScreen> {
                 ? ClipRect(
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-                      child: Container(
+                      child: SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
                         child: Column(
@@ -145,159 +147,154 @@ class _SogakScreenState extends State<SogakScreen> {
                                               List<dynamic> FeelingDatum =
                                                   snapshot.data
                                                       as List<dynamic>;
-                                              if (FeelingDatum != null) {
-                                                return ListView.builder(
-                                                    itemCount:
-                                                        FeelingDatum.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      String inputDate =
-                                                          FeelingDatum[index]
-                                                              ['date'];
-                                                      int baseMoodState =
-                                                          FeelingDatum[index]
-                                                              ['base_mood'];
-                                                      DateTime originalDate =
-                                                          DateTime.parse(
-                                                              inputDate);
-                                                      String
-                                                          formattedDateMonth =
-                                                          DateFormat('MMM')
-                                                              .format(
-                                                                  originalDate)
-                                                              .toUpperCase();
-                                                      String formattedDateDate =
-                                                          DateFormat('d')
-                                                              .format(
-                                                                  originalDate);
-                                                      if (FeelingDatum[index][
-                                                              'movetosogak_bool'] ==
-                                                          true) {
-                                                        return GestureDetector(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                selectedId =
-                                                                    FeelingDatum[
-                                                                            index]
-                                                                        ['id'];
-                                                                print(
-                                                                    selectedId);
-                                                              });
-                                                            },
-                                                            onLongPress: () {
-                                                              setState(() {
-                                                                selectedId =
-                                                                    FeelingDatum[
-                                                                            index]
-                                                                        ['id'];
-                                                                ApiService.backToList(
-                                                                    selectedId);
-                                                                selectedId = -1;
-                                                              });
-                                                            },
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(3.0),
-                                                              child: Container(
-                                                                decoration: BoxDecoration(
-                                                                    color: Colors
-                                                                        .transparent
-                                                                        .withOpacity(
-                                                                            0.1),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10.0)),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.symmetric(
-                                                                      vertical:
-                                                                          8.0,
-                                                                      horizontal:
-                                                                          10.0),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(vertical: 8.0),
-                                                                        child:
-                                                                            Container(
-                                                                          width:
-                                                                              5.0,
-                                                                          height:
-                                                                              50.0,
-                                                                          color: baseMoodState <= 3
-                                                                              ? Colors.grey
-                                                                              : Colors.red,
-                                                                        ),
+                                              return ListView.builder(
+                                                  itemCount:
+                                                      FeelingDatum.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    String inputDate =
+                                                        FeelingDatum[index]
+                                                            ['date'];
+                                                    int baseMoodState =
+                                                        FeelingDatum[index]
+                                                            ['base_mood'];
+                                                    DateTime originalDate =
+                                                        DateTime.parse(
+                                                            inputDate);
+                                                    String
+                                                        formattedDateMonth =
+                                                        DateFormat('MMM')
+                                                            .format(
+                                                                originalDate)
+                                                            .toUpperCase();
+                                                    String formattedDateDate =
+                                                        DateFormat('d')
+                                                            .format(
+                                                                originalDate);
+                                                    if (FeelingDatum[index][
+                                                            'movetosogak_bool'] ==
+                                                        true) {
+                                                      return GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              selectedId =
+                                                                  FeelingDatum[
+                                                                          index]
+                                                                      ['id'];
+                                                              print(
+                                                                  selectedId);
+                                                            });
+                                                          },
+                                                          onLongPress: () {
+                                                            setState(() {
+                                                              selectedId =
+                                                                  FeelingDatum[
+                                                                          index]
+                                                                      ['id'];
+                                                              ApiService.backToList(
+                                                                  selectedId);
+                                                              selectedId = -1;
+                                                            });
+                                                          },
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(3.0),
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: Colors
+                                                                      .transparent
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                                  borderRadius:
+                                                                      BorderRadius.circular(
+                                                                          10.0)),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(
+                                                                    vertical:
+                                                                        8.0,
+                                                                    horizontal:
+                                                                        10.0),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.symmetric(vertical: 8.0),
+                                                                      child:
+                                                                          Container(
+                                                                        width:
+                                                                            5.0,
+                                                                        height:
+                                                                            50.0,
+                                                                        color: baseMoodState <= 3
+                                                                            ? Colors.grey
+                                                                            : Colors.red,
                                                                       ),
-                                                                      Padding(
+                                                                    ),
+                                                                    Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.symmetric(horizontal: 5.0),
+                                                                      child: Container(
+                                                                          child: Column(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        children: [
+                                                                          Text(
+                                                                            formattedDateMonth,
+                                                                            style: const TextStyle(fontSize: 15.0),
+                                                                            textAlign: TextAlign.center,
+                                                                          ),
+                                                                          Text(
+                                                                            formattedDateDate,
+                                                                            style: const TextStyle(fontSize: 25.0),
+                                                                            textAlign: TextAlign.center,
+                                                                          ),
+                                                                        ],
+                                                                      )),
+                                                                    ),
+                                                                    Padding(
                                                                         padding:
-                                                                            const EdgeInsets.symmetric(horizontal: 5.0),
-                                                                        child: Container(
+                                                                            const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                        child: SizedBox(
+                                                                            width: MediaQuery.of(context).size.width * 0.65,
                                                                             child: Column(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          children: [
-                                                                            Text(
-                                                                              formattedDateMonth,
-                                                                              style: const TextStyle(fontSize: 15.0),
-                                                                              textAlign: TextAlign.center,
-                                                                            ),
-                                                                            Text(
-                                                                              formattedDateDate,
-                                                                              style: const TextStyle(fontSize: 25.0),
-                                                                              textAlign: TextAlign.center,
-                                                                            ),
-                                                                          ],
-                                                                        )),
-                                                                      ),
-                                                                      Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.symmetric(horizontal: 8.0),
-                                                                          child: Container(
-                                                                              width: MediaQuery.of(context).size.width * 0.65,
-                                                                              child: Column(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  const Text(
-                                                                                    "무슨 일이 있었나요?",
-                                                                                    style: TextStyle(fontWeight: FontWeight.bold),
-                                                                                  ),
-                                                                                  FeelingDatum[index]['what_happened'] == null || FeelingDatum[index]['what_happened'] == ""
-                                                                                      ? const Text(
-                                                                                          "기록된 일이 없습니다.",
-                                                                                          maxLines: 3,
-                                                                                          overflow: TextOverflow.ellipsis,
-                                                                                        )
-                                                                                      : Text(
-                                                                                          utf8.decode(FeelingDatum[index]['what_happened'].codeUnits),
-                                                                                          overflow: TextOverflow.ellipsis,
-                                                                                          maxLines: 2,
-                                                                                        ),
-                                                                                ],
-                                                                              ))),
-                                                                    ],
-                                                                  ),
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: [
+                                                                                const Text(
+                                                                                  "무슨 일이 있었나요?",
+                                                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                                                ),
+                                                                                FeelingDatum[index]['what_happened'] == null || FeelingDatum[index]['what_happened'] == ""
+                                                                                    ? const Text(
+                                                                                        "기록된 일이 없습니다.",
+                                                                                        maxLines: 3,
+                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                      )
+                                                                                    : Text(
+                                                                                        utf8.decode(FeelingDatum[index]['what_happened'].codeUnits),
+                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                        maxLines: 2,
+                                                                                      ),
+                                                                              ],
+                                                                            ))),
+                                                                  ],
                                                                 ),
                                                               ),
-                                                            ));
-                                                      } else {
-                                                        return const SizedBox
-                                                            .shrink();
-                                                      }
-                                                    });
-                                              } else {
-                                                return const Text(
-                                                    'No data available');
-                                              }
-                                            }
+                                                            ),
+                                                          ));
+                                                    } else {
+                                                      return const SizedBox
+                                                          .shrink();
+                                                    }
+                                                  });
+                                                                                        }
                                           },
                                         )),
                                   ),
@@ -427,7 +424,7 @@ class _SogakScreenState extends State<SogakScreen> {
 }
 
 class SogakListWidget extends StatefulWidget {
-  SogakListWidget({required this.inputFeeling});
+  SogakListWidget({Key? key, required this.inputFeeling}) : super(key: key);
 
   var inputFeeling;
 
@@ -484,7 +481,7 @@ class _SogakListWidgetState extends State<SogakListWidget> {
                 ),
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Container(
+                    child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.65,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

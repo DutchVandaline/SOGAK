@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class DetailScreen extends StatefulWidget {
-  DetailScreen({required this.inputId});
+  const DetailScreen({Key? key, required this.inputId}) : super(key: key);
 
   final int inputId;
 
@@ -78,7 +78,7 @@ class _DetailScreenState extends State<DetailScreen> {
         elevation: 0.0,
         shadowColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        title: Text("세부 감정 🔍"),
+        title: const Text("세부 감정 🔍"),
         actions: [
           IconButton(
               onPressed: () {
@@ -93,13 +93,13 @@ class _DetailScreenState extends State<DetailScreen> {
                 ));
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.local_fire_department_outlined)),
+              icon: const Icon(Icons.local_fire_department_outlined)),
           IconButton(
               onPressed: () {
                 deleteMood(widget.inputId);
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.delete_forever)),
+              icon: const Icon(Icons.delete_forever)),
         ],
       ),
       body: SafeArea(
@@ -117,11 +117,11 @@ class _DetailScreenState extends State<DetailScreen> {
               print(SogakData);
               if (SogakData != null) {
                 return Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: DetailSubScreen(inputData: SogakData),
                 );
               } else {
-                return Text('No data available');
+                return const Text('No data available');
               }
             }
           },

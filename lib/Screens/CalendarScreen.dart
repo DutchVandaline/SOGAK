@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sogak/Screens/DetailScreen.dart';
 import 'package:sogak/Services/Api_services.dart';
-import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -124,7 +121,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             String formattedMonth =
                                 DateFormat('yyyy년 MM월').format(monthDate);
                             return Padding(
-                              padding: EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(10.0),
                               child: Container(
                                   decoration: BoxDecoration(
                                     color: const Color(0xFF292929),
@@ -195,7 +192,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                           },
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10.0,
                                       ),
                                     ],

@@ -130,7 +130,7 @@ class ApiService{
     }, body: {
       "movetosogak_bool": 'false',
       "sogak_bool": 'true',
-      "after_memo": "$_afterMemo"
+      "after_memo": _afterMemo
     });
     if (response.statusCode == 200) {
       print(response.body);
