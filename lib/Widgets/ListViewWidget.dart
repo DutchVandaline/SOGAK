@@ -27,6 +27,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
     String formattedDateDate = DateFormat('d').format(originalDate);
     String decodedWhatHappened =
         utf8.decode(widget.inputData['what_happened'].codeUnits);
+    String decodedAfterMemo =
+        utf8.decode(widget.inputData['after_memo'].codeUnits);
 
     return GestureDetector(
       onTap: () {
@@ -95,13 +97,24 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           widget.inputData['sogak_bool']
-                              ? const Text(
-                                  "어떤 감정이든지 이제는 소각되었습니다.",
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 16.0),
-                                )
+                              ? decodedAfterMemo == ""
+                                  ? const Text(
+                                      "어떤 감정이든지 이제는 소각되었습니다.",
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 16.0),
+                                    )
+                                  : Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.72,
+                                      child: Text(
+                                        decodedAfterMemo,
+                                        maxLines: 3,
+                                        style:
+                                            const TextStyle(color: Colors.grey),
+                                      ),
+                                    )
                               : widget.inputData['what_happened'] == null ||
                                       widget.inputData['what_happened'] == ""
                                   ? Text(
@@ -116,12 +129,17 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                               color: Colors.white,
                                               fontSize: 16.0),
                                     )
-                                  : Text(
-                                      decodedWhatHappened,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 16.0),
+                                  : SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.74,
+                                      child: Text(
+                                        decodedWhatHappened,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.0),
+                                      ),
                                     ),
                           const SizedBox(
                             height: 5.0,

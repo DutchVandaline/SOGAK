@@ -131,7 +131,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               : RefreshIndicator(
                   triggerMode: RefreshIndicatorTriggerMode.onEdge,
                   color: Colors.white,
-                  backgroundColor: Color(0xFF222222),
+                  backgroundColor: const Color(0xFF222222),
                   displacement: 10,
                   edgeOffset: 20.0,
                   onRefresh: () async {
@@ -165,14 +165,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               padding: EdgeInsets.all(10.0),
                               child: Container(
                                   decoration: BoxDecoration(
-                                    color: Color(0xFF292929),
+                                    color: const Color(0xFF292929),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.2,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -234,6 +232,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                           },
                                         ),
                                       ),
+                                      SizedBox(height: 10.0,),
                                     ],
                                   )),
                             );

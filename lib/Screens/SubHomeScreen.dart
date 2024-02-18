@@ -22,6 +22,8 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
         detailMoodList.expand((character) => character.split('')).toList();
     String decodedWhatHappened =
         utf8.decode(widget.responseData['what_happened'].codeUnits);
+    String decodedAfterMemo =
+        utf8.decode(widget.responseData['after_memo'].codeUnits);
 
     return SizedBox(
       height: MediaQuery.of(context).size.height,
@@ -44,10 +46,20 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
               flex: 1,
               child: HomeScreenUnderWidget(
                   inputWidget: sogakState
-                      ? const Text("이미 소각된 일입니다.")
+                      ? decodedAfterMemo == ""
+                          ? const Text("어떤 감정이든지 이제는 소각되었습니다.")
+                          : Text(
+                            decodedAfterMemo,
+                            textAlign: TextAlign.center,
+                            maxLines: 3,
+                          )
                       : decodedWhatHappened == ""
                           ? const Text("입력된 일이 없습니다.")
-                          : Text(decodedWhatHappened))),
+                          : Text(
+                              decodedWhatHappened,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ))),
           Flexible(
             flex: 1,
             child: HomeScreenUnderWidget(
@@ -69,9 +81,10 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                               ),
                             )),
                       )
-                    : ListView(
-                    children: [
-                      const SizedBox(height: 10.0,),
+                    : ListView(children: [
+                        const SizedBox(
+                          height: 10.0,
+                        ),
                         Center(
                           child: Wrap(
                               alignment: WrapAlignment.center,

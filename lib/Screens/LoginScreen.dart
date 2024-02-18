@@ -76,9 +76,9 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 20.0, bottom: 8.0),
+              padding: const EdgeInsets.only(left: 20.0, bottom: 8.0),
               child: Container(
-                child: Text(
+                child: const Text(
                   "Welcome\nback!",
                   style: TextStyle(fontSize: 40.0),
                 ),
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(5.0),
                   color: Colors.red.shade100,
                 ),
-                child: Padding(
+                child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     "없는 계정이거나 비밀번호가 일치하지 않습니다.",
@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             )
-                : SizedBox(
+                : const SizedBox(
               height: 20.0,
             ),
             Padding(
@@ -121,18 +121,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(15.0)),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(15.0)),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(15.0)),
                       hintText: "Email을 입력하세요.",
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                           fontSize: 18.0, fontWeight: FontWeight.normal),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.email_outlined,
                         color: Colors.white,
                       )),
@@ -158,18 +158,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
+                        borderSide: const BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
+                        borderSide: const BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
+                        borderSide: const BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(15.0)),
                     hintText: "비밀번호를 입력하세요",
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                         fontSize: 18.0, fontWeight: FontWeight.normal),
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.password_outlined,
                       color: Colors.white,
                     ),
@@ -190,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               child: Padding(
                 padding:
-                EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                 child: Container(
                   width: MediaQuery
                       .of(context)
@@ -215,12 +215,12 @@ class _LoginScreenState extends State<LoginScreen> {
             GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => SignUpScreen()));
+                      builder: (context) => const SignUpScreen()));
                   setState(() {
                     displayError = false;
                   });
                 },
-                child: Center(
+                child: const Center(
                   child: Text.rich(
                     TextSpan(
                       text: 'Sogak에 ',
@@ -236,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 )
             ),
-            SizedBox(height: 40.0,),
+            const SizedBox(height: 40.0,),
           ],
         ),
       ),

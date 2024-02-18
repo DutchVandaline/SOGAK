@@ -11,11 +11,11 @@ class ListScreen extends StatefulWidget {
   State<ListScreen> createState() => _ListScreenState();
 }
 
-Future<List<dynamic>?>? getData(String inputDate) async {
+Future<List<dynamic>?>? getData(String inputMonth) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? _userToken = prefs.getString('UserToken');
   var url = Uri.https('sogak-api-nraiv.run.goorm.site',
-      '/api/feeling/feelings/get_monthly_feelings/$inputDate');
+      '/api/feeling/feelings/get_monthly_feelings/$inputMonth');
   var response =
       await http.get(url, headers: {'Authorization': 'Token $_userToken'});
 
