@@ -139,4 +139,38 @@ class ApiService{
       print('Error body: ${response.body}');
     }
   }
+
+  static Future<void> patchMovetoSogak(int _inputId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? _userToken = prefs.getString('UserToken');
+    var url = Uri.https(
+        'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
+    var response = await http.patch(url, headers: {
+      'Authorization': 'Token $_userToken'
+    }, body: {
+      "movetosogak_bool": 'true',
+    });
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      print('Error: ${response.statusCode}');
+      print('Error body: ${response.body}');
+    }
+  }
+
+  static Future<void> deleteMood(int inputId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? _userToken = prefs.getString('UserToken');
+
+    var url = Uri.https(
+        'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$inputId/');
+    var response =
+    await http.delete(url, headers: {'Authorization': 'Token $_userToken'});
+    if (response.statusCode == 200) {
+      print("Data Deleted Successfully");
+    } else {
+      print('Error: ${response.statusCode}');
+      print('Error body: ${response.body}');
+    }
+  }
 }

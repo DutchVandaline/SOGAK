@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sogak/Screens/SubDetailScreen.dart';
+import 'package:sogak/Services/Api_services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sogak/Services/Api_services.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({Key? key, required this.inputId}) : super(key: key);
@@ -33,39 +35,6 @@ Future<dynamic>? getDatabyId(int inputId) async {
   }
 }
 
-Future<void> patchMovetoSogak(int _inputId) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https(
-      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
-  var response = await http.patch(url, headers: {
-    'Authorization': 'Token $_userToken'
-  }, body: {
-    "movetosogak_bool": 'true',
-  });
-  if (response.statusCode == 200) {
-    print(response.body);
-  } else {
-    print('Error: ${response.statusCode}');
-    print('Error body: ${response.body}');
-  }
-}
-
-void deleteMood(int inputId) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-
-  var url = Uri.https(
-      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$inputId/');
-  var response =
-      await http.delete(url, headers: {'Authorization': 'Token $_userToken'});
-  if (response.statusCode == 200) {
-    print("Data Deleted Successfully");
-  } else {
-    print('Error: ${response.statusCode}');
-    print('Error body: ${response.body}');
-  }
-}
 
 class _DetailScreenState extends State<DetailScreen> {
   @override
@@ -82,7 +51,7 @@ class _DetailScreenState extends State<DetailScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                patchMovetoSogak(widget.inputId);
+                ApiService.patchMovetoSogak(widget.inputId);
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text(
                     "소각로로 이동했습니다. 소각로에서 확인해주세요.",
@@ -96,7 +65,7 @@ class _DetailScreenState extends State<DetailScreen> {
               icon: const Icon(Icons.local_fire_department_outlined)),
           IconButton(
               onPressed: () {
-                deleteMood(widget.inputId);
+                ApiService.deleteMood(widget.inputId);
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.delete_forever)),
