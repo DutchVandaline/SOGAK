@@ -50,7 +50,6 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int inputId = widget.inputData['id'];
     String inputDate = widget.inputData['date'];
     int baseMoodState = widget.inputData['base_mood'];
     int stressRate = widget.inputData['stress_rate'];
@@ -174,7 +173,7 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
           GestureDetector(
             onTap: () {
               print(WhatHappenedController.text);
-              patchWhatHappened(inputId, WhatHappenedController.text);
+              //patchWhatHappened(inputId, WhatHappenedController.text);
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text("정상적으로 수정되었습니다."),
                 duration: Duration(seconds: 2),
