@@ -173,4 +173,20 @@ class ApiService{
       print('Error body: ${response.body}');
     }
   }
+
+  static Future<void> patchWhatHappened(int _inputId, String updatedWhatHappened) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? _userToken = prefs.getString('UserToken');
+    var url = Uri.https(
+        'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
+    var response = await http.patch(url,
+        headers: {'Authorization': 'Token $_userToken'},
+        body: {"what_happened": updatedWhatHappened});
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      print('Error: ${response.statusCode}');
+      print('Error body: ${response.body}');
+    }
+  }
 }

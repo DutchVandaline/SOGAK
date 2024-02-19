@@ -19,6 +19,7 @@ class _ListScreenState extends State<ListScreen> {
   Map<String, List<dynamic>> monthlyDataCache = {};
   bool _isLoading = false;
 
+
   Future<void> fetchDataAndCacheMonthlyData() async {
     List<String> uniqueList = [];
     if (!mounted) return;
@@ -36,7 +37,7 @@ class _ListScreenState extends State<ListScreen> {
           }
         }
         setState(() {
-          dropDownList = uniqueList.toList();
+          dropDownList = uniqueList.reversed.toList();
           formatDate = dropDownList.isNotEmpty ? dropDownList.first : formatDate;
         });
       } else {
@@ -142,6 +143,7 @@ class _ListScreenState extends State<ListScreen> {
               );
             }
             List<dynamic> FeelingDatum = snapshot.data as List<dynamic>;
+            print(FeelingDatum);
             return FeelingDatum.isEmpty
                 ? const Center(
                     child: Text("아직 추가된 감정이 없습니다."),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sogak/Screens/SogakStatusScreen.dart';
 import 'package:intl/intl.dart';
-import 'package:sogak/Services/Api_services.dart';
 import 'dart:convert';
 import 'dart:ui';
+
+import 'package:sogak/Services/Api_services.dart';
 
 bool sogakState = false;
 int selectedId = -1;
@@ -144,36 +145,16 @@ class _SogakScreenState extends State<SogakScreen> {
                                                       Text('아직 추가된 감정이 없습니다.'),
                                                 );
                                               }
-                                              List<dynamic> FeelingDatum =
-                                                  snapshot.data
-                                                      as List<dynamic>;
+                                              List<dynamic> FeelingDatum = snapshot.data as List<dynamic>;
                                               return ListView.builder(
-                                                  itemCount:
-                                                      FeelingDatum.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    String inputDate =
-                                                        FeelingDatum[index]
-                                                            ['date'];
-                                                    int baseMoodState =
-                                                        FeelingDatum[index]
-                                                            ['base_mood'];
-                                                    DateTime originalDate =
-                                                        DateTime.parse(
-                                                            inputDate);
-                                                    String
-                                                        formattedDateMonth =
-                                                        DateFormat('MMM')
-                                                            .format(
-                                                                originalDate)
-                                                            .toUpperCase();
-                                                    String formattedDateDate =
-                                                        DateFormat('d')
-                                                            .format(
-                                                                originalDate);
-                                                    if (FeelingDatum[index][
-                                                            'movetosogak_bool'] ==
-                                                        true) {
+                                                  itemCount: FeelingDatum.length,
+                                                  itemBuilder: (context, index) {
+                                                    String inputDate = FeelingDatum[index]['date'];
+                                                    int baseMoodState = FeelingDatum[index]['base_mood'];
+                                                    DateTime originalDate = DateTime.parse(inputDate);
+                                                    String formattedDateMonth = DateFormat('MMM').format(originalDate).toUpperCase();
+                                                    String formattedDateDate = DateFormat('d').format(originalDate);
+                                                    if (FeelingDatum[index]['movetosogak_bool'] == true) {
                                                       return GestureDetector(
                                                           onTap: () {
                                                             setState(() {
@@ -290,8 +271,7 @@ class _SogakScreenState extends State<SogakScreen> {
                                                             ),
                                                           ));
                                                     } else {
-                                                      return const SizedBox
-                                                          .shrink();
+                                                      return const SizedBox.shrink();
                                                     }
                                                   });
                                                                                         }

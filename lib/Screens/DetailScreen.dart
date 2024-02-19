@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sogak/Screens/SubDetailScreen.dart';
-import 'package:sogak/Services/Api_services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sogak/Services/Api_services.dart';
@@ -36,7 +35,26 @@ Future<dynamic>? getDatabyId(int inputId) async {
 }
 
 
+
 class _DetailScreenState extends State<DetailScreen> {
+  static Future<void> patchMovetoSogak(int _inputId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? _userToken = prefs.getString('UserToken');
+    var url = Uri.https(
+        'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
+    var response = await http.patch(url, headers: {
+      'Authorization': 'Token $_userToken'
+    }, body: {
+      "movetosogak_bool": 'true',
+    });
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      print('Error: ${response.statusCode}');
+      print('Error body: ${response.body}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +69,7 @@ class _DetailScreenState extends State<DetailScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                ApiService.patchMovetoSogak(widget.inputId);
+                patchMovetoSogak(widget.inputId);
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text(
                     "소각로로 이동했습니다. 소각로에서 확인해주세요.",

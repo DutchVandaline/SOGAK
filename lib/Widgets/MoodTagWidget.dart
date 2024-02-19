@@ -19,71 +19,83 @@ class _MoodTagWidgetState extends State<MoodTagWidget>
     if (widget.inputmood == 'a') {
       moodTag = "언짢은";
     } else if (widget.inputmood == 'b') {
-      moodTag = "짜증나는";
+      moodTag = "거슬리는";
     } else if (widget.inputmood == 'c') {
-      moodTag = "화난";
+      moodTag = "짜증나는";
     } else if (widget.inputmood == 'd') {
-      moodTag = "격분한";
+      moodTag = "걱정되는";
     } else if (widget.inputmood == 'e') {
       moodTag = "불안한";
     } else if (widget.inputmood == 'f') {
       moodTag = "초조한";
     } else if (widget.inputmood == 'g') {
-      moodTag = "불쾌한";
-    } else if (widget.inputmood == 'h') {
       moodTag = "두려운";
+    } else if (widget.inputmood == 'h') {
+      moodTag = "불쾌한";
     } else if (widget.inputmood == 'i') {
-      moodTag = "슬픈";
+      moodTag = "화난";
     } else if (widget.inputmood == 'j') {
-      moodTag = "공허한";
+      moodTag = "격분한";
     } else if (widget.inputmood == 'k') {
-      moodTag = "우울한";
+      moodTag = "피곤한";
     } else if (widget.inputmood == 'l') {
-      moodTag = "절망스러운";
-    } else if (widget.inputmood == 'm') {
-      moodTag = "역겨운";
-    } else if (widget.inputmood == 'n') {
-      moodTag = "진이 빠진";
-    } else if (widget.inputmood == 'o') {
       moodTag = "시무룩한";
+    } else if (widget.inputmood == 'm') {
+      moodTag = "슬픈";
+    } else if (widget.inputmood == 'n') {
+      moodTag = "공허한";
+    } else if (widget.inputmood == 'o') {
+      moodTag = "진이 빠진";
     } else if (widget.inputmood == 'p') {
       moodTag = "의욕 없는";
     } else if (widget.inputmood == 'q') {
-      moodTag = "답답한";
+      moodTag = "우울한";
     } else if (widget.inputmood == 'r') {
-      moodTag = "집중하는";
+      moodTag = "답답한";
     } else if (widget.inputmood == 's') {
-      moodTag = "흥분한";
+      moodTag = "역겨운";
     } else if (widget.inputmood == 't') {
-      moodTag = "황홀한";
+      moodTag = "절망적인";
     } else if (widget.inputmood == 'u') {
-      moodTag = "흥겨운";
-    } else if (widget.inputmood == 'v') {
-      moodTag = "기쁜";
-    } else if (widget.inputmood == 'w') {
-      moodTag = "놀란";
-    } else if (widget.inputmood == 'x') {
-      moodTag = "희망찬";
-    } else if (widget.inputmood == 'y') {
       moodTag = "유쾌한";
+    } else if (widget.inputmood == 'v') {
+      moodTag = "만족스러운";
+    } else if (widget.inputmood == 'w') {
+      moodTag = "기쁜";
+    } else if (widget.inputmood == 'x') {
+      moodTag = "집중하는";
+    } else if (widget.inputmood == 'y') {
+      moodTag = "희망찬";
     } else if (widget.inputmood == 'z') {
-      moodTag = "평온한";
+      moodTag = "흥분한";
     } else if (widget.inputmood == '1') {
-      moodTag = "무난한";
+      moodTag = "흥겨운";
     } else if (widget.inputmood == '2') {
-      moodTag = "편안한";
+      moodTag = "놀란";
     } else if (widget.inputmood == '3') {
-      moodTag = "충만한";
+      moodTag = "들뜬";
     } else if (widget.inputmood == '4') {
-      moodTag = "나른한";
+      moodTag = "황홀한";
     } else if (widget.inputmood == '5') {
-      moodTag = "여유로운";
+      moodTag = "무난한";
     } else if (widget.inputmood == '6') {
-      moodTag = "안정적인";
+      moodTag = "편안한";
     } else if (widget.inputmood == '7') {
-      moodTag = "고요한";
+      moodTag = "나른한";
     } else if (widget.inputmood == '8') {
+      moodTag = "평온한";
+    } else if (widget.inputmood == '9') {
       moodTag = "태평한";
+    } else if (widget.inputmood == '!') {
+      moodTag = "차분한";
+    } else if (widget.inputmood == '@') {
+      moodTag = "️충만한";
+    } else if (widget.inputmood == '#') {
+      moodTag = "여유로운";
+    } else if (widget.inputmood == '%') {
+      moodTag = "안정적인";
+    } else if (widget.inputmood == '^') {
+      moodTag = "행복한";
     }
     return AnimatedOpacity(
       opacity: widget.sogakBool ? 1.0 : 0.0,

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sogak/Screens/AddMoodScreen.dart';
 import 'package:sogak/Screens/SubHomeScreen.dart';
 import 'package:sogak/Screens/SubHomeScreenDummy.dart';
-import 'package:sogak/Services/Api_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 String inputText = "";
 
@@ -14,10 +16,29 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+
+
 class _HomeScreenState extends State<HomeScreen> {
+  static Future<Map<String, dynamic>?> getRecentData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? _userToken = prefs.getString('UserToken');
+    var url = Uri.https('sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/');
+    var response = await http.get(url, headers: {'Authorization': 'Token $_userToken'});
+
+    if (response.statusCode == 200) {
+      List<dynamic> responseData = json.decode(response.body);
+      if (responseData.isNotEmpty) {
+        return responseData.first as Map<String, dynamic>;
+      } else {
+        return null;
+      }
+    } else {
+      throw Exception('Error: ${response.statusCode}, ${response.body}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    ApiService.getRecentData();
     int currentHour = DateTime.now().hour;
     if (currentHour >= 12 && currentHour < 18) {
       setState(() {
@@ -64,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
         shadowColor: Colors.transparent,
       ),
       body: FutureBuilder(
-        future: ApiService.getRecentData(),
+        future: getRecentData(),
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -79,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return const SubHomeScreenDummy();
             }
             Map<String, dynamic>? lastData = snapshot.data as Map<String, dynamic>;
+            print(lastData);
             return SubHomeScreen(responseData: lastData,);
                     }
         },

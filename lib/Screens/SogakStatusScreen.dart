@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sogak/Services/Api_services.dart';
 import 'package:sogak/Widgets/MoodTagWidget.dart';
 import 'package:sogak/Widgets/WarmingSentences.dart';
-import 'package:sogak/Services/Api_services.dart';
 import 'dart:math';
 import 'dart:core';
-
 import 'SplashScreen.dart';
 
 String sogakState = "";
@@ -31,6 +30,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
     sogakComplete = false;
     super.initState();
   }
+
 
   void checkSogak() async {
     setState(() {

@@ -64,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState(){
+    super.initState();
     setState(() {
       displayError = false;
     });

@@ -108,8 +108,6 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                           color: Colors.grey, fontSize: 16.0),
                                     )
                                   : SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.72,
                                       child: Text(
                                         decodedAfterMemo,
                                         maxLines: 3,
@@ -120,8 +118,6 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                               : widget.inputData['what_happened'] == null ||
                                       widget.inputData['what_happened'] == ""
                                   ? SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.7,
                                       child: Text(
                                         "기록된 일이 없습니다.",
                                         maxLines: 3,
@@ -136,8 +132,6 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                       ),
                                     )
                                   : SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.74,
                                       child: Text(
                                         decodedWhatHappened,
                                         maxLines: 2,
@@ -166,7 +160,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                 )
                               : SizedBox(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.73,
+                                      MediaQuery.of(context).size.width * 0.72,
                                   child: Wrap(
                                       spacing: 1.0,
                                       children: createMoodTagWidgets(

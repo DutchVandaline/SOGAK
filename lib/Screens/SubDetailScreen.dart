@@ -1,34 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sogak/Services/Api_services.dart';
 import 'package:sogak/Widgets/DetailScreenWidget.dart';
 import 'package:sogak/Widgets/MoodTagWidget.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class DetailSubScreen extends StatefulWidget {
   DetailSubScreen({Key? key, required this.inputData}) : super(key: key);
-
   var inputData;
 
   @override
   State<DetailSubScreen> createState() => _DetailSubScreenState();
-}
-
-Future<void> patchWhatHappened(int _inputId, String updatedWhatHappened) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? _userToken = prefs.getString('UserToken');
-  var url = Uri.https(
-      'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$_inputId/');
-  var response = await http.patch(url,
-      headers: {'Authorization': 'Token $_userToken'},
-      body: {"what_happened": updatedWhatHappened});
-  if (response.statusCode == 200) {
-    print(response.body);
-  } else {
-    print('Error: ${response.statusCode}');
-    print('Error body: ${response.body}');
-  }
 }
 
 class _DetailSubScreenState extends State<DetailSubScreen> {
@@ -50,6 +32,7 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int inputId = widget.inputData['id'];
     String inputDate = widget.inputData['date'];
     int baseMoodState = widget.inputData['base_mood'];
     int stressRate = widget.inputData['stress_rate'];
@@ -172,8 +155,7 @@ class _DetailSubScreenState extends State<DetailSubScreen> {
           ),
           GestureDetector(
             onTap: () {
-              print(WhatHappenedController.text);
-              //patchWhatHappened(inputId, WhatHappenedController.text);
+              ApiService.patchWhatHappened(inputId, WhatHappenedController.text);
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text("정상적으로 수정되었습니다."),
                 duration: Duration(seconds: 2),
