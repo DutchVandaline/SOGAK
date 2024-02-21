@@ -8,6 +8,7 @@ Burn your Feelings into the Flame.
 <a href="https://apps.apple.com/kr/app/sogak/id6477734854?l=en-GB">
     <img src="https://img.shields.io/badge/AppStore-0D96F6?style=flat-square&logo=appstore&logoColor=white"
         style="height : auto; margin-left : 8px; margin-right : 8px;"/>
+    
 </a>
 
  소각(燒却) | 어떤 물체를 불에 태워 없애 버리는 행위.
