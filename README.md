@@ -3,6 +3,7 @@
 Burn your Feelings into the Flame.
 당신 마음 속 감정을 화염 속으로.
 
+
 ## SOGAK Promotion
 
  소각(燒却) | 어떤 물체를 불에 태워 없애 버리는 행위.
@@ -12,6 +13,7 @@ Burn your Feelings into the Flame.
 
 <img src="https://github.com/DutchVandaline/SOGAK/assets/142364450/584ff33c-3847-488a-89cf-61988eeb93c6"  width="250" height="250"/>
 <img src="https://github.com/DutchVandaline/SOGAK/assets/142364450/fb1d3d02-e67e-4802-a187-46c6c619bce3"  width="250" height="250"/>
+
 
 
 ## SOGAK Function
