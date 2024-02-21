@@ -4,6 +4,7 @@ Burn your Feelings into the Flame.
 당신 마음 속 감정을 화염 속으로.
 
 
+  
 ## SOGAK Promotion 
 <a href="https://apps.apple.com/kr/app/sogak/id6477734854?l=en-GB">
     <img src="https://img.shields.io/badge/AppStore-0D96F6?style=flat-square&logo=appstore&logoColor=white"
@@ -11,6 +12,7 @@ Burn your Feelings into the Flame.
     
 </a>
 
+  
  소각(燒却) | 어떤 물체를 불에 태워 없애 버리는 행위.
 
  인간에게는 수많은 감정이 있습니다. 하루에도 수십 번 감정이 바뀝니다. 좋은 기분은 긍정적인 결과로 이끌지만 부정적인 감정은 생각을 얽매고, 스스로를 헤어나올 수 없는 우울로 밀어넣기도 합니다. 그런 감정을 소각해보는 건 어떨까요? 하루동안 부정적인 감정을 지우는게 아닌, 불태워서 말이죠. 소각로의 화염은 감정을 정화하는 능력을 가졌습니다.
@@ -20,6 +22,7 @@ Burn your Feelings into the Flame.
 
 
 
+  
 ## SOGAK Function
 
  1. 😁 상단의 "+" 버튼을 눌러 감정을 추가하세요! 오늘 하루의 전반적인 평가와 40가지 세부 감정으로 구분하여 하루를 기록하세요.
