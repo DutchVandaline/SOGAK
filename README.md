@@ -5,10 +5,8 @@ Burn your Feelings into the Flame.
 
 
 ## SOGAK Promotion 
-<img src="https://img.shields.io/badge/AppStore-0D96F6?style=flat-square&logo=appstore&logoColor=white"/>
-
-<a href="http://melonicedlatte.com/">
-    <img src="https://img.shields.io/badge/<LABEL>-<MESSAGE>-<COLOR>"
+<a href="https://apps.apple.com/kr/app/sogak/id6477734854?l=en-GB">
+    <img src="https://img.shields.io/badge/AppStore-0D96F6?style=flat-square&logo=appstore&logoColor=white"/>
         style="height : auto; margin-left : 8px; margin-right : 8px;"/>
 </a>
 
