@@ -5,15 +5,15 @@ import 'package:sogak/Widgets/MoodTagWidget.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-class DetailSubScreen extends StatefulWidget {
-  DetailSubScreen({Key? key, required this.inputData}) : super(key: key);
+class SubDetailScreen extends StatefulWidget {
+  SubDetailScreen({Key? key, required this.inputData}) : super(key: key);
   var inputData;
 
   @override
-  State<DetailSubScreen> createState() => _DetailSubScreenState();
+  State<SubDetailScreen> createState() => _SubDetailScreenState();
 }
 
-class _DetailSubScreenState extends State<DetailSubScreen> {
+class _SubDetailScreenState extends State<SubDetailScreen> {
   final WhatHappenedController = TextEditingController();
 
   @override

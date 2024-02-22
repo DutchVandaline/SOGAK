@@ -189,4 +189,24 @@ class ApiService{
       print('Error body: ${response.body}');
     }
   }
+
+  static Future<dynamic>? getDatabyId(int inputId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? _userToken = prefs.getString('UserToken');
+    var url = Uri.https(
+        'sogak-api-nraiv.run.goorm.site', '/api/feeling/feelings/$inputId/');
+    var response =
+    await http.get(url, headers: {'Authorization': 'Token $_userToken'});
+
+    if (response.statusCode == 200) {
+      dynamic responseData = json.decode(response.body);
+      if (responseData.isNotEmpty) {
+        return responseData;
+      } else {
+        return null;
+      }
+    } else {
+      throw Exception('Error: ${response.statusCode}, ${response.body}');
+    }
+  }
 }

@@ -13,6 +13,7 @@ class MoodTagWidget extends StatefulWidget {
 
 class _MoodTagWidgetState extends State<MoodTagWidget>
     with SingleTickerProviderStateMixin {
+
   @override
   Widget build(BuildContext context) {
     String moodTag = "";

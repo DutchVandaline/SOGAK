@@ -11,6 +11,7 @@ bool fadeAway = true;
 bool sogakComplete = false;
 double sogakStatus = 0.0;
 
+
 class SogakStatusScreen extends StatefulWidget {
   const SogakStatusScreen({Key? key, required this.inputId}) : super(key: key);
 
@@ -220,7 +221,7 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
             children: [
               const Text(
                 '소각된 감정은 다시 열람이 불가능합니다.\n소각 완료하기 전에 메모를 추가하시겠습니까?',
-                style: TextStyle(fontSize: 15.0),
+                style: TextStyle(fontSize: 13.0),
               ),
               TextField(
                 controller: afterMemoController,
@@ -240,9 +241,9 @@ class _SogakStatusScreenState extends State<SogakStatusScreen> {
                   enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.circular(15.0)),
-                  hintText: "추가하지 않으시려면 빈칸으로 두세요.",
+                  hintText: "추가하지 않으려면 빈칸으로 두세요.",
                   hintStyle: const TextStyle(
-                      fontSize: 15.0, fontWeight: FontWeight.normal),
+                      fontSize: 13.0, fontWeight: FontWeight.normal),
                 ),
               )
             ],

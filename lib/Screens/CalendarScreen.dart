@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sogak/Screens/DetailScreen.dart';
+import 'package:sogak/Screens/SogakDetailScreen.dart';
 import 'package:sogak/Services/Api_services.dart';
 import 'package:intl/intl.dart';
 
@@ -163,7 +164,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                     feelingData[index]
                                                         ['sogak_bool'];
                                                 sogakState
-                                                    ? {}
+                                                    ? showSogakDialog(
+                                                        context,
+                                                        feelingData[index]
+                                                            ['id'])
                                                     : Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
@@ -204,6 +208,46 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     },
                   ),
                 ),
+    );
+  }
+
+  void showSogakDialog(BuildContext context, int inputId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('소각된 감정'),
+          content: const Text(
+            '이미 소각된 감정입니다. 열람하시겠습니까?\n소각된 감정은 수정 및 삭제가 불가능합니다.',
+            style: TextStyle(fontSize: 13.0),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text(
+                '취소',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SogakDetailScreen(inputId: inputId)));
+              },
+              child: const Text(
+                '확인',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
