@@ -1,6 +1,6 @@
 # SOGAK 소각
 
-Burn your Feelings into the Flame.
+Burn your Feelings into the Flame.<br/>
 당신 마음 속 감정을 화염 속으로.
 
 
